@@ -10,7 +10,7 @@ resource "github_repository" "repository" {
   visibility  = var.visibility
 
   auto_init              = true
-  archive_on_destroy     = false
+  archive_on_destroy     = var.archive_on_destroy
   has_downloads          = var.has_downloads
   has_issues             = var.has_issues
   has_projects           = var.has_projects

@@ -106,7 +106,7 @@ Change `ORGANIZATION_NAME` to match the organization id of the organization this
 
 Change `GCP_SECRET_NAME` to match the name of the secret you created during [app installation](#github-app-installation). If you didn't create any secret please read over that section before continuing.
 
-**Note:** If you didn't store installation id or app id in the secret annotations then you will need to either add those in for this file to work. Or you need to chage the `installation_id` and `id` fields under the github provider's `app_auth` block. 
+**Note:** If you didn't store installation id or app id in the secret annotations then you will need to either add those in for this file to work. Or you need to change the `installation_id` and `id` fields under the github provider's `app_auth` block. 
 
 ## Running the Organizations Layer locally
 
@@ -127,7 +127,7 @@ Before running the organizations layer, please ensure you have the following pre
     * `roles/iam.workloadIdentityUser`
     * `roles/storage.objectAdmin`
     * `roles/storage.admin`
-* Additionally, you either need permission to impersonate the service account or it to be your service account.
+* Additionally, you either: Need permission to impersonate the service account, or; you own the service account.
 
 **3. Environment Variables:**
 * You will need to set the following environment variables
