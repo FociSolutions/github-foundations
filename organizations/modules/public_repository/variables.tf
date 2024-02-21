@@ -61,3 +61,9 @@ variable "advance_security" {
   type        = bool
   default     = true
 }
+
+variable "archive_on_destroy" {
+  description = "Archives the repository on destroy. Defaults to `false`"
+  type        = bool
+  default     = false
+}
