@@ -31,7 +31,7 @@ Before running the bootstrap layer, please ensure you have the following prerequ
 
 **3. GCP Service Account and Permissions:**
 
-* Your GCP instance needs a service account with the following roles:
+* Login to the GCP CLI with the command `gcloud auth application-default login` under a service account with the following roles for your organization:
     * `roles/iam.workloadIdentityPoolAdmin`
     * `roles/iam.serviceAccountAdmin`
     * `roles/resourcemanager.projectMover`
@@ -39,7 +39,6 @@ Before running the bootstrap layer, please ensure you have the following prerequ
     * `roles/resourcemanager.folderEditor`
     * `roles/storage.admin`
     * `roles/storage.objectAdmin`
-* Additionally, you either need permissions to impersonate the service account or it to be your service account.
 
 **Note:** These prerequisites grant extensive permissions within your GCP project and organization. Please ensure you understand the implications of assigning these roles and permissions before proceeding.
 
