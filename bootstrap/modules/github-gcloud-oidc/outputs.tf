@@ -28,9 +28,19 @@ output "bootstrap_sa" {
   value       = google_service_account.bootstrap_sa.email
 }
 
+output "bootstrap_sa_name" {
+  description = "Bootstrap repository service account name."
+  value       = google_service_account.bootstrap_sa.name
+}
+
 output "organizations_sa" {
   description = "Organizations repository service account email."
   value       = google_service_account.organizations_sa.email
+}
+
+output "organizations_sa_name" {
+  description = "Organizations repository service account name."
+  value       = google_service_account.organizations_sa.name
 }
 
 output "bucket_name" {

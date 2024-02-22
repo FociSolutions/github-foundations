@@ -8,24 +8,7 @@ locals {
 
   state_file_access_roles = tolist(["roles/storage.objectAdmin", "roles/storage.admin"])
 
-  bootstrap_org_roles = tolist([
-    "roles/resourcemanager.folderEditor",
-    "roles/iam.workloadIdentityUser"
-  ])
-  bootstrap_folder_roles = tolist([
-    "roles/resourcemanager.projectCreator",
-    "roles/resourcemanager.projectDeleter",
-    "roles/resourcemanager.projectMover",
-    "roles/iam.workloadIdentityUser"
-  ])
-  bootstrap_project_roles = concat(
-    local.state_file_access_roles,
-    tolist([
-      "roles/iam.workloadIdentityPoolAdmin",
-      "roles/iam.serviceAccountAdmin",
-      "roles/iam.workloadIdentityUser"
-    ])
-  )
+  bootstrap_project_roles = local.state_file_access_roles
 
   organziations_project_roles = concat(
     local.state_file_access_roles,
@@ -46,26 +29,11 @@ resource "google_service_account" "bootstrap_sa" {
   account_id = "${local.bootstrap_repo_name}-sa"
 }
 
-resource "google_organization_iam_member" "bootstrap_org_member" {
-  for_each = toset(local.bootstrap_org_roles)
-  org_id   = var.organization_id
-  role     = each.value
-  member   = "serviceAccount:${google_service_account.bootstrap_sa.email}"
-}
-
-resource "google_folder_iam_member" "bootstrap_folder_member" {
-  for_each = toset(local.bootstrap_folder_roles)
-  folder   = google_folder.folder[0].id
-  role     = each.value
-  member   = "serviceAccount:${google_service_account.bootstrap_sa.email}"
-}
-
 resource "google_project_iam_member" "bootstrap_project_member" {
   for_each = toset(local.bootstrap_project_roles)
   project  = google_project.project[0].project_id
   role     = each.value
   member   = "serviceAccount:${google_service_account.bootstrap_sa.email}"
-
 }
 
 resource "google_service_account" "organizations_sa" {
