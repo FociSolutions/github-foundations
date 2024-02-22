@@ -24,8 +24,6 @@
 | Name | Type |
 |------|------|
 | [google_folder.folder](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/folder) | resource |
-| [google_folder_iam_member.bootstrap_folder_member](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/folder_iam_member) | resource |
-| [google_organization_iam_member.bootstrap_org_member](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/organization_iam_member) | resource |
 | [google_project.project](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project) | resource |
 | [google_project_iam_member.bootstrap_project_member](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_iam_member) | resource |
 | [google_project_iam_member.organizations_member](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/project_iam_member) | resource |
@@ -80,11 +78,13 @@
 | Name | Description |
 |------|-------------|
 | <a name="output_bootstrap_sa"></a> [bootstrap\_sa](#output\_bootstrap\_sa) | Bootstrap repository service account email. |
+| <a name="output_bootstrap_sa_name"></a> [bootstrap\_sa\_name](#output\_bootstrap\_sa\_name) | Bootstrap repository service account name. |
 | <a name="output_bucket_location"></a> [bucket\_location](#output\_bucket\_location) | Terraform state bucket location. |
 | <a name="output_bucket_name"></a> [bucket\_name](#output\_bucket\_name) | Terraform state bucket name. |
 | <a name="output_folder"></a> [folder](#output\_folder) | Folder resource. |
 | <a name="output_id"></a> [id](#output\_id) | Fully qualified folder id. |
 | <a name="output_name"></a> [name](#output\_name) | Folder name. |
 | <a name="output_organizations_sa"></a> [organizations\_sa](#output\_organizations\_sa) | Organizations repository service account email. |
+| <a name="output_organizations_sa_name"></a> [organizations\_sa\_name](#output\_organizations\_sa\_name) | Organizations repository service account name. |
 | <a name="output_project_id"></a> [project\_id](#output\_project\_id) | Project id. |
 | <a name="output_provider_name"></a> [provider\_name](#output\_provider\_name) | Workload identity provider name. |
