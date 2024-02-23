@@ -37,7 +37,7 @@ to quickly create a Cobra application.`,
 		}
 		defer planArchive.Cleanup()
 
-		resources, err := functions.GetAddressesForPlannedResourceCreates(planArchive)
+		resources, err := functions.GetPlannedResourceCreations(planArchive)
 		if err != nil {
 			log.Fatal(err)
 			os.Exit(2)
@@ -46,10 +46,17 @@ to quickly create a Cobra application.`,
 	},
 }
 
-func renderImportUi(archive types.TerragruntPlanArchive, resources []string) {
+func renderImportUi(archive types.TerragruntPlanArchive, resources []types.TerragruntPlanOutputResourceChange) {
+	addressToResourceMap := make(map[string]types.TerragruntPlanOutputResourceChange)
+	resourceAddresses := make([]string, len(resources))
+	for i := range resources {
+		resourceAddresses[i] = resources[i].Address
+		addressToResourceMap[resources[i].Address] = resources[i]
+	}
+
 	l := widgets.NewList()
 	l.Title = "Resources to Import"
-	l.Rows = resources
+	l.Rows = resourceAddresses
 	l.TextStyle = ui.NewStyle(ui.ColorWhite)
 	l.SelectedRowStyle = ui.NewStyle(ui.ColorGreen)
 	l.SelectedRow = 0
@@ -77,6 +84,14 @@ func renderImportUi(archive types.TerragruntPlanArchive, resources []string) {
 				l.SelectedRow = max(l.SelectedRow-1, 0)
 				ui.Render(l)
 			case "<Enter>":
+				idResolver := functions.CreateImportIdResolver(addressToResourceMap[resourceAddresses[l.SelectedRow]])
+				if idResolver != nil {
+					id, err := idResolver.ResolveImportId()
+					if err == nil {
+						t.Text = id
+					}
+					//TODO on error we might want to display something to the user.
+				}
 				showImportIdBox = true
 				ui.Render(t)
 			}
@@ -85,7 +100,7 @@ func renderImportUi(archive types.TerragruntPlanArchive, resources []string) {
 			case "<C-c>":
 				return
 			case "<Enter>":
-				err := functions.RunImportCommand(archive, resources[l.SelectedRow], t.Text)
+				err := functions.RunImportCommand(archive, resourceAddresses[l.SelectedRow], t.Text)
 				if err != nil {
 					log.Fatal(err)
 					os.Exit(2)

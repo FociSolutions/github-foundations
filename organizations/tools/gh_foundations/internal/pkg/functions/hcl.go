@@ -12,7 +12,7 @@ func CreateTeamsModuleHCLContent(teams []string) string {
 		Providers: []types.TGProviderBlock{
 			{
 				Name:   "root",
-				Path:   "find_in_parent_folders()",
+				Path:   "${find_in_parent_folders()}",
 				Expose: true,
 			}, {
 				Name:   "providers",
@@ -50,7 +50,7 @@ func CreateRepositoriesModuleHCLContent() string {
 		Providers: []types.TGProviderBlock{
 			{
 				Name:   "root",
-				Path:   "find_in_parent_folders()",
+				Path:   "${find_in_parent_folders()}",
 				Expose: true,
 			}, {
 				Name:   "providers",
@@ -71,9 +71,9 @@ func CreateRepositoriesModuleHCLContent() string {
 				Name:       "teams",
 				ConfigPath: "../teams",
 				MockOutputs: map[string]interface{}{
-					"team_ids =": map[string]interface{}{
-						"team1": "team1_id",
-						"team2": "team2_id",
+					"team_slugs=": map[string]interface{}{
+						"team1": "team1",
+						"team2": "team2",
 					},
 				},
 			},
