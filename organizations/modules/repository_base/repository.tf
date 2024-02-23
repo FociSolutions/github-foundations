@@ -1,7 +1,7 @@
 locals {
   enable_dependabot_automated_security_fixes = var.has_vulnerability_alerts && var.dependabot_security_updates ? 1 : 0
   is_public                                  = var.visibility == "public"
-  can_configure_security_and_analysis         = !local.is_public && var.advance_security
+  can_configure_security_and_analysis        = !local.is_public && var.advance_security
 }
 
 resource "github_repository" "repository" {
