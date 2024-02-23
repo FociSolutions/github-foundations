@@ -29,4 +29,4 @@ No resources.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_team_slugs"></a> [team\_slugs](#output\_team\_slugs) | Map of team names to their respective ids |
+| <a name="output_team_slugs"></a> [team\_slugs](#output\_team\_slugs) | Map of team names to their respective slugs |
