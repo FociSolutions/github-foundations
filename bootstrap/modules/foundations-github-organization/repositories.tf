@@ -18,9 +18,11 @@ resource "github_repository" "bootstrap_repo" {
   vulnerability_alerts   = true
 }
 
-resource "github_repository_collaborators" "collaborators" {
+resource "github_repository_collaborators" "bootstrap_repo_collaborators" {
+  provider = github.foundation_org_scoped
   repository = github_repository.bootstrap_repo.name
-  team = {
+
+  team {
     permission = "push"
     team_id    = github_team.foundation_devs.id
   }
@@ -64,9 +66,11 @@ resource "github_repository" "organizations_repo" {
   has_issues             = true
 }
 
-resource "github_repository_collaborators" "collaborators" {
+resource "github_repository_collaborators" "organization_repo_collaborators" {
+  provider = github.foundation_org_scoped
   repository = github_repository.organizations_repo.name
-  team = {
+  
+  team {
     permission = "push"
     team_id    = github_team.foundation_devs.id
   }
