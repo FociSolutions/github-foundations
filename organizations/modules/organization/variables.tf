@@ -124,4 +124,5 @@ variable "custom_repository_roles" {
     base_role   = string
     permissions = list(string)
   }))
+  description = "A map of custom repository roles to create. The key is the name of the role and the value is the role configurations."
 }
