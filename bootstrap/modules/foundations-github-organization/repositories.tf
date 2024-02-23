@@ -1,5 +1,5 @@
 locals {
-  repos_with_drift_detection = [ github_repository.organizations_repo ]
+  repos_with_drift_detection = [github_repository.organizations_repo]
 }
 
 #Creates the repository for the bootstrap layer
@@ -16,6 +16,14 @@ resource "github_repository" "bootstrap_repo" {
   auto_init              = true
   delete_branch_on_merge = true
   vulnerability_alerts   = true
+}
+
+resource "github_repository_collaborators" "collaborators" {
+  repository = github_repository.bootstrap_repo.name
+  team = {
+    permission = "push"
+    team_id    = github_team.foundation_devs.id
+  }
 }
 
 resource "github_branch_protection" "protect_bootstrap_main" {
@@ -56,6 +64,15 @@ resource "github_repository" "organizations_repo" {
   has_issues             = true
 }
 
+resource "github_repository_collaborators" "collaborators" {
+  repository = github_repository.organizations_repo.name
+  team = {
+    permission = "push"
+    team_id    = github_team.foundation_devs.id
+  }
+}
+
+
 resource "github_branch_protection" "protect_organization_main" {
   provider = github.foundation_org_scoped
 
@@ -78,7 +95,7 @@ resource "github_branch_protection" "protect_organization_main" {
 }
 
 resource "github_issue_labels" "drift_labels" {
-  for_each = { for idx, val in local.repos_with_drift_detection: idx => val}
+  for_each = { for idx, val in local.repos_with_drift_detection : idx => val }
   provider = github.foundation_org_scoped
 
   repository = each.value.name
