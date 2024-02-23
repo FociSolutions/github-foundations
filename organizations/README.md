@@ -39,7 +39,7 @@ Before this layer can be run to manage github resources under your organization(
 The recommended file and folder structure for this layer is as follows:
 
 * **organizations**
-    * **terragrunt.hcl** - Terragrunt configuration that makes use of the `organization_settings` module to manage an organizations settings
+    * **terragrunt.hcl** - Terragrunt configuration that makes use of the `organization_settings` module to manage an organization
 * **projects**
     * **PROJECT_NAME**
         * **Org1**

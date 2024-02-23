@@ -99,3 +99,29 @@ variable "github_organization_location" {
   default     = ""
   description = "Organization location. Defaults to `''`."
 }
+
+variable "enable_security_engineer_role" {
+  type        = bool
+  default     = false
+  description = "If `true` will create a custom repository role for security engineers. Defaults to `false`. If `true` the maximum number of `custom_repository_roles` that can be defined will be reduced by one."
+}
+
+variable "enable_contractor_role" {
+  type        = bool
+  default     = false
+  description = "If `true` will create a custom repository role for contractors. Defaults to `false`. If `true` the maximum number of `custom_repository_roles` that can be defined will be reduced by one."
+}
+
+variable "enable_community_manager_role" {
+  type        = bool
+  default     = false
+  description = "If `true` will create a custom repository role for community managers. Defaults to `false`. If `true` the maximum number of `custom_repository_roles` that can be defined will be reduced by one."
+}
+
+variable "custom_repository_roles" {
+  type = map(object({
+    description = string
+    base_role   = string
+    permissions = list(string)
+  }))
+}
