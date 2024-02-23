@@ -8,6 +8,12 @@ variable "github_organization_billing_email" {
   description = "The billing email to set for the organization."
 }
 
+variable "github_organization_members" {
+  type        = list(string)
+  default     = []
+  description = "A list of usernames to invite to the organization. Defaults to `[]`."
+}
+
 variable "github_organization_blocked_users" {
   type        = list(string)
   default     = []
