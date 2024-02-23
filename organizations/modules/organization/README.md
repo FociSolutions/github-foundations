@@ -20,12 +20,20 @@ No modules.
 | Name | Type |
 |------|------|
 | [github_organization_block.blocked_user](https://registry.terraform.io/providers/integrations/github/5.42.0/docs/resources/organization_block) | resource |
+| [github_organization_custom_role.community_manager_role](https://registry.terraform.io/providers/integrations/github/5.42.0/docs/resources/organization_custom_role) | resource |
+| [github_organization_custom_role.contractor_role](https://registry.terraform.io/providers/integrations/github/5.42.0/docs/resources/organization_custom_role) | resource |
+| [github_organization_custom_role.custom_repository_role](https://registry.terraform.io/providers/integrations/github/5.42.0/docs/resources/organization_custom_role) | resource |
+| [github_organization_custom_role.security_engineer_role](https://registry.terraform.io/providers/integrations/github/5.42.0/docs/resources/organization_custom_role) | resource |
 | [github_organization_settings.organization_settings](https://registry.terraform.io/providers/integrations/github/5.42.0/docs/resources/organization_settings) | resource |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_custom_repository_roles"></a> [custom\_repository\_roles](#input\_custom\_repository\_roles) | n/a | <pre>map(object({<br>    description = string<br>    base_role   = string<br>    permissions = list(string)<br>  }))</pre> | n/a | yes |
+| <a name="input_enable_community_manager_role"></a> [enable\_community\_manager\_role](#input\_enable\_community\_manager\_role) | If `true` will create a custom repository role for community managers. Defaults to `false`. If `true` the maximum number of `custom_repository_roles` that can be defined will be reduced by one. | `bool` | `false` | no |
+| <a name="input_enable_contractor_role"></a> [enable\_contractor\_role](#input\_enable\_contractor\_role) | If `true` will create a custom repository role for contractors. Defaults to `false`. If `true` the maximum number of `custom_repository_roles` that can be defined will be reduced by one. | `bool` | `false` | no |
+| <a name="input_enable_security_engineer_role"></a> [enable\_security\_engineer\_role](#input\_enable\_security\_engineer\_role) | If `true` will create a custom repository role for security engineers. Defaults to `false`. If `true` the maximum number of `custom_repository_roles` that can be defined will be reduced by one. | `bool` | `false` | no |
 | <a name="input_github_organization_billing_email"></a> [github\_organization\_billing\_email](#input\_github\_organization\_billing\_email) | The billing email to set for the organization. | `string` | n/a | yes |
 | <a name="input_github_organization_blocked_users"></a> [github\_organization\_blocked\_users](#input\_github\_organization\_blocked\_users) | A list of usernames to block from the organization. Defaults to `[]`. | `list(string)` | `[]` | no |
 | <a name="input_github_organization_blog"></a> [github\_organization\_blog](#input\_github\_organization\_blog) | Url to organization blog. Defaults to `''`. | `string` | `""` | no |
@@ -46,4 +54,8 @@ No modules.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_ghas_enabled"></a> [ghas\_enabled](#output\_ghas\_enabled) | n/a |
+| <a name="output_community_manager_role_id"></a> [community\_manager\_role\_id](#output\_community\_manager\_role\_id) | The id of the community manager custom role. |
+| <a name="output_contractor_role_id"></a> [contractor\_role\_id](#output\_contractor\_role\_id) | The id of the contractor custom role. |
+| <a name="output_custom_role_ids"></a> [custom\_role\_ids](#output\_custom\_role\_ids) | A map of custom role names to custom role ids. |
+| <a name="output_ghas_enabled"></a> [ghas\_enabled](#output\_ghas\_enabled) | A boolean value indicating if GitHub Advanced Security is enabled for new repositories in the organization. |
+| <a name="output_security_engineer_role_id"></a> [security\_engineer\_role\_id](#output\_security\_engineer\_role\_id) | The id of the security engineer custom role. |

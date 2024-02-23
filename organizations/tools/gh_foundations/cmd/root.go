@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"gh_foundations/cmd/gen"
 	import_cmd "gh_foundations/cmd/import"
 	"os"
 
@@ -43,6 +42,5 @@ func init() {
 	// when this action is called directly.
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 
-	rootCmd.AddCommand(gen.GenCmd)
 	rootCmd.AddCommand(import_cmd.ImportCmd)
 }

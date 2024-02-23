@@ -48,7 +48,7 @@ func ArchivePlan(modulePath string, planName string) (*types.TerragruntPlanArchi
 	}, nil
 }
 
-func GetAddressesForPlannedResourceCreates(planArchive *types.TerragruntPlanArchive) ([]string, error) {
+func GetPlannedResourceCreations(planArchive *types.TerragruntPlanArchive) ([]types.TerragruntPlanOutputResourceChange, error) {
 	// Parse the plan file
 	planFile, err := os.Open(planArchive.OutputFilePath)
 	if err != nil {
@@ -66,14 +66,27 @@ func GetAddressesForPlannedResourceCreates(planArchive *types.TerragruntPlanArch
 		return nil, err
 	}
 
-	addresses := make([]string, 0)
+	changes := make([]types.TerragruntPlanOutputResourceChange, 0)
 	for _, resourceChange := range planOutput.ResourceChanges {
 		if len(resourceChange.Change.Actions) == 1 && resourceChange.Change.Actions[0] == "create" {
-			addresses = append(addresses, resourceChange.Address)
+			changes = append(changes, resourceChange)
 		}
 	}
 
-	return addresses, nil
+	return changes, nil
+}
+
+func CreateImportIdResolver(change types.TerragruntPlanOutputResourceChange) types.ImportIdResolver {
+	switch change.Type {
+	case "github_team_membership":
+		return &types.TeamMemberImportIdResolver{Change: change}
+	case "github_team":
+		return &types.TeamImportIdResolver{Change: change}
+	case "github_repository":
+		return &types.RepositoryImportIdResolver{Change: change}
+	default:
+		return nil
+	}
 }
 
 func RunImportCommand(archive types.TerragruntPlanArchive, address string, id string) error {
