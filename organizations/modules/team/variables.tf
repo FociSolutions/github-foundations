@@ -6,6 +6,7 @@ variable "team_name" {
 variable "privacy" {
   type        = string
   description = "The privacy setting for the github team. Must be one of `closed` or `secret`."
+  default     = "closed"
 }
 
 variable "team_description" {
@@ -27,4 +28,10 @@ variable "team_members" {
   type        = list(string)
   description = "A list of team members for the github team. These user's will not have permissions to manage the team."
   default     = []
+}
+
+variable "team_id" {
+  type        = string
+  description = "The ID of the team if it exists (optional)."
+  default     = ""
 }
