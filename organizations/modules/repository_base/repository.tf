@@ -2,6 +2,10 @@ locals {
   enable_dependabot_automated_security_fixes = var.has_vulnerability_alerts && var.dependabot_security_updates ? 1 : 0
   is_public                                  = var.visibility == "public"
   can_configure_security_and_analysis        = !local.is_public && var.advance_security
+
+  protected_branches_refs = [
+    for branch in var.protected_branches : "refs/heads/${branch}"
+  ]
 }
 
 resource "github_repository" "repository" {
@@ -10,7 +14,7 @@ resource "github_repository" "repository" {
   visibility  = var.visibility
 
   auto_init              = true
-  archive_on_destroy     = var.archive_on_destroy
+  archive_on_destroy     = false
   has_downloads          = var.has_downloads
   has_issues             = var.has_issues
   has_projects           = var.has_projects
@@ -56,9 +60,9 @@ resource "github_repository_ruleset" "protected_branch_base_rules" {
   target      = "branch"
   enforcement = "active"
   rules {
-    creation = true
     deletion = true
-    update   = true
+    creation = false
+    update   = false
     pull_request {
       dismiss_stale_reviews_on_push   = true
       require_last_push_approval      = true
@@ -70,7 +74,7 @@ resource "github_repository_ruleset" "protected_branch_base_rules" {
   conditions {
     ref_name {
       exclude = []
-      include = toset(concat(["~DEFAULT_BRANCH"], var.protected_branches))
+      include = toset(concat(["~DEFAULT_BRANCH"], local.protected_branches_refs))
     }
   }
 }
