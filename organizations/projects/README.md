@@ -2,6 +2,7 @@
 
 Projects in the organization are the main way to organize work. They are the primary way to group organizations and repos, under one umbrella.
 
+**NOTE:** The term project will be renamed in the future to avoid confusion with GitHub's concept of a project.
 
 ## Table of Contents
 
@@ -9,7 +10,6 @@ Projects in the organization are the main way to organize work. They are the pri
       * [Configuring Projects](#configuring-projects)
       * [Configuring Repositories](#configuring-repositories)
       * [Configuring Teams](#configuring-teams)
-
 
 
 ## Configuring Projects
