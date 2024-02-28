@@ -1,5 +1,20 @@
 # Organizations
 
+## Table of Contents
+
+   * [Organizations](#organizations)
+      * [Introduction](#introduction)
+      * [Github App Installation](#github-app-installation)
+      * [File and Folder Structure](#file-and-folder-structure)
+      * [Configuring Providers](#configuring-providers)
+      * [Configuring Repositories](#configuring-repositories)
+      * [Configuring Teams](#configuring-teams)
+   * [Running the Organizations Layer locally](#running-the-organizations-layer-locally)
+      * [Prerequisites](#prerequisites)
+
+
+## Introduction
+
 This layer contains all the terragrunt & terraform needed to:
 
 1. Manage organization settings.
@@ -44,14 +59,14 @@ The recommended file and folder structure for this layer is as follows:
     * **PROJECT_NAME**
         * **Org1**
             * **repositories**
-                * **terragrunt.hcl** - Terragrunt configuration that makes us of the `repository_set` module to manage all repositories related to this project that belong to this org (`Org1`)
+                * **terragrunt.hcl** - Terragrunt configuration that makes use of the `repository_set` module to manage all repositories related to this project that belong to this org (`Org1`)
             * **teams**
-                * **terragrunt.hcl** - Terragrunt configuration that makes us of the `team_set` module to manage all teams related to this project that belong to this org (`Org1`)
+                * **terragrunt.hcl** - Terragrunt configuration that makes use of the `team_set` module to manage all teams related to this project that belong to this org (`Org1`)
         * **Org2**
             * **repositories**
-                * **terragrunt.hcl**- Terragrunt configuration that makes us of the `repository_set` module to manage all repositories related to this project that belong to this org (`Org2`)
+                * **terragrunt.hcl**- Terragrunt configuration that makes use of the `repository_set` module to manage all repositories related to this project that belong to this org (`Org2`)
             * **teams**
-                * **terragrunt.hcl** - Terragrunt configuration that makes us of the `team_set` module to manage all teams related to this project that belong to this org (`Org2`)
+                * **terragrunt.hcl** - Terragrunt configuration that makes use of the `team_set` module to manage all teams related to this project that belong to this org (`Org2`)
 * **providers**
     * **Org1**
         * **providers.hcl** - Terragrunt configuration that sets up the github terraform provider with credentials for this org (`Org1`)
@@ -107,6 +122,14 @@ Change `ORGANIZATION_NAME` to match the organization id of the organization this
 Change `GCP_SECRET_NAME` to match the name of the secret you created during [app installation](#github-app-installation). If you didn't create any secret please read over that section before continuing.
 
 **Note:** If you didn't store installation id or app id in the secret annotations then you will need to either add those in for this file to work. Or you need to change the `installation_id` and `id` fields under the github provider's `app_auth` block. 
+
+### Configuring Repositories
+
+See the documentation [here](./projects/README.md#configuring-repositories)
+
+### Configuring Teams
+
+See the documentation [here](./projects/README.md#configuring-teams)
 
 ## Running the Organizations Layer locally
 
