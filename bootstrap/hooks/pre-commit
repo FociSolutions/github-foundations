@@ -1,0 +1,9 @@
+#!/bin/sh
+set +e
+
+# Linting terraform
+terraform fmt -recursive -check >/dev/null 2>&1
+if [ $? -ne 0 ]; then
+  echo "Terraform formatting check failed. Please run 'terraform fmt -recursive' to fix the formatting issues."
+  exit 1
+fi
