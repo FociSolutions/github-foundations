@@ -38,8 +38,8 @@ jobs:
         id: auth
         uses: google-github-actions/auth@v2
         with:
-          workload_identity_provider: "${{ vars.WORKLOAD_IDENTITY_PROVIDER }}"
-          service_account: "${{ vars.GCP_SERVICE_ACCOUNT }}"
+          workload_identity_provider: "${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}"
+          service_account: "${{ secrets.GCP_SERVICE_ACCOUNT }}"
 
       - name: Check Terraform Format
         id: fmt

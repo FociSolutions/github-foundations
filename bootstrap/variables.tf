@@ -8,11 +8,6 @@ variable "billing_account" {
   type        = string
 }
 
-variable "terraform_service_account" {
-  description = "Service account email of the account to impersonate to run Terraform."
-  type        = string
-}
-
 #Github variables
 variable "github_enterprise_slug" {
   type        = string
