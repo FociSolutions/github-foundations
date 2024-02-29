@@ -97,7 +97,7 @@ inputs = {
 }
 
 terraform {
-  source = "${get_repo_root()}//modules/repository_set"
+  source = "github.com/FociSolutions/github-foundations-modules//modules/repository_set"
 }
 
 dependency "teams" {
@@ -163,7 +163,7 @@ inputs = {
 }
 
 terraform {
-  source = "${get_repo_root()}//modules/team_set"
+  source = "github.com/FociSolutions/github-foundations-modules//modules/team_set"
 }
 ```
 

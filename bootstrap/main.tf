@@ -1,5 +1,5 @@
 module "github_gcloud_oidc" {
-  source = "./modules/github-gcloud-oidc"
+  source = "github.com/FociSolutions/github-foundations-modules//modules/github-gcloud-oidc"
 
   #Organization
   organization_id = var.org_id
@@ -41,7 +41,7 @@ module "github_gcloud_oidc" {
 }
 
 module "foundations_github_organization" {
-  source = "./modules/foundations-github-organization"
+  source = "github.com/FociSolutions/github-foundations-modules//modules/foundations-github-organization"
   providers = {
     github.enterprise_scoped     = github.enterprise_scoped
     github.foundation_org_scoped = github.foundation_org_scoped
