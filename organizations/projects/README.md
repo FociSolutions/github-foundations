@@ -153,10 +153,11 @@ inputs = {
       maintainers = ["Admin1", "Admin2", ...]
     }
     "GhFoundationsDevelopers" = {
-      description = "The development team for ..."
-      privacy     = "closed"
-      members     = ["Member1", "Member2", ...]
-      maintainers = ["Admin1", "Admin2", ...]
+      description     = "The development team for ..."
+      privacy         = "closed"
+      members         = ["Member1", "Member2", ...]
+      maintainers     = ["Admin1", "Admin2", ...]
+      parent_team_id  = <Optional parent team id>
     }
   }
 }

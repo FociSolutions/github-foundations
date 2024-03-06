@@ -61,6 +61,8 @@ module "foundations_github_organization" {
   gcp_tf_state_bucket_project_id = module.github_gcloud_oidc.project_id
   bucket_name                    = module.github_gcloud_oidc.bucket_name
   bucket_location                = module.github_gcloud_oidc.bucket_location
+
+  readme_path = "../organizations/projects/README.md"
 }
 
 resource "github_enterprise_organization" "organization" {
