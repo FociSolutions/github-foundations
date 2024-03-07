@@ -125,11 +125,11 @@ Change `GCP_SECRET_NAME` to match the name of the secret you created during [app
 
 ### Configuring Repositories
 
-See the documentation [here](./projects/README.md#configuring-repositories)
+See the documentation [here](./TEAMS_REPOS.md#configuring-repositories)
 
 ### Configuring Teams
 
-See the documentation [here](./projects/README.md#configuring-teams)
+See the documentation [here](./TEAMS_REPOS.md#configuring-teams)
 
 ## Running the Organizations Layer locally
 
