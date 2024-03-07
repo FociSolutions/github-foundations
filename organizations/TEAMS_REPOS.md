@@ -14,7 +14,12 @@ Projects in the organization are the main way to organize work. They are the pri
 
 ## Configuring Projects
 
-To configure a project for your organization, create a folder under `projects` with the name of your project. Under this folder, create a folder for each of the organizations that will be involved in the project. Under each of these folders, create a `repositories` and `teams` folder. Under each of these folders, you will need to create a `terragrunt.hcl` file in order to configure the repositories and teams for the project.
+To configure a project for your organization:
+
+1. Create a folder under `projects` with the name of your project.
+2. Under this folder, create a folder for each of the organizations that will be involved in the project.
+3. Under each of these folders, create a `repositories` and `teams` folder.
+4. Under each of these folders, you will need to create a `terragrunt.hcl` file in order to configure the repositories and teams for the project.
 
 ### Example Directory Structure for Projects
 
@@ -42,7 +47,10 @@ See the following sections for more information on how to configure repositories
 
 ## Configuring Repositories
 
-To configure a repository for your project, create a `terragrunt.hcl` file under the `repositories` folder for the organization that the repository will belong to. The `terragrunt.hcl` file should make use of the `repository_set` module to manage all repositories related to this project that belong to this organization.
+To configure a repository for your project:
+
+1. Create a `terragrunt.hcl` file under the `repositories` folder for the organization that the repository will belong to.
+2. The `terragrunt.hcl` file should make use of the `repository_set` module to manage all repositories related to this project that belong to this organization.
 
 ### Example `terragrunt.hcl` for a repository
 
@@ -129,7 +137,10 @@ Your directory structure should look like this:
 
 ## Configuring Teams
 
-To configure a team for your project, create a `terragrunt.hcl` file under the `teams` folder for the organization that the team will belong to. The `terragrunt.hcl` file should make use of the `team_set` module to manage all teams related to this project that belong to this organization.
+To configure a team for your project:
+
+1. Create a `terragrunt.hcl` file under the `teams` folder for the organization that the team will belong to.
+2. The `terragrunt.hcl` file should make use of the `team_set` module to manage all teams related to this project that belong to this organization.
 
 ### Example `terragrunt.hcl` for a team
 
