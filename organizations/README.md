@@ -9,6 +9,7 @@
       * [Configuring Providers](#configuring-providers)
       * [Configuring Repositories](#configuring-repositories)
       * [Configuring Teams](#configuring-teams)
+      * [Secret Management](#secret-management)
    * [Running the Organizations Layer locally](#running-the-organizations-layer-locally)
       * [Prerequisites](#prerequisites)
 
@@ -130,6 +131,10 @@ See the documentation [here](./TEAMS_REPOS.md#configuring-repositories)
 ### Configuring Teams
 
 See the documentation [here](./TEAMS_REPOS.md#configuring-teams)
+
+### Secret Management
+
+See the documentation [here](./SECRETS.md)
 
 ## Running the Organizations Layer locally
 
