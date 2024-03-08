@@ -1,19 +1,46 @@
 # GitHub Foundations Toolkit
 
-## _This project is intended as a set of administrative tools for an enterprise to create consistency across all its organizations. Using these tools you'll have a central repository for changes across all the organizations and you can feel confident in the security in place across your entire enterprise._ 
+## Securely Manage Your Enterprise's GitHub Environment at Scale 
 
-If you are managing an enterprise with multiple organizations, it can be hard to know if security tools are being applied consistently across all your organizations. Simultaneously, updates across the enterprise can take days, even weeks, with inconsistent roll out requiring actions be performed by each organization independently. Before long you end up with organizations out of sync, and in a large enterprise not only can you not guarantee that your configurations are the same, you don't know which organizations are out of touch.
+### [Get started now!](./README.md#getting-started)
 
-Enter the GitHub Foundations Toolkit.
+Running a large enterprise on GitHub can be a security nightmare. Maintaining consistent configurations across multiple organizations is a challenge. Updates can take days or weeks, and inconsistencies create blind spots for security vulnerabilities.
 
-By using this project you are able to setup multiple organizations under a single GitHub Enterprise account and manage their configurations, teams, and cloud provider settings all using Terraform. Our intent is to create a true "Infrastructure as Code" approach that can be used quickly and reliably out of the box, ensuring that security protocols are established by default. We also support drift detection to protect against unauthorized changes and keep the enterprise within the boundaries of a known level of security.
+Introducing the GitHub Foundations Toolkit.
 
-This repository is organized into 2 layers as follows:
+The GitHub Foundations Toolkit empowers you to manage your enterprise's GitHub environment with security and efficiency. This open-source project provides a comprehensive set of tools to:
 
-## [The Bootstrap Layer](./bootstrap/README.md)
+### Automate Continuous Secure Infrastructure:
+Set up and manage multiple organizations under a single GitHub Enterprise account using Infrastructure as Code (IaC) principles with Terraform. Using these tools you can establish consistent security best practices by default and leverage drift detection to identify unauthorized changes and ensure your configurations remain secure. 
+### Centralize Control:
+Gain a single pane of glass view for managing configurations, teams, and cloud provider settings across all your organizations for better reporting and decision making. 
+### Rapid Rollouts:
+Streamline updates and enforce security policies consistently across your entire enterprise, eliminating the need for time-consuming manual intervention by individual organizations. With a single update you can be confident that all your organizations are up to date at the same time and by automating repetitive tasks and streamlining updates your teams can focus on innovation rather than lengthy and repetitive updates. 
+### Reduce Security Risks:
+Minimize the attack surface by enforcing consistent security policies across all your organizations. 
+This project is Open Source and customizable. Released under the [MIT license](./LICENSE.md), you can tailor the toolkit to your specific needs and contribute to its ongoing development. 
+## Features:
 
-The Bootstrap is used to setup GCP and perform the creation of all organizations under a GitHub Enterprise account.
+### Current:
+- Our solution leverages a GCP backend for infrastructure provisioning. (Future support for Azure and AWS coming soon!) 
+- Terraform and Terragrunt are the industry-standard tools used for managing infrastructure as code, including drift detection. 
+- Automate creation, deletion, and configuration of repositories (private and public). 
+- Efficiently manage teams and team memberships across organizations. 
+- Securely store and manage sensitive secrets within your GitHub environment. 
+- Enforce granular access control using Rulesets for branch protection. 
+### Future:
+- Multi-Cloud Support for seamless integration with Azure and AWS cloud providers. 
+- Enhanced Security features based on community needs. 
 
-## [The Organizations Layer](./organizations/README.md)
+## Getting Started:
+This repository is organized into 2 layers:
+Bootstrap Layer:  Organizations Layer: 
+### [The Bootstrap Layer](./bootstrap/README.md)
 
-The Organizations Layer is used to manage the organizations created by the Bootstrap as well as create and manage teams. This layer also contains drift detection for Terraform and the ability to run plans on pull requests.
+The Bootstrap sets up GCP and creates all organizations under your GitHub Enterprise account.
+
+### [The Organizations Layer](./organizations/README.md)
+
+The Organizations Layer manages configurations, teams, cloud provider settings, drift detection, and pull request plan execution for your organizations.
+
+**_Embrace a Secure and Efficient Future with the GitHub Foundations Toolkit!_**
