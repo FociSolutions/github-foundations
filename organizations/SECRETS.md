@@ -34,7 +34,7 @@ If visibility is set to `selected` the secret will be created however no reposit
 
 - `organization_action_secrets`: for granting access to organization-level action secrets
 - `organization_codespace_secrets`: for granting access to organization-level codespace secrets
-- `organization_dependabot_secrets` : for granting access to organization-level 
+- `organization_dependabot_secrets` : for granting access to organization-level dependabot secrets
 
 Each of these fields take a list of strings that are the names of the secrets you want to give a repository access to. Example usage:
 ```hcl
@@ -86,6 +86,6 @@ The repository set module's `private_repositories` and `public_repositories` fie
 - `dependabot_secrets`: for creating and managing repository secrets accessible to dependabot
 - `environments`: for creating and managing environments, including their action secrets.
 
-`action_secrets`, `codespace_secrets`, and `dependabot_secrets` are maps where the keys are the name of the secrets and the values are the encrypted secret values to create and manage as secrets.
+`action_secrets`, `codespace_secrets`, and `dependabot_secrets` are maps where the keys are the name of the secrets and the values are the encrypted secret values to create and manage as secrets. See [encryption](#encryption) for instructions on how to encrypt your secret.
 
 `environments` is a map where the keys are the names of the environments to create and manage. The values are objects that contain an `action_secrets` field which is a map where the keys are the name of the secrets and the values are the encrypted secret values to create and manage as environment action secrets
