@@ -1,11 +1,8 @@
 # Secret Management
 
-The github foundation terraform modules provide several ways to manage secrets in your github organizations and repositories.
-1. Through the organization module
-2. Through the organization_secrets module
-3. Through the repository_set module
+The github foundation terraform modules ways to manage organization-level and repository-level secrets in github.
 
-The following sections will cover each of these modules and how to effectively use them.
+The following sections will cover how to manage organization-level and repository-level secrets with these terraform modules.
 
 ## Usage
 
@@ -13,9 +10,10 @@ The following sections will cover each of these modules and how to effectively u
 
 Before using any of the modules to create your github secrets it is important to encrypt them first. Github has documentation outlining how to encrypt secrets for their rest API that can be found here: https://docs.github.com/en/rest/guides/encrypting-secrets-for-the-rest-api
 
-### Organization and organization secrets module
+### Organization-level secrets
 
-The organiztion and organization secrets modules have the following optional fields for organization secret management:
+The organiztion and organization secrets modules have the following optional fields for organization-level secret management:
+
 - `actions_secrets`: for creating and managing organization secrets accessible to github actions
 - `codespaces_secrets`: for creating and managing organization secrets accessible to github codespaces
 - `dependabot_secrets`: for creating and managing organization secrets accessible to dependabot
@@ -25,7 +23,6 @@ Each field takes a map where the key is the name of the secret and the value is 
 {
     encrypted_value       = string
     visibility            = string
-    selected_repositories = optional(list(string))
 }
 ```
 
@@ -33,11 +30,55 @@ Each field takes a map where the key is the name of the secret and the value is 
 
 `visibility` configures what repositories can access your secret. It must be one of `all`, `private`, or `selected`.
 
-`selected_repositories` is an optional list of repository id strings for which repositories should have access to the secret. Only set this field if visibility has been set to `selected`. It defaults to an empty list if not set so the secret won't be accessible to any repositories if it's not set.
+If visibility is set to `selected` the secret will be created however no repositories will have access to it. To grant access to the secret make use of the repository set's `public_repositories` and `private_repositories` fields. Each of the fields are a map of object that contain the following optional fields:
 
-Either module will work well for organization secret management, but in the event that you want to do something like make the terragrunt configuration managing secrets dependant on the terragrunt configuration you are using to create repositories. But don't want the rest of organization management to wait on repository creation before it can execute. Then you might want to consider creating a `secrets` folder and configuration under the `projects/repositories/<ORG-NAME>` path that uses the organization secrets module to create these secrets. Keep in mind that while spreading organization secret definitions out like this can be helpful to keep context of what the secret is used for and where, it also might lead to naming conflicts which would result in one configuration overwriting the secret created by another configuration.
+- `organization_action_secrets`: for granting access to organization-level action secrets
+- `organization_codespace_secrets`: for granting access to organization-level codespace secrets
+- `organization_dependabot_secrets` : for granting access to organization-level 
 
-### Repository set module
+Each of these fields take a list of strings that are the names of the secrets you want to give a repository access to. Example usage:
+```hcl
+inputs = {
+  public_repositories = {
+    "MyPublicRepo" = {
+      description                          = "Repo1 description"
+      default_branch                       = "main"
+      repository_team_permissions_override = {}
+      advance_security                     = false
+      has_vulnerability_alerts             = true
+      topics                               = []
+      homepage                             = ""
+      delete_head_on_merge                 = true
+      allow_auto_merge                     = true
+      dependabot_security_updates          = true
+    
+      organization_action_secrets    = ["SECRET_ONE"]
+      organization_codespace_secrets = ["SECRET_THREE"]
+    }
+
+  }
+
+  private_repositories = {
+    "MyPrivateRepo" = {
+      description                          = "Repo2 description"
+      default_branch                       = "main"
+      repository_team_permissions_override = {}
+      advance_security                     = false
+      has_vulnerability_alerts             = true
+      topics                               = []
+      homepage                             = ""
+      delete_head_on_merge                 = true
+      allow_auto_merge                     = true
+      dependabot_security_updates          = true
+
+      organization_action_secrets     = ["SECRET_ONE", "SECRET_TWO"] 
+      organization_dependabot_secrets = ["SECRET_FOUR"]
+    }
+  }
+}
+```
+
+### Repository-level secrets
 
 The repository set module's `private_repositories` and `public_repositories` fields accepts the following optional fields for repository secret management:
 - `action_secrets`: for creating repository secrets accessible to github actions
