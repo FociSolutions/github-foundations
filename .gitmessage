@@ -14,7 +14,7 @@
 **Footer (optional):**
 
 * Include "Co-authored-by" lines for contributors.
-  * Format: Co-authored-by: Name <email@example.com>
+  * Format: Co-authored-by: Name <email@focisolutions.com>
 
 **Resources:**
 
@@ -27,4 +27,4 @@ feat(api): Add support for new API endpoint (fixes #456)
 
 This commit introduces a new API endpoint for retrieving user data.
 
-Co-authored-by: John Doe <john.doe@example.com>
+Co-authored-by: John Doe <john.doe@focisolutions.com>
