@@ -1,10 +1,6 @@
-If you're aiming to use the GitHub CLI (`gh`) with the intent of not storing the secret value directly in your local repository or GitHub, and you'd like to utilize the `gh secret set` command with the `--no-store` option, here’s how you can proceed. This method involves setting a secret for your repository or organization without the need for manually encrypting the secret value on your side, as `gh` handles the encryption for you.
-
 ## Encrypting Secret Values Using GitHub CLI
 
-### Setting Secrets Directly with GitHub CLI
-
-To set a secret in a GitHub repository or organization without storing the secret value in the GitHub server, you can use the `gh secret set` command. This command encrypts your secret and sends it securely to GitHub.
+To set a secret in a GitHub repository or organization without storing the secret value in the GitHub server, you can use the `gh secret set` command.
 
 1. **Setting a secret for a repository:**
 
