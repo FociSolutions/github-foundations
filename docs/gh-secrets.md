@@ -16,6 +16,9 @@ gh secret set SECRET_NAME --body "secret_value" --repo owner/repo --no-store
 - Replace `"secret_value"` with the actual value of your secret.
 - Replace `owner/repo` with the appropriate repository owner and repository name.
 
+You will be provided an encrypted output as shown in the image below.
+![Sample Output](../resources/images/secrets/secret-output.png)
+
 2. **Setting a secret for an organization:**
 
 ```shell
