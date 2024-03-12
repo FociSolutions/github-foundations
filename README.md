@@ -8,7 +8,7 @@ Managing GitHub for large enterprises introduces complex security and consistenc
 
 ### Automation and Security Features:
 
-- [ ] **Automate Continuous Secure Infrastructure:** 
+- **Automate Continuous Secure Infrastructure:** 
   - Utilize Infrastructure as Code (IaC) principles with Terraform to manage multiple organizations under a single GitHub Enterprise account. 
   - Establish and enforce security best practices by default.
   - Use drift detection to promptly identify and rectify unauthorized changes, ensuring your configurations are always secure.
@@ -28,12 +28,12 @@ This project is open-source and customizable, released under the [MIT license](.
 ## Detailed Features:
 
 ### Current:
-- [ ] **GCP Backend for Infrastructure Provisioning:** Current support for Google Cloud Platform, with future plans to integrate Azure and AWS for a multi-cloud approach.
-- [ ] **Terraform and Terragrunt for Infrastructure Management:** Leverage these tools for infrastructure as code, including capabilities for drift detection to ensure your infrastructure remains secure and aligned with your policies.
-- [ ] **Automated Repository Management:** Automate the creation, deletion, and configuration of both private and public repositories, streamlining your workflow.
-- [ ] **Team and Membership Management:** Efficiently manage teams and their memberships across your organizations, simplifying administration.
-- [ ] **Secure Secrets Management:** Securely store and manage sensitive secrets within your GitHub environment to protect your data.
-- [ ] **Granular Access Control with Rulesets:** Enforce branch protection with customizable rulesets for enhanced security.
+- [x] **GCP Backend for Infrastructure Provisioning:** Current support for Google Cloud Platform, with future plans to integrate Azure and AWS for a multi-cloud approach.
+- [x] **Terraform and Terragrunt for Infrastructure Management:** Leverage these tools for infrastructure as code, including capabilities for drift detection to ensure your infrastructure remains secure and aligned with your policies.
+- [x] **Automated Repository Management:** Automate the creation, deletion, and configuration of both private and public repositories, streamlining your workflow.
+- [x] **Team and Membership Management:** Efficiently manage teams and their memberships across your organizations, simplifying administration.
+- [x] **Secure Secrets Management:** Securely store and manage sensitive secrets within your GitHub environment to protect your data.
+- [x] **Granular Access Control with Rulesets:** Enforce branch protection with customizable rulesets for enhanced security.
 
 ### Upcoming:
 - [ ] **Multi-Cloud Support:** Future integration with Azure and AWS for seamless multi-cloud operations.
