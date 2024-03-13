@@ -31,11 +31,7 @@ $ brew install terraform terragrunt pre-commit tflint trivy terraform-docs
 
 #### Running the pre-commit checks manually
 
-You can run the pre-commit checks manually by running:
-
-```bash
-$ pre-commit run --all-files
-```
+You can run the pre-commit checks manually. See [here](#pre-commit-checks) for more information.
 
 
 ## Reporting issues
@@ -73,13 +69,24 @@ Your changes should also pass the [pre-commit](pre-commit.com) checks. To instal
 You can install the pre-commit checks by running
 
 ```
-$ ./setup-dev.sh
+$ pre-commit install
 ```
 
 in the root of the repository.
 
 Then, whenever you run `git commit`, the pre-commit checks will run. If any of the checks fail, the commit will be aborted.
 
+If you'd like to run pre-commit on your `staged` files, you can run:
+
+```
+$ pre-commit run
+```
+
+If you would like to run pre-commit across your entire repo, you can run:
+
+```
+$ pre-commit run --all-files
+```
 ## Providing feedback
 
 We are always looking for feedback on how we can improve the project. If you have any feedback, please let us know in the [Issues](https://github.com/FociSolutions/github-foundations/issues) or [Discussions](https://github.com/FociSolutions/github-foundations/discussions).
