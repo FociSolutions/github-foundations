@@ -29,6 +29,15 @@ To install the above using `homebrew`, do the following:
 $ brew install terraform terragrunt pre-commit tflint trivy terraform-docs
 ```
 
+#### Running the pre-commit checks manually
+
+You can run the pre-commit checks manually by running:
+
+```bash
+$ pre-commit run --all-files
+```
+
+
 ## Reporting issues
 
 If you find a bug or have a feature request, please report it in the [Issues](https://github.com/FociSolutions/github-foundations/issues)
