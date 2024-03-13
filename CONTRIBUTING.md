@@ -47,8 +47,26 @@ When you submit a pull request, please use conventional commits for your commit 
 The format is:
 
 ```
+<type>[optional scope]: <description>
 
+[optional body]
+
+[optional footer(s)]
 ```
+
+Where type is one of:
+ - build
+ - ci
+ - docs
+ - feat
+ - fix
+ - perf
+ - refactor
+ - style
+ - test
+ - chore
+ - revert
+ - bump
 
 ## Submitting pull requests
 
