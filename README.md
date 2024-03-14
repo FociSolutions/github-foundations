@@ -42,7 +42,6 @@ This project is open-source and customizable, released under the [MIT license](.
 - [ ] **Enhanced Security Features:** Development of advanced security features based on the evolving needs of the community.
 
 ## Getting Started:
-
 The repository is organized into two layers for ease of setup and management:
 
 ### [Bootstrap Layer](./bootstrap/README.md)
@@ -53,4 +52,8 @@ Initial setup of your state file backend, and creation of all organizations unde
 
 Management of organizations, repositories, and teams, Review results of drift detection, and execution of pull request plans for your organizations.
 
-**Embrace a secure, efficient future with the GitHub Foundations Toolkit!**
+## Contributing to the toolkit
+
+We welcome contributions to the GitHub Foundations Toolkit. Please read these [Contributing Guidelines](./CONTRIBUTING.md) for more information on how to get started.
+
+**_Embrace a Secure and Efficient Future with the GitHub Foundations Toolkit!_**
