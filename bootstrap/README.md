@@ -61,10 +61,6 @@ $ cp terraform.tfvars.example terraform.tfvars
 $ nano terraform.tfvars
 ```
 
-There are two ways to setup github foundations:
-1. Single organization approach
-2. Multi-organization approach (Requires Github Enterprise)
-
 For both a single organization and  multi organization approach the following variables are required:
 - `org_id`: The id of the gcp organization that will have the project that has the terraform state file bucket(s).
 - `billing_account`: The billing account to use for the gcp project that has teh terraform state file bucket(s).
