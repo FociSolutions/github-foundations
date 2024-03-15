@@ -60,29 +60,23 @@ Before running the bootstrap layer, you need to set the initial values for your 
 $ cp terraform.tfvars.example terraform.tfvars
 $ nano terraform.tfvars
 ```
- You will see a section like this:
 
-```hcl
-# A map of organizations to create under the enterprise account. The key will be your organizations id
-    # and must comply with github naming rules
-    # Example:
-    # "Uncaffeinated-Solutions" = {
-    #   display_name  = "Uncaffeinated Solutions"
-    #   description   = "Needs Caffeine
-    #   billing_email = "billing@uncaffeinated.com
-    #   admin_logins  = ["fred@uncaffeinated.com" ]  
-    # }
-```
+There are two ways to setup github foundations:
+1. Single organization approach
+2. Multi-organization approach (Requires Github Enterprise)
 
-Uncomment the example and fill in the values for:
-- the key (becomes the organization id)
-- `display_name`
-- `description`
-- `billing_email`
-- `admin_logins`
+For both a single organization and  multi organization approach the following variables are required:
+- `org_id`: The id of the gcp organization that will have the project that has the terraform state file bucket(s).
+- `billing_account`: The billing account to use for the gcp project that has teh terraform state file bucket(s).
+- `github_foundations_organization_name`: The name of the organization that will host the github foundation repositories. In the case of the multi-org approach this must be an organization name that doesn't already exist. However for the single org approach this should be the name of an existing organization that you want to use.
 
-Add as many organizations as you need.
+To use the toolkit in a multi-organization approach the following variables are required in addition to the previous:
+- `github_enterprise_slug`: The slug of the enterprise account that own your organization(s).
+- `github_organization_admin_logins`: A list of github users that will be given admin permissions to the github foundation organization.
+- `github_organization_billing_email`: A email for billing to set in the github foundation organization.
 
+For the multi-organization approach the following variable is optional:
+- `github_enterprise_organizations`: A map of organizations to create under the enterprise account. You can still use the organization layer to manage organizations under your enterprise account that weren't created this way so this is optional.
 
 
 ### Generating a Plan (Without Execution)

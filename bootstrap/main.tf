@@ -47,6 +47,8 @@ module "github_foundations_organization" {
     github = github.enterprise_scoped
   }
 
+  count = local.no_enterprise_account ? 0 : 1
+
   enterprise_id                        = data.github_enterprise.enterprise_account.id
   name                                 = var.github_foundations_organization_name
   display_name                         = "Github Foundations"
@@ -80,7 +82,7 @@ module "organizations" {
     github = github.enterprise_scoped
   }
 
-  for_each = var.github_enterprise_organizations
+  for_each = local.no_enterprise_account ? {} : var.github_enterprise_organizations
 
   enterprise_id = data.github_enterprise.enterprise_account.id
 
