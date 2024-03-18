@@ -52,7 +52,7 @@ Before running the bootstrap layer, please ensure you have the following prerequ
 
 This section outlines the steps to run the bootstrap layer. Remember to ensure you have met the prerequisites detailed in the previous section before proceeding.
 
-### Single Organziation Setup Vs Multi-Organization Setup
+### Single Organization Setup Vs Multi-Organization Setup
 
 The bootstrap layer can be run to setup github foundations in a single organization or in a separate organization under the same enterprise account.
 
