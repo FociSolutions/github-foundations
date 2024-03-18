@@ -56,7 +56,7 @@ This section outlines the steps to run the bootstrap layer. Remember to ensure y
 
 The bootstrap layer can be run to setup github foundations in a single organization or in a separate organization under the same enterprise account.
 
-A multi-organization approach allows you to configure separate policies, settings, and requirements for Github Foundations allowing for stricter security measures without affecting your other organizations. However this approach does require Github Enterprise.
+A multi-organization approach allows you to configure separate policies, settings, and requirements for GitHub Foundations allowing for stricter security measures without affecting your other organizations. However this approach does require GitHub Enterprise.
 
 The single organization approach can be used with or without Github Enterprise. When using this approach user's should be mindful about who has access to the Github Foundation repositories managing their github resources.
 
