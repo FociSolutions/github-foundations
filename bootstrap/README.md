@@ -52,7 +52,17 @@ Before running the bootstrap layer, please ensure you have the following prerequ
 
 This section outlines the steps to run the bootstrap layer. Remember to ensure you have met the prerequisites detailed in the previous section before proceeding.
 
-### Setting initial values for your environment
+### Single Organziation Setup Vs Multi-Organization Setup
+
+The bootstrap layer can be run to setup github foundations in a single organization or in a separate organization under the same enterprise account.
+
+A multi-organization approach allows you to configure separate policies, settings, and requirements for Github Foundations allowing for stricter security measures without affecting your other organizations. However this approach does require Github Enterprise.
+
+The single organization approach can be used with or without Github Enterprise. When using this approach user's should be mindful about who has access to the Github Foundation repositories managing their github resources.
+
+The following sections will describe how to setup variables to run the bootstrap layer for both a single organization and a multi-organization setup.
+
+### Setting Initial Values For Your Environment
 
 Before running the bootstrap layer, you need to set the initial values for your environment. You can do this by copying the `terraform.tfvars.example` file to `terraform.tfvars` and filling in the values.
 
