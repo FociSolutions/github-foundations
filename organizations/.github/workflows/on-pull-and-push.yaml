@@ -5,12 +5,16 @@ on:
     branches:
       - main
   pull_request:
-    
+
 
 env:
   tf_version: 1.7.1
   tg_version: 0.55.1
   working_dir: .
+  GCP_SECRET_MANAGER_PROJECT: "${{ vars.GCP_SECRET_MANAGER_PROJECT }}"
+  GCP_TF_STATE_BUCKET_PROJECT: "${{ vars.TF_STATE_BUCKET_PROJECT_ID}}"
+  GCP_TF_STATE_BUCKET_NAME: "${{vars.TF_STATE_BUCKET_NAME}}"
+  GCP_TF_STATE_BUCKET_LOCATION: "${{vars.TF_STATE_BUCKET_LOCATION}}"
 
 jobs:
   terraform-plan-and-apply:
@@ -57,11 +61,6 @@ jobs:
       - name: Terragrunt Init
         id: init
         uses: gruntwork-io/terragrunt-action@v2
-        env:
-          GCP_SECRET_MANAGER_PROJECT: "${{ vars.GCP_SECRET_MANAGER_PROJECT }}"
-          GCP_TF_STATE_BUCKET_PROJECT: "${{ vars.TF_STATE_BUCKET_PROJECT_ID}}"
-          GCP_TF_STATE_BUCKET_NAME: "${{vars.TF_STATE_BUCKET_NAME}}"
-          GCP_TF_STATE_BUCKET_LOCATION: "${{vars.TF_STATE_BUCKET_LOCATION}}"
         with:
           tf_version: ${{ env.tf_version }}
           tg_version: ${{ env.tg_version }}
@@ -72,21 +71,26 @@ jobs:
         id: plan
         uses: gruntwork-io/terragrunt-action@v2
         continue-on-error: true
-        env:
-          GCP_SECRET_MANAGER_PROJECT: "${{ vars.GCP_SECRET_MANAGER_PROJECT }}"
-          GCP_TF_STATE_BUCKET_PROJECT: "${{ vars.TF_STATE_BUCKET_PROJECT_ID}}"
-          GCP_TF_STATE_BUCKET_NAME: "${{vars.TF_STATE_BUCKET_NAME}}"
-          GCP_TF_STATE_BUCKET_LOCATION: "${{vars.TF_STATE_BUCKET_LOCATION}}"
         with:
           tf_version: ${{ env.tf_version }}
           tg_version: ${{ env.tg_version }}
           tg_dir: ${{ env.working_dir }}
-          tg_command: 'run-all plan --terragrunt-no-color '
+          tg_command: 'run-all plan --out tfplan'
+
+      - name: Terragrunt Plan Condensing
+        id: condense
+        uses: gruntwork-io/terragrunt-action@v2
+        continue-on-error: true
+        with:
+          tf_version: ${{ env.tf_version }}
+          tg_version: ${{ env.tg_version }}
+          tg_dir: ${{ env.working_dir }}
+          tg_command: 'run-all show tfplan'
 
       - name: Terragrunt Plan Cleaning
         id: clean
         run: |
-          TG_OUT=$(echo "${{ steps.plan.outputs.tg_action_output }}" | sed 's|%0A|\n|g')
+          TG_OUT=$(echo "${{ steps.condense.outputs.tg_action_output }}" | sed 's|%0A|\n|g')
           echo "PLAN<<EOF" >> $GITHUB_ENV
           echo "$TG_OUT" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
@@ -101,7 +105,7 @@ jobs:
             #### Terragrunt Format and Style 🖌\`${{ steps.grunt-fmt.outcome }}\`
             #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
             #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
-            
+
 
             <details><summary>Show Plan</summary>
 
@@ -127,11 +131,6 @@ jobs:
       - name: Terragrunt Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         uses: gruntwork-io/terragrunt-action@v2
-        env:
-          GCP_SECRET_MANAGER_PROJECT: "${{ vars.GCP_SECRET_MANAGER_PROJECT }}"
-          GCP_TF_STATE_BUCKET_PROJECT: "${{ vars.TF_STATE_BUCKET_PROJECT_ID}}"
-          GCP_TF_STATE_BUCKET_NAME: "${{vars.TF_STATE_BUCKET_NAME}}"
-          GCP_TF_STATE_BUCKET_LOCATION: "${{vars.TF_STATE_BUCKET_LOCATION}}"
         with:
           tf_version: ${{ env.tf_version }}
           tg_version: ${{ env.tg_version }}

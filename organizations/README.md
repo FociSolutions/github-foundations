@@ -109,8 +109,8 @@ data "google_secret_manager_secret" "pem_file_metadata" {
 provider "github" {
     owner = "${local.organization_name}"
     app_auth {
-      id              = data.google_secret_manager_secret.pem_file_metadata.annotations.appId        
-      installation_id = data.google_secret_manager_secret.pem_file_metadata.annotations.installationId 
+      id              = data.google_secret_manager_secret.pem_file_metadata.annotations.appId
+      installation_id = data.google_secret_manager_secret.pem_file_metadata.annotations.installationId
       pem_file        = data.google_secret_manager_secret_version_access.pem_file.secret_data
     }
     }
@@ -122,7 +122,7 @@ Change `ORGANIZATION_NAME` to match the organization id of the organization this
 
 Change `GCP_SECRET_NAME` to match the name of the secret you created during [app installation](#github-app-installation). If you didn't create any secret please read over that section before continuing.
 
-**Note:** If you didn't store installation id or app id in the secret annotations then you will need to either add those in for this file to work. Or you need to change the `installation_id` and `id` fields under the github provider's `app_auth` block. 
+**Note:** If you didn't store installation id or app id in the secret annotations then you will need to either add those in for this file to work. Or you need to change the `installation_id` and `id` fields under the github provider's `app_auth` block.
 
 ### Configuring Repositories
 
@@ -170,3 +170,7 @@ Before running the organizations layer, please ensure you have the following pre
 
 * GCP CLI: [https://cloud.google.com/sdk/docs/install](https://cloud.google.com/sdk/docs/install)
 * GCP IAM Roles: [https://cloud.google.com/iam/docs/understanding-roles](https://cloud.google.com/iam/docs/understanding-roles)
+
+## Drift Detection
+
+The GitHub Foundations toolkit comes with a [drift-detection](./DRIFT_DETECTION.md) tool pre-installed. For more information, see the [documentation here](./DRIFT_DETECTION.md)
