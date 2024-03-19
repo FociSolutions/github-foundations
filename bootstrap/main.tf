@@ -40,17 +40,28 @@ module "github_gcloud_oidc" {
   github_foundations_organization_name = var.github_foundations_organization_name
 }
 
-module "foundations_github_organization" {
-  source = "github.com/FociSolutions/github-foundations-modules//modules/foundations-github-organization"
+# Github foundations setup
+module "github_foundations_organization" {
+  source    = "github.com/FociSolutions/github-foundations-modules//modules/enterprise-organization"
   providers = {
-    github.enterprise_scoped     = github.enterprise_scoped
-    github.foundation_org_scoped = github.foundation_org_scoped
+    github = github.enterprise_scoped
   }
 
-  admin_logins                         = var.github_organization_admin_logins
-  github_foundations_organization_name = var.github_foundations_organization_name
+  count = local.no_enterprise_account ? 0 : 1
+
   enterprise_id                        = data.github_enterprise.enterprise_account.id
+  name                                 = var.github_foundations_organization_name
+  display_name                         = "Github Foundations"
+  description                          = "Organization created to host github foundation toolkit repositories"
+  admin_logins                         = var.github_organization_admin_logins
   billing_email                        = var.github_organization_billing_email
+}
+
+module "github_foundations" {
+  source    = "github.com/FociSolutions/github-foundations-modules//modules/github-foundations"
+  providers = {
+    github = github.foundation_org_scoped
+  }
 
   workload_identity_provider_name   = module.github_gcloud_oidc.provider_name
   bootstrap_workload_identity_sa    = module.github_gcloud_oidc.bootstrap_sa
@@ -61,11 +72,17 @@ module "foundations_github_organization" {
   gcp_tf_state_bucket_project_id = module.github_gcloud_oidc.project_id
   bucket_name                    = module.github_gcloud_oidc.bucket_name
   bucket_location                = module.github_gcloud_oidc.bucket_location
-
+  readme_path = ""
 }
 
-resource "github_enterprise_organization" "organization" {
-  for_each = var.github_enterprise_organizations
+# Other organizations that should exist under your github enterprise account
+module "organizations" {
+  source    = "github.com/FociSolutions/github-foundations-modules//modules/enterprise-organization"
+  providers = {
+    github = github.enterprise_scoped
+  }
+
+  for_each = local.no_enterprise_account ? {} : var.github_enterprise_organizations
 
   enterprise_id = data.github_enterprise.enterprise_account.id
 

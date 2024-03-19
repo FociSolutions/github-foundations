@@ -10,8 +10,8 @@ terraform {
       version = ">= 3.77" # tftest
     }
     github = {
-      source  = "hashicorp/github"
-      version = "5.44.0"
+      source  = "integrations/github"
+      version = "6.1.0"
     }
   }
 }
