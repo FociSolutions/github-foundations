@@ -48,11 +48,7 @@ Before running the bootstrap layer, please ensure you have the following prerequ
 * GCP CLI: [https://cloud.google.com/sdk/docs/install](https://cloud.google.com/sdk/docs/install)
 * GCP IAM Roles: [https://cloud.google.com/iam/docs/understanding-roles](https://cloud.google.com/iam/docs/understanding-roles)
 
-## Running the Bootstrap Layer
-
-This section outlines the steps to run the bootstrap layer. Remember to ensure you have met the prerequisites detailed in the previous section before proceeding.
-
-### Single Organization Setup Vs Multi-Organization Setup
+## Single Organization Setup Vs Multi-Organization Setup
 
 The bootstrap layer can be run to setup github foundations in a single organization or in a separate organization under the same enterprise account.
 
@@ -60,11 +56,11 @@ A multi-organization approach allows you to configure separate policies, setting
 
 The single organization approach can be used with or without GitHub Enterprise. When using this approach users should be mindful about who has access to the GitHub Foundation repositories managing their GitHub resources.
 
-The following sections will describe how to setup variables to run the bootstrap layer for both a single organization and a multi-organization setup.
+The following section will describe how to setup variables to run the bootstrap layer for both a single organization and a multi-organization setup.
 
-### Setting Initial Values For Your Environment
+### Configuring Variables
 
-Before running the bootstrap layer, you need to set the initial values for your environment. You can do this by copying the `terraform.tfvars.example` file to `terraform.tfvars` and filling in the values.
+Before running the bootstrap layer, you need to configure input variables for it to run. You can do this by copying the `terraform.tfvars.example` file to `terraform.tfvars` and filling in the values.
 
 ```bash
 $ cp terraform.tfvars.example terraform.tfvars
@@ -84,6 +80,34 @@ To use the toolkit in a multi-organization approach the following variables are 
 For the multi-organization approach the following variable is optional:
 - `github_enterprise_organizations`: A map of organizations to create under the enterprise account. You can still use the organization layer to manage organizations under your enterprise account that weren't created this way so this is optional.
 
+## Running the Bootstrap Layer
+
+This section outlines the steps to run the bootstrap layer. Remember to ensure you have met the prerequisites detailed in the previous section before proceeding.
+
+### Running the Bootstrap Layer
+
+To run the bootstrap layer perform the following steps:
+
+1. Clone this repository locally and copy the bootstrap folder into a separate folder on your local machine.
+2. Navigate to the folder that you copied the bootstrap layer to and configure the variables required to run it. For more info on how to do this refer to the [configuring variables section](#configuring-variables).
+3. Run `terraform init` then generate and execute a plan with `terraform apply`. If you run into any authentication issues make sure all [prerequisites are met](#prerequisites-for-running-the-bootstrap-layer).
+4. After a successful application of the terraform code navigate to the `backend.tf` file and uncomment the GCS backend configuration. It should be the block that looks like this:
+   ```
+  terraform {
+    backend "gcs" {
+      bucket = "github-tf-state-bucket"
+      prefix = "terraform/github-foundations/bootstrap"
+    }
+  }
+  ```
+5. Run `terraform init -migrate-state` again, it should ask you if you want to migrate your backend. If you want to supress the prompt and answer "yes" then add the `-force-copy` option.
+6. Create a pull request and store all the bootstrap layer terraform in to the bootstrap repository that should have been created for you by terraform when you ran `terraform apply`.
+
+After performing these steps your bootstrap layer should have setup GCP OIDC, Github secrets and variables for the oidc connection, Github repositories for your terraform code to live in, and state file in a GCP bucket containing the state of the bootstrap layer.
+
+### Running the Bootstrap Layer With An Unsupported Cloud Provider
+
+Currently the only cloud provider Github Foundations has out of the box support for is Google Cloud Platform. To use Github Foundations with a different cloud provider please refer to the [custom cloud setup documentation](./CUSTOM_CLOUD_SETUP.md)
 
 ### Generating a Plan (Without Execution)
 
