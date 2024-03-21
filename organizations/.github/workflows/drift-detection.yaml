@@ -8,8 +8,8 @@ on:
 
 
 env:
-  tf_version: 1.7.1
-  tg_version: 0.55.1
+  tf_version: 1.7.5
+  tg_version: 0.55.18
   default_branch: main
   drift_label: Drift
   action_required_label: Action Required
@@ -63,15 +63,6 @@ jobs:
           tg_version: ${{ env.tg_version }}
           tg_dir: ${{ env.working_dir }}
           tg_command: 'hclfmt --terragrunt-check --terragrunt-diff'
-
-      - name: Terragrunt Init
-        id: init
-        uses: gruntwork-io/terragrunt-action@v2
-        with:
-          tf_version: ${{ env.tf_version }}
-          tg_version: ${{ env.tg_version }}
-          tg_dir: ${{ env.working_dir }}
-          tg_command: 'run-all init'
 
       - name: Terragrunt Plan
         id: plan
@@ -172,15 +163,6 @@ jobs:
           tg_version: ${{ env.tg_version }}
           tg_dir: ${{ env.working_dir }}
           tg_command: 'hclfmt --terragrunt-check --terragrunt-diff'
-
-      - name: Terragrunt Init
-        id: init
-        uses: gruntwork-io/terragrunt-action@v2
-        with:
-          tf_version: ${{ env.tf_version }}
-          tg_version: ${{ env.tg_version }}
-          tg_dir: ${{ env.working_dir }}
-          tg_command: 'run-all init'
 
       - name: Terragrunt Apply
         id: apply

@@ -8,8 +8,8 @@ on:
 
 
 env:
-  tf_version: 1.7.1
-  tg_version: 0.55.1
+  tf_version: 1.7.5
+  tg_version: 0.55.18
   working_dir: .
   GCP_SECRET_MANAGER_PROJECT: "${{ vars.GCP_SECRET_MANAGER_PROJECT }}"
   GCP_TF_STATE_BUCKET_PROJECT: "${{ vars.TF_STATE_BUCKET_PROJECT_ID}}"
@@ -58,15 +58,6 @@ jobs:
           tg_dir: ${{ env.working_dir }}
           tg_command: 'hclfmt --terragrunt-check --terragrunt-diff'
 
-      - name: Terragrunt Init
-        id: init
-        uses: gruntwork-io/terragrunt-action@v2
-        with:
-          tf_version: ${{ env.tf_version }}
-          tg_version: ${{ env.tg_version }}
-          tg_dir: ${{ env.working_dir }}
-          tg_command: 'run-all init'
-
       - name: Terragrunt Plan
         id: plan
         uses: gruntwork-io/terragrunt-action@v2
@@ -75,7 +66,7 @@ jobs:
           tf_version: ${{ env.tf_version }}
           tg_version: ${{ env.tg_version }}
           tg_dir: ${{ env.working_dir }}
-          tg_command: 'run-all plan --out tfplan'
+          tg_command: 'run-all plan -out tfplan'
 
       - name: Terragrunt Plan Condensing
         id: condense
@@ -85,7 +76,7 @@ jobs:
           tf_version: ${{ env.tf_version }}
           tg_version: ${{ env.tg_version }}
           tg_dir: ${{ env.working_dir }}
-          tg_command: 'run-all show tfplan'
+          tg_command: 'run-all show tfplan --terragrunt-no-color -no-color'
 
       - name: Terragrunt Plan Cleaning
         id: clean
@@ -103,7 +94,6 @@ jobs:
           script: |
             const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
             #### Terragrunt Format and Style 🖌\`${{ steps.grunt-fmt.outcome }}\`
-            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
             #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
 
 
@@ -124,6 +114,48 @@ jobs:
               body: output
             })
 
+      - name: Check/Count Deletions
+        id: deletions
+        if: contains(env.PLAN, 'will be destroyed')
+        continue-on-error: true
+        run: |
+          DELETIONS="$(echo "${{ env.PLAN }}" | grep -c 'will be destroyed')"
+          if [[ $DELETIONS -gt 0 ]]; then
+            echo "DELETIONS=${DELETIONS}" >> $GITHUB_ENV
+            echo "${DELETIONS} Deletion(s) found in the plan."
+          fi
+
+      - name: No Deletions
+        id: no-deletions
+        if: ${{ !contains(env.PLAN , 'will be destroyed') }}
+        # set the env.DELETIONS to 0
+        run: echo "DELETIONS=0" >> $GITHUB_ENV
+
+      - name: Comment on PR if deletions
+        if: env.DELETIONS > 0
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### ⚠️ The Terraform Plan contains ${process.env.DELETIONS} Deletion(s) ⚠️
+            Please review the plan and ensure that the deletions are expected.
+
+            If the deletions are expected, you must:
+
+              1. Create a new comment on this PR.
+              2. Set the contents to \`delete\` (no quotes)
+              3. Press the comment button.
+
+            before you can merge.`;
+
+            github.rest.pulls.createReview({
+              pull_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output,
+              event: 'REQUEST_CHANGES'
+            })
+
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
         run: exit 1
@@ -135,4 +167,4 @@ jobs:
           tf_version: ${{ env.tf_version }}
           tg_version: ${{ env.tg_version }}
           tg_dir: ${{ env.working_dir }}
-          tg_command: 'run-all apply --terragrunt-no-color '
+          tg_command: 'run-all apply --terragrunt-no-color'
