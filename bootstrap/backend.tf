@@ -15,9 +15,9 @@
  */
 
 # After the first successful "terraform apply" uncomment this block and run "terraform init"
-terraform {
-  backend "gcs" {
-    bucket = "github-tf-state-bucket"
-    prefix = "terraform/github-foundations/bootstrap"
-  }
-}
+# terraform {
+#   backend "gcs" {
+#     bucket = "github-tf-state-bucket"
+#     prefix = "terraform/github-foundations/bootstrap"
+#   }
+# }
