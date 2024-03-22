@@ -100,7 +100,7 @@ To run the bootstrap layer perform the following steps:
     }
   }
   ```
-5. Run `terraform init -migrate-state` again, it should ask you if you want to migrate your backend. If you want to supress the prompt and answer "yes" then add the `-force-copy` option.
+5. Run `terraform init -migrate-state` again, it should ask you if you want to migrate your backend. If you want to suppress the prompt and answer "yes" then add the `-force-copy` option.
 6. Create a pull request and store all the bootstrap layer terraform in to the bootstrap repository that should have been created for you by terraform when you ran `terraform apply`.
 
 After performing these steps your bootstrap layer should have setup GCP OIDC, Github secrets and variables for the oidc connection, Github repositories for your terraform code to live in, and state file in a GCP bucket containing the state of the bootstrap layer.
