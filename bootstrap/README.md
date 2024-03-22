@@ -92,14 +92,14 @@ To run the bootstrap layer perform the following steps:
 2. Navigate to the folder that you copied the bootstrap layer to and configure the variables required to run it. For more info on how to do this refer to the [configuring variables section](#configuring-variables).
 3. Run `terraform init` then generate and execute a plan with `terraform apply`. If you run into any authentication issues make sure all [prerequisites are met](#prerequisites-for-running-the-bootstrap-layer).
 4. After a successful application of the terraform code navigate to the `backend.tf` file and uncomment the GCS backend configuration. It should be the block that looks like this:
-   ```
-  terraform {
-    backend "gcs" {
-      bucket = "github-tf-state-bucket"
-      prefix = "terraform/github-foundations/bootstrap"
-    }
+```hcl
+terraform {
+  backend "gcs" {
+    bucket = "github-tf-state-bucket"
+    prefix = "terraform/github-foundations/bootstrap"
   }
-  ```
+}
+```
 5. Run `terraform init -migrate-state` again, it should ask you if you want to migrate your backend. If you want to suppress the prompt and answer "yes" then add the `-force-copy` option.
 6. Create a pull request and store all the bootstrap layer terraform in to the bootstrap repository that should have been created for you by terraform when you ran `terraform apply`.
 
