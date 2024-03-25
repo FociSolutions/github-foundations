@@ -116,23 +116,15 @@ jobs:
 
       - name: Check/Count Deletions
         id: deletions
-        if: contains(env.PLAN, 'will be destroyed')
+        if: github.event_name == 'pull_request'
         continue-on-error: true
         run: |
           DELETIONS="$(echo "${{ env.PLAN }}" | grep -c 'will be destroyed')"
-          if [[ $DELETIONS -gt 0 ]]; then
-            echo "DELETIONS=${DELETIONS}" >> $GITHUB_ENV
-            echo "${DELETIONS} Deletion(s) found in the plan."
-          fi
-
-      - name: No Deletions
-        id: no-deletions
-        if: ${{ !contains(env.PLAN , 'will be destroyed') }}
-        # set the env.DELETIONS to 0
-        run: echo "DELETIONS=0" >> $GITHUB_ENV
+          echo "DELETIONS=${DELETIONS}" >> $GITHUB_ENV
+          echo "${DELETIONS} Deletion(s) found in the plan."
 
       - name: Comment on PR if deletions
-        if: env.DELETIONS > 0
+        if: github.event_name == 'pull_request' && env.DELETIONS > 0
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
