@@ -11,16 +11,11 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// ImportCmd represents the project command
+// ImportCmd represents the import command
 var ImportCmd = &cobra.Command{
 	Use:   "import",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Starts an interactive import process for resources in a Terraform plan.",
+	Long:  `This command will start an interactive process to import resources into Terraform state. It uses the results of a terraform plan to determine which resources are available for import.`,
 	Args: func(cmd *cobra.Command, args []string) error {
 		// Optionally run one of the validators provided by cobra
 		if err := cobra.MinimumNArgs(1)(cmd, args); err != nil {
