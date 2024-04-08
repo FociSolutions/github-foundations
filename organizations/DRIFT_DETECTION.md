@@ -46,7 +46,9 @@ The `Drift Detection` jobs are scheduled to run automatically based on the cron 
 
 ### Issue Creation
 
-When a drift is detected during the scheduled check, the action will create a GitHub issue in your repository. The issue will contain detailed information about the detected drift and steps for review. The issue will be labeled with `Drift` and `Action Required` labels for easy identification and filtering.
+When a drift is detected during the scheduled check and no other open issues exist with the `Drift` label, the action will create a GitHub issue in your repository. The issue will contain detailed information about the detected drift and steps for review. The issue will be labeled with `Drift` and `Action Required` labels for easy identification and filtering.
+
+If a drift is detected and an open issue already exists with the `Drift` label, the action will update the GitHub issue's body with the newly detected changes in the GitHub infrastructure. This ensures only a single drift detection issue will be opened at a time and avoids a scenario where the repository's issue list is flooded with redundant drift detection issues.
 
 ### Manual Re-Apply
 
