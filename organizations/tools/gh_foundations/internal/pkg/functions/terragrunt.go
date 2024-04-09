@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"gh_foundations/internal/pkg/types"
+	types "gh_foundations/internal/pkg/types/terragrunt"
 	"io"
 	"os"
 	"os/exec"
@@ -84,6 +84,10 @@ func CreateImportIdResolver(change types.TerragruntPlanOutputResourceChange) typ
 		return &types.TeamImportIdResolver{Change: change}
 	case "github_repository":
 		return &types.RepositoryImportIdResolver{Change: change}
+	case "github_branch_default":
+		return &types.RepositoryBranchDefaultImportIdResolver{Change: change}
+	case "github_repository_collaborators":
+		return &types.RepositoryCollaboratorsImportIdResolver{Change: change}
 	default:
 		return nil
 	}
