@@ -1,36 +1,51 @@
 package terragrunt
 
-import "fmt"
+import (
+	"fmt"
+	"gh_foundations/internal/pkg/types/terraform_state"
+)
 
 type RepositoryImportIdResolver struct {
-	Change TerragruntPlanOutputResourceChange
+	StateExplorer terraform_state.IStateExplorer
 }
 
-func (r *RepositoryImportIdResolver) ResolveImportId() (string, error) {
-	if name, exists := r.Change.Change.After["name"]; exists {
-		return fmt.Sprint(name), nil
+func (r *RepositoryImportIdResolver) ResolveImportId(resourceAddress string) (string, error) {
+	name, err := r.StateExplorer.GetResourceChangeAfterAttribute(resourceAddress, "name")
+	if err != nil {
+		return "", err
+	} else if !name.Exists() {
+		return "", fmt.Errorf("unable to resolve import id: unexpected error occurred")
 	}
-	return "", fmt.Errorf("unable to resolve import id for resource %q", r.Change.Address)
+
+	return name.String(), nil
 }
 
 type RepositoryBranchDefaultImportIdResolver struct {
-	Change TerragruntPlanOutputResourceChange
+	StateExplorer terraform_state.IStateExplorer
 }
 
-func (r *RepositoryBranchDefaultImportIdResolver) ResolveImportId() (string, error) {
-	if repository, exists := r.Change.Change.After["repository"]; exists {
-		return fmt.Sprint(repository), nil
+func (r *RepositoryBranchDefaultImportIdResolver) ResolveImportId(resourceAddress string) (string, error) {
+	repository, err := r.StateExplorer.GetResourceChangeAfterAttribute(resourceAddress, "repository")
+	if err != nil {
+		return "", err
+	} else if !repository.Exists() {
+		return "", fmt.Errorf("unable to resolve import id: unexpected error occurred")
 	}
-	return "", fmt.Errorf("unable to resolve import id for resource %q", r.Change.Address)
+
+	return repository.String(), nil
 }
 
 type RepositoryCollaboratorsImportIdResolver struct {
-	Change TerragruntPlanOutputResourceChange
+	StateExplorer terraform_state.IStateExplorer
 }
 
-func (r *RepositoryCollaboratorsImportIdResolver) ResolveImportId() (string, error) {
-	if repository, exists := r.Change.Change.After["repository"]; exists {
-		return fmt.Sprint(repository), nil
+func (r *RepositoryCollaboratorsImportIdResolver) ResolveImportId(resourceAddress string) (string, error) {
+	repository, err := r.StateExplorer.GetResourceChangeAfterAttribute(resourceAddress, "repository")
+	if err != nil {
+		return "", err
+	} else if !repository.Exists() {
+		return "", fmt.Errorf("unable to resolve import id: unexpected error occurred")
 	}
-	return "", fmt.Errorf("unable to resolve import id for resource %q", r.Change.Address)
+
+	return repository.String(), nil
 }
