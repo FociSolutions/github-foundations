@@ -2,14 +2,12 @@ package functions
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
+	"gh_foundations/internal/pkg/types/terraform_state"
 	types "gh_foundations/internal/pkg/types/terragrunt"
-	"io"
 	"os"
 	"os/exec"
 	"path/filepath"
-	"strings"
 )
 
 func ArchivePlan(modulePath string, planName string) (*types.TerragruntPlanArchive, error) {
@@ -20,111 +18,40 @@ func ArchivePlan(modulePath string, planName string) (*types.TerragruntPlanArchi
 		return nil, fmt.Errorf("file %q already exists", outputFilePath)
 	}
 
-	planFile, err := os.Create(outputFilePath)
+	planArchive, err := types.NewTerragruntPlanArchive(planName, modulePath, moduleDir, outputFilePath)
 	if err != nil {
 		return nil, err
 	}
 
-	planCmd := exec.Command("terragrunt", "plan", fmt.Sprintf("-out=%s", planName))
-	planCmd.Stderr = os.Stderr
-	planCmd.Dir = moduleDir
-	if err := planCmd.Run(); err != nil {
-		return nil, err
-	}
-
-	showCmd := exec.Command("terragrunt", "show", "-json", planName)
-	showCmd.Stdout = planFile
-	showCmd.Stderr = os.Stderr
-	showCmd.Dir = moduleDir
-	if err := showCmd.Run(); err != nil {
-		return nil, err
-	}
-
-	return &types.TerragruntPlanArchive{
-		Name:           planName,
-		ModuleDir:      moduleDir,
-		ModulePath:     modulePath,
-		OutputFilePath: outputFilePath,
-	}, nil
+	return planArchive, nil
 }
 
-func GetPlannedResourceCreations(planArchive *types.TerragruntPlanArchive) ([]types.TerragruntPlanOutputResourceChange, error) {
-	// Parse the plan file
-	planFile, err := os.Open(planArchive.OutputFilePath)
-	if err != nil {
-		return nil, err
-	}
-	defer planFile.Close()
-
-	data, err := io.ReadAll(planFile)
-	if err != nil {
-		return nil, err
-	}
-
-	planOutput := &types.TerragruntPlanOutputRoot{}
-	if err := json.Unmarshal(data, planOutput); err != nil {
-		return nil, err
-	}
-
-	changes := make([]types.TerragruntPlanOutputResourceChange, 0)
-	for _, resourceChange := range planOutput.ResourceChanges {
-		if len(resourceChange.Change.Actions) == 1 && resourceChange.Change.Actions[0] == "create" {
-			changes = append(changes, resourceChange)
-		}
-	}
-
-	return changes, nil
+func RunImportCommand(archive types.TerragruntPlanArchive, address string, id string) (error, bytes.Buffer) {
+	errorBytes := bytes.Buffer{}
+	importCmd := exec.Command("terragrunt", "import", address, id)
+	importCmd.Stderr = &errorBytes
+	importCmd.Stdout = nil
+	importCmd.Dir = archive.ModuleDir
+	return importCmd.Run(), errorBytes
 }
 
-func CreateImportIdResolver(change types.TerragruntPlanOutputResourceChange) types.ImportIdResolver {
-	switch change.Type {
+func CreateImportIdResolver(resourceAddress string, stateExplorer terraform_state.IStateExplorer) types.ImportIdResolver {
+	resourceType, err := stateExplorer.GetResourceChangeResourceType(resourceAddress)
+	if err != nil {
+		return nil
+	}
+	switch resourceType {
 	case "github_team_membership":
-		return &types.TeamMemberImportIdResolver{Change: change}
+		return &types.TeamMemberImportIdResolver{StateExplorer: stateExplorer}
 	case "github_team":
-		return &types.TeamImportIdResolver{Change: change}
+		return &types.TeamImportIdResolver{StateExplorer: stateExplorer}
 	case "github_repository":
-		return &types.RepositoryImportIdResolver{Change: change}
+		return &types.RepositoryImportIdResolver{StateExplorer: stateExplorer}
 	case "github_branch_default":
-		return &types.RepositoryBranchDefaultImportIdResolver{Change: change}
+		return &types.RepositoryBranchDefaultImportIdResolver{StateExplorer: stateExplorer}
 	case "github_repository_collaborators":
-		return &types.RepositoryCollaboratorsImportIdResolver{Change: change}
+		return &types.RepositoryCollaboratorsImportIdResolver{StateExplorer: stateExplorer}
 	default:
 		return nil
 	}
-}
-
-func RunImportCommand(archive types.TerragruntPlanArchive, address string, id string) error {
-	importCmd := exec.Command("terragrunt", "import", address, id)
-	importCmd.Stderr = nil
-	importCmd.Stdout = nil
-	importCmd.Dir = archive.ModuleDir
-	return importCmd.Run()
-}
-
-func GetModuleGroups() (types.TerragruntModuleGroups, error) {
-	b := bytes.Buffer{}
-	outputModuleGroupsCmd := exec.Command("terragrunt", "output-module-groups")
-	outputModuleGroupsCmd.Stdout = &b
-	outputModuleGroupsCmd.Stderr = os.Stderr
-
-	if err := outputModuleGroupsCmd.Run(); err != nil {
-		return nil, err
-	}
-
-	groups := types.TerragruntModuleGroups{}
-
-	if err := json.Unmarshal(b.Bytes(), &groups); err != nil {
-		return nil, err
-	}
-
-	// Appends the terragrunt.hcl path.
-	for key, group := range groups {
-		full_paths := []string{}
-		for _, path := range group {
-			full_paths = append(full_paths, strings.Join([]string{path, "terragrunt.hcl"}, string(os.PathSeparator)))
-		}
-		groups[key] = full_paths
-	}
-
-	return groups, nil
 }
