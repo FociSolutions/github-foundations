@@ -2,15 +2,17 @@ module gh_foundations
 
 go 1.21.0
 
-require github.com/spf13/cobra v1.8.0
+require (
+	github.com/charmbracelet/bubbletea v0.25.0
+	github.com/charmbracelet/lipgloss v0.10.0
+	github.com/spf13/cobra v1.8.0
+)
 
 require (
 	github.com/agext/levenshtein v1.2.3 // indirect
 	github.com/apparentlymart/go-textseg/v15 v15.0.0 // indirect
 	github.com/atotto/clipboard v0.1.4 // indirect
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
-	github.com/charmbracelet/bubbletea v0.25.0 // indirect
-	github.com/charmbracelet/lipgloss v0.10.0 // indirect
 	github.com/containerd/console v1.0.4-0.20230313162750-1ae8d489ac81 // indirect
 	github.com/google/go-cmp v0.6.0 // indirect
 	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
