@@ -2,7 +2,7 @@ package import_cmd
 
 import (
 	"gh_foundations/internal/pkg/functions"
-	"gh_foundations/internal/pkg/types"
+	types "gh_foundations/internal/pkg/types/terragrunt"
 	"log"
 	"os"
 
