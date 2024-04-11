@@ -2,9 +2,9 @@
 
 ## Introduction
 
-The Government of Canada Source Code Management (SCM) Guardrails describe a preliminary set of baseline cyber security controls to ensure that the source code management service environment has a minimum set of configurations. Departments must implement, validate and report on compliance with the guardrails in the first 30 business days of getting access to their SCM account.
+The Government of Canada Source Code Management (SCM) Guardrails describe a preliminary set of baseline cyber security controls to ensure that the Source Code Management service environment has a minimum set of configurations. Departments must implement, validate and report on compliance with the guardrails in the first 30 business days of getting access to their SCM account.
 
-Source code management services are used to store, manage, and track changes to source code, as well as performing DevOps activities (such as automated deployments, continuous integration, and continuous delivery). The SCM guardrails are designed to ensure that the SCM environment is secure and that the source code is protected from unauthorized access, modification, or deletion.
+Source Code Management services are used to store, manage, and track changes to source code, as well as performing DevOps activities (such as automated deployments, continuous integration, and continuous delivery). The SCM guardrails are designed to ensure that the SCM environment is secure and that the source code is protected from unauthorized access, modification, or deletion.
 
 Departments are responsible for implementing the minimum configurations identified in the following tables.
 
@@ -12,8 +12,8 @@ Departments are responsible for implementing the minimum configurations identifi
 
 For this document the following definitions will be used:
 
-- **Mandatory requirements:** A set of baseline security controls that departments must implement, validate and report on in the first 30 business days of getting access to their SCM account.
-- **Additional Considerations:** Additional security controls that are highly recommended and should be taken into consideration. While these controls are not expected to be implemented within 30 business days of departments getting access to their SCM account, the controls include best practices that should be considered as departments establish their SCM tools.
+- **Mandatory Requirements:** A set of baseline security controls that departments must implement, validate and report on in the first 30 business days of getting access to their SCM account.
+- **Conditional Requirements:** Additional security controls that are taken into consideration for a subset of instances. While these controls may not apply to all solutions, they should be taken into account under specified conditions.
 
 ## SCM Guardrails
 
@@ -32,7 +32,7 @@ For this document the following definitions will be used:
 
 ## After the first 30 business days
 
-Implementing the guardrails is one of the first steps to establishing a secure SCM platform. Departments are expected to continue implementing the security requirements as outlined in:
+Implementing the guardrails is one of the first steps to establishing a secure SCM platform. After the controls established in the first 30 days, departments should be prepared to monitor their solutions and respond to threats, including keeping up to date on patches and updates. By adhering to these guardrails, departments will have a head start on many controls outlined in the below documents. It is expected that they will continue to work towards completing all of the following:
 
 - [Direction on the Secure Use of Commercial Cloud Services: Security Policy Implementation Notice](https://www.canada.ca/en/treasury-board-secretariat/services/access-information-privacy/security-identity-management/direction-secure-use-commercial-cloud-services-spin.html) (SPIN) 2017-01
 - [Government of Canada Security Control Profile for Cloud-Based GC Services](https://www.canada.ca/en/government/system/digital-government/modern-emerging-technologies/cloud-services/government-canada-security-control-profile-cloud-based-it-services.html)
