@@ -71,6 +71,11 @@ func initialModel() model {
 	}
 }
 
+func (m *model) showLoadingSpinner() tea.Cmd {
+	m.loading = true
+	return m.spinner.Tick
+}
+
 func (m model) Init() tea.Cmd {
 	return tea.Batch(
 		m.spinner.Tick,
@@ -89,9 +94,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.loading = false
 
 	case terragruntImportMsg:
-		// Remove selected item from list
 		m.list.RemoveItem(m.list.Index())
-		// Reset view state
 		m.importing = ""
 		m.textInput.SetValue("")
 		m.loading = false
@@ -102,7 +105,6 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.textInput.SetValue(string(msg))
 
 	case errMsg:
-		//reset state and show error
 		m.loading = false
 		m.importing = ""
 		m.err = msg.err
@@ -124,14 +126,11 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			} else if m.importing == "" {
 				i, ok := m.list.SelectedItem().(item)
 				if ok {
-					m.loading = true
 					m.importing = string(i)
-					return m, resolveResourceId(string(i), m.Archive)
+					return m, tea.Sequence(m.showLoadingSpinner(), resolveResourceId(string(i), m.Archive))
 				}
 			} else {
-				// Run import command
-				m.loading = true
-				return m, runTerragruntImport(m.Archive, m.importing, m.textInput.Value())
+				return m, tea.Sequence(m.showLoadingSpinner(), runTerragruntImport(m.Archive, m.importing, m.textInput.Value()))
 			}
 		}
 	}
