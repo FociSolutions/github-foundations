@@ -98,7 +98,7 @@ jobs:
                 echo -e "Found repos: $repos"
                 echo "repos=$(echo -e "${repos}" | sed s/\'/\"/g)" >> $GITHUB_OUTPUT
 
-    generate_token:
+    check_ghas_policies:
         runs-on: ubuntu-latest
         needs: find-applicable-repos
         permissions:
