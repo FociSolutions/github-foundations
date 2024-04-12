@@ -15,6 +15,9 @@ For this document the following definitions will be used:
 - **Mandatory Requirements:** A set of baseline security controls that departments must implement, validate and report on in the first 30 business days of getting access to their SCM account.
 - **Conditional Requirements:** Additional security controls that are taken into consideration for a subset of instances. While these controls may not apply to all solutions, they should be taken into account under specified conditions.
 
+## Applicable Service Models
+This guardrail document relates to Software as a Service (SaaS), specifically DevOps and Source Code management tools.
+
 ## SCM Guardrails
 
 | ID. | SCM Guardrails |
