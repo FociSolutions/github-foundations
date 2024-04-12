@@ -13,13 +13,13 @@ inputs:
 outputs:
     token:
         description: 'The GitHub token'
-        value: ${{ jobs.retrieve_token_and_metadata.outputs.token }}
+        value: ${{ steps.generate_token.outputs.token }}
     app_id:
         description: 'The GitHub app ID'
-        value: ${{ jobs.retrieve_token_and_metadata.outputs.app_id }}
+        value: ${{ steps.get_app_ids.outputs.app_id }}
     installation_id:
         description: 'The GitHub installation ID'
-        value: ${{ jobs.retrieve_token_and_metadata.outputs.installation_id }}
+        value: ${{ steps.get_app_ids.outputs.installation_id }}
 
 runs:
     using: 'composite'
