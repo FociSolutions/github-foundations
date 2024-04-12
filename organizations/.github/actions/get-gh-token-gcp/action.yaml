@@ -4,16 +4,13 @@ inputs:
     repo_name:
         description: 'The name of the `org/repository` to retrieve the GH private key from'
         required: true
-    GCP_SERVICE_ACCOUNT:
+    gcp_service_account:
         description: 'The GCP service account to use for authentication'
         required: true
-    WORKLOAD_IDENTITY_PROVIDER:
+    workload_identity_provider:
         description: 'The workload identity provider to use for authentication'
         required: true
 outputs:
-    repo_name:
-        description: 'The name of the `org/repository` to retrieve the GH private key from'
-        value: ${{ inputs.repo_name }}
     token:
         description: 'The GitHub token'
         value: ${{ jobs.retrieve_token_and_metadata.outputs.token }}
@@ -40,8 +37,8 @@ runs:
       id: auth
       uses: google-github-actions/auth@v2
       with:
-        workload_identity_provider: "${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}"
-        service_account: "${{ secrets.GCP_SERVICE_ACCOUNT }}"
+        workload_identity_provider: "${{ inputs.workload_identity_provider }}"
+        service_account: "${{ inputs.gcp_service_account }}"
 
     - name: 'Set up Cloud SDK'
       uses: 'google-github-actions/setup-gcloud@v2'
