@@ -6,7 +6,7 @@ The Government of Canada Source Code Management (SCM) Guardrails describe a prel
 
 Source Code Management services are used to store, manage, and track changes to source code, as well as performing DevOps activities (such as automated deployments, continuous integration, and continuous delivery). The SCM guardrails are designed to ensure that the SCM environment is secure and that the source code is protected from unauthorized access, modification, or deletion.
 
-Departments are responsible for implementing the minimum configurations identified in the following tables.
+In order to reduce complexity and avoid repetition, controls and specifications have been listed under the table that is the best fit. As such, the guardrails are intended to be taken in as a whole and not by examining select tables separate from others. Departments are responsible for implementing the minimum configurations identified in the below tables.
 
 ## Definitions
 
