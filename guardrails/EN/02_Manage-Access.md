@@ -1,10 +1,10 @@
-# Manage Access
+# Manage Role Access
 
 ([Back](../../GUARDRAILS.md))
 
 ## Objective
 
-Establish access control policies and procedures for management of all accounts.
+Establish access control policies and procedures for management of all accounts at group or role-based levels.
 This section contains the Guardrails that address controls in the:
 
 - Access Control (AC)
