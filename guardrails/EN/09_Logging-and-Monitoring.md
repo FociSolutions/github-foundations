@@ -29,6 +29,8 @@ families.
 | Enable Secret-scanning and vulnerability scanning. | <ul><li>Turn on automatic secret scanning and vulnerability scanning.</li></ul> |
 | Enable dependency scanning. | <ul><li>Confirm that automatic dependency scanning is enabled.</li></ul> |
 | Ensure that resources are assigned to monitor SCM-based events | <ul><li>Demonstrate that the monitoring use cases for the SCM platform have been implemented and have been integrated with the overall security monitoring activities being performed by the department (evidence could include monitoring a checklist or a system generated report).</li></ul> |
+| Audit the use of privileged functions | <ul><li>Confirm that auditing of the use of privileged functions is enabled for all user accounts.</li></ul> |
+
 
 ## Additional Considerations
 
