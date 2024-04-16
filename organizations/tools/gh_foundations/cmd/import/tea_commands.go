@@ -80,7 +80,7 @@ func resolveResourceId(address string, archive types.TerragruntPlanArchive) tea.
 
 func runTerragruntImport(archive types.TerragruntPlanArchive, address string, id string) tea.Cmd {
 	return func() tea.Msg {
-		err, errBytes := functions.RunImportCommand(archive, address, id)
+		errBytes, err := functions.RunImportCommand(archive, address, id)
 		if err != nil {
 			return errMsg{fmt.Errorf("error running import command: %s", errBytes.String())}
 		}

@@ -26,13 +26,13 @@ func ArchivePlan(modulePath string, planName string) (*types.TerragruntPlanArchi
 	return planArchive, nil
 }
 
-func RunImportCommand(archive types.TerragruntPlanArchive, address string, id string) (error, bytes.Buffer) {
+func RunImportCommand(archive types.TerragruntPlanArchive, address string, id string) (bytes.Buffer, error) {
 	errorBytes := bytes.Buffer{}
 	importCmd := exec.Command("terragrunt", "import", address, id)
 	importCmd.Stderr = &errorBytes
 	importCmd.Stdout = nil
 	importCmd.Dir = archive.ModuleDir
-	return importCmd.Run(), errorBytes
+	return errorBytes, importCmd.Run()
 }
 
 func CreateImportIdResolver(resourceAddress string, stateExplorer terraform_state.IStateExplorer) types.ImportIdResolver {
@@ -51,6 +51,14 @@ func CreateImportIdResolver(resourceAddress string, stateExplorer terraform_stat
 		return &types.RepositoryBranchDefaultImportIdResolver{StateExplorer: stateExplorer}
 	case "github_repository_collaborators":
 		return &types.RepositoryCollaboratorsImportIdResolver{StateExplorer: stateExplorer}
+	case "github_actions_secret", "github_codespaces_secret", "dependabot_secret":
+		return &types.RepositorySecretsImportIdResolver{StateExplorer: stateExplorer}
+	case "github_repository_dependabot_security_updates":
+		return &types.RepositoryDependabotSecurityUpdatesImportIdResolver{StateExplorer: stateExplorer}
+	case "github_repository_environment":
+		return &types.RepositoryEnvironmentImportIdResolver{StateExplorer: stateExplorer}
+	case "github_repository_ruleset":
+		return &types.RepositoryRulesetImportIdResolver{StateExplorer: stateExplorer}
 	default:
 		return nil
 	}
