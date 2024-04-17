@@ -6,19 +6,12 @@
 
 Implement increased levels of protection for management interfaces.
 
-This section contains the Guardrails that address controls in the:
+This section contains the Guardrails that address controls in the following areas:
 
 - Access Control (AC)
 - Auditing and Accountability (AU)
 - Identification and Authentication (IA)
 - System Information and Integrity (SI)
-
-families.
-
-## Applicable Service Models
-
-- Software as a Service (SaaS)
-    - Specifically, DevOps and Source Code management tools
 
 ## Mandatory Requirements
 
@@ -27,7 +20,7 @@ families.
 | The system Monitors and Controls Remote Access Methods | <ul><li>Set, via configuration, the rules around remote access</li><li>Log and audit all remote access</li></ul> |
 | Encryption of Remote Access Sessions | <ul><li>Ensure that all remote access sessions are encrypted</li><li>Ensure that the encryption is in accordance with the GC [Encryption Guidance](https://www.cyber.gc.ca/en/guidance/cryptographic-algorithms-unclassified-protected-protected-b-information-itsp40111)</li></ul> |
 
-## Additional Considerations
+## Conditional Requirements
 
 ### Self-hosting considerations
 
