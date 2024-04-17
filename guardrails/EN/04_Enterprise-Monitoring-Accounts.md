@@ -18,14 +18,15 @@ This section contains the Guardrails that address controls in the following cont
 | Activity  | Validation |
 | --- | --- |
 | Create role-based accounts to enable enterprise monitoring and visibility for cloud environments that are procured via the GC Cloud Broker or are included in the scope of centralized guardrails validation. | <ul><li>Verify that roles required to enable visibility in the GC have been provisioned or assigned.</li></ul> |
-| Review access privileges periodically and remove access when it is no longer required. | <ul><li>Confirm that alerts to authorized personnel have been implemented to flag misuse, suspicious sign-in attempts, or when changes are made to privileged and non-privileged accounts.</li></ul> |
+| Maintain healthy management of associated rols. | <ul><li>Verify the implementation of controls listed under [Manage Role Access](./02_Manage-Role-Access.md)</li></ul> |
+| Have a plan in place for responding to security incidents detected through monitoring, including roles and responsibilities, communication plans, and recovery procedures. | <ul><li>Provide evidence that a plan is in place for responding to security incidents detected through monitoring, including roles and responsibilities, communication plans, and recovery procedures.</li></ul> |
 
 ## Conditional Requirements
 
 | Activity  | Validation |
 | --- | --- |
-|  Integrate the SCM with a Security Information and Event Management (SIEM) system to centralize log analysis and alerting.| <ul><li>Provide evidence that the SCM is integrated with a SIEM system to centralize log analysis and alerting.</li></ul> |
-| Have a plan in place for responding to security incidents detected through monitoring, including roles and responsibilities, communication plans, and recovery procedures. | <ul><li>Provide evidence that a plan is in place for responding to security incidents detected through monitoring, including roles and responsibilities, communication plans, and recovery procedures.</li></ul> |
+|  Integrate the SCM with a Security Information and Event Management (SIEM) system if available to centralize log analysis and alerting.| <ul><li>Provide evidence that the SCM is integrated with a SIEM system to centralize log analysis and alerting.</li></ul> |
+
 
 ## References
 
