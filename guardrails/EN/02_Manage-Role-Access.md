@@ -11,11 +11,6 @@ This section contains the Guardrails that address controls in the following area
 - Identification and Authentication (IA)
 
 
-## Applicable Service Models
-
-- Software as a Service (SaaS)
-    - Specifically, DevOps and Source Code management tools
-
 ## Mandatory Requirements
 
 | Activity | Validation |
