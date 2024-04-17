@@ -23,7 +23,7 @@ This guardrail document relates to Software as a Service (SaaS), specifically De
 | ID. | SCM Guardrails |
 | --- | --- |
 | 01  | [Protect User Accounts and Identities](./guardrails/EN/01_Protect-user-accounts-and-identities.md) |
-| 02  | [Manage Access](./guardrails/EN/02_Manage-Access.md) |
+| 02  | [Manage Access](./guardrails/EN/02_Manage-Role-Access.md) |
 | 03  | [Secure Endpoints](./guardrails/EN/03_Secure-Endpoints.md) |
 | 04  | [Enterprise monitoring accounts](./guardrails/EN/04_Enterprise-Monitoring-Accounts.md) |
 | 05  | [Data location](./guardrails/EN/05_Data-Location.md) |
