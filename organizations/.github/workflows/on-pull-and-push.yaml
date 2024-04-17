@@ -25,6 +25,11 @@ jobs:
       issues: 'write'
     name: "Terraform Plan and Apply"
     runs-on: ubuntu-latest
+    concurrency:
+      group: terraform-plan-and-apply
+      cancel-in-progress: false
+    outputs:
+      lock_files: ${{ steps.find-stale-lock-files.outputs.stale_lock_files }}
     defaults:
       run:
         shell: bash
@@ -41,6 +46,7 @@ jobs:
       - name: GCP Auth
         id: auth
         uses: google-github-actions/auth@v2
+
         with:
           workload_identity_provider: "${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}"
           service_account: "${{ secrets.GCP_SERVICE_ACCOUNT }}"
@@ -68,8 +74,17 @@ jobs:
           tg_dir: ${{ env.working_dir }}
           tg_command: 'run-all plan -out tfplan'
 
+      - name: Check if there are any changes
+        id: changes
+        run: |
+          if [ -f tfplan ]; then
+            PLAN=$(cat tfplan)
+            echo "plan_size=$(echo "${PLAN}" | grep -c) " >> $GITHUB_OUTPUT
+          fi
+
       - name: Terragrunt Plan Condensing
         id: condense
+        if: steps.changes.outputs.plan_size > 0
         uses: gruntwork-io/terragrunt-action@v2
         continue-on-error: true
         with:
@@ -80,15 +95,16 @@ jobs:
 
       - name: Terragrunt Plan Cleaning
         id: clean
+        if: steps.changes.outputs.plan_size > 0
         run: |
           TG_OUT=$(echo "${{ steps.condense.outputs.tg_action_output }}" | sed 's|%0A|\n|g')
-          echo "PLAN<<EOF" >> $GITHUB_ENV
-          echo "$TG_OUT" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+          echo "condensed_plan<<EOF" >> $GITHUB_OUTPUT
+          echo "$TG_OUT" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Update Pull Request
         uses: actions/github-script@v7
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && steps.changes.outputs.plan_size > 0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -100,7 +116,7 @@ jobs:
             <details><summary>Show Plan</summary>
 
             \`\`\`\n
-            ${process.env.PLAN}
+            ${{ steps.clean.outputs.condensed_plan }}
             \`\`\`
 
             </details>
@@ -116,7 +132,7 @@ jobs:
 
       - name: Check/Count Deletions
         id: deletions
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && steps.changes.outputs.plan_size > 0
         continue-on-error: true
         run: |
           DELETIONS="$(echo "${{ env.PLAN }}" | grep -c 'will be destroyed')"
@@ -153,10 +169,59 @@ jobs:
         run: exit 1
 
       - name: Terragrunt Apply
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push' && steps.changes.outputs.plan_size > 0
         uses: gruntwork-io/terragrunt-action@v2
         with:
           tf_version: ${{ env.tf_version }}
           tg_version: ${{ env.tg_version }}
           tg_dir: ${{ env.working_dir }}
           tg_command: 'run-all apply --terragrunt-no-color'
+
+      - name: Find stale Terraform lock files
+        id: find-stale-lock-files
+        uses: FociSolutions/github-foundations/organizations/.github/actions/find-tf-lockfiles@fix-pull-and-push-plan-fail-cleanup
+        if: failure()
+        with:
+          terragrunt_output: ${{ steps.plan.outputs.tg_action_output }}
+          tf_state_path: "gs://${{ vars.TF_STATE_BUCKET_NAME }}/terraform/github-foundations/organizations/"
+
+  clean-stale-locks:
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+      pull-requests: 'write'
+      issues: 'write'
+    name: "Clean Stale Locks"
+    runs-on: ubuntu-latest
+    concurrency:
+      group: terraform-plan-and-apply
+      cancel-in-progress: false
+    needs: terraform-plan-and-apply
+    if: failure() && needs.terraform-plan-and-apply.outputs.lock_files
+    strategy:
+      fail-fast: false
+      matrix:
+        lock_file_info: ${{ fromJson(needs.terraform-plan-and-apply.outputs.lock_files).* }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.tf_version }}
+
+      - name: GCP Auth
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: "${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}"
+          service_account: "${{ secrets.GCP_SERVICE_ACCOUNT }}"
+
+      - name: Clean stale locks
+        uses: gruntwork-io/terragrunt-action@v2
+        with:
+          tf_version: ${{ env.tf_version }}
+          tg_version: ${{ env.tg_version }}
+          tg_dir: ${{ matrix.lock_file_info.path }}
+          tg_command: "force-unlock -force ${{ matrix.lock_file_info.id }}"
