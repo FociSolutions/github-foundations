@@ -29,10 +29,10 @@ This section contains the Guardrails that address controls in the following area
 | Implement Endpoint Management Configuration Requirements | <ul><li>Implement the [Endpoint Management Configuration Requirements](https://www.canada.ca/en/government/system/digital-government/policies-standards/enterprise-it-service-common-configurations/endpoint.html)</li></ul> |
 | Implement antivirus and anti-malware solutions on endpoints that access the SCM. Regularly update these solutions to protect against the latest threats. | <ul><li>Provide evidence that antivirus and anti-malware solutions are implemented on endpoints that access the SCM.</li></ul> |
 | Use firewalls to control inbound and outbound network traffic to the SCM. Only allow necessary traffic. | <ul><li>Provide evidence that firewalls are used to control inbound and outbound network traffic to the SCM.</li></ul> |
-| If your SCM exposes API endpoints, ensure they are secure. This includes using secure protocols (like HTTPS), validating input, and handling errors securely. | <ul><li>Use secure protocols (like HTTPS), validate input, and handle errors securely.</li></ul> |
+| Ensure any exposed endpoints are secure. This includes using secure protocols (like HTTPS), validating input, and handling errors securely. | <ul><li>Use secure protocols (like HTTPS), validate input, and handle errors securely.</li></ul> |
 |  Regularly update the SCM and any related software to fix known security vulnerabilities. | <ul><li>Provide evidence that the SCM and related software are regularly updated.</li></ul> |
-| If possible, isolate the network segment that the SCM resides on to limit the potential impact of a breach.| <ul><li>Provide evidence that the network segment that the SCM resides on is isolated from other network segments.</li></ul> |
-| If users access the SCM remotely, consider requiring a Virtual Private Network (VPN) for additional security. | <ul><li>Provide evidence that users access the SCM remotely using a VPN.</li></ul> |
+| Isolate the network segment that the SCM resides on to limit the potential impact of a breach.| <ul><li>Provide evidence that the network segment that the SCM resides on is isolated from other network segments.</li></ul> |
+| If users access the SCM remotely, require a Virtual Private Network (VPN) for additional security. | <ul><li>Provide evidence that users access the SCM remotely using a VPN.</li></ul> |
 
 ## References
 
