@@ -179,7 +179,7 @@ jobs:
 
       - name: Find stale Terraform lock files
         id: find-stale-lock-files
-        uses: FociSolutions/github-foundations/organizations/.github/actions/find-tf-lockfiles@fix-pull-and-push-plan-fail-cleanup
+        uses: FociSolutions/github-foundations/organizations/.github/actions/find-tf-lockfiles@main
         if: failure()
         with:
           terragrunt_output: ${{ steps.plan.outputs.tg_action_output }}
