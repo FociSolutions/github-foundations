@@ -5,19 +5,13 @@
 
 ## Objective
 
-Create role-based account to enable enterprise monitoring and visibility
-This section contains the Guardrails that address controls in the:
+Create role-based account to enable enterprise monitoring and visibility.  
+This section contains the Guardrails that address controls in the following contexts:
 
 - Access Control (AC)
 - Audit and Accountability (AU)
 - Identification and Authentication (IA)
 
-families.
-
-## Applicable Service Models
-
-- Software as a Service (SaaS)
-    - Specifically, DevOps and Source Code management tools
 
 ## Mandatory Requirements
 
@@ -26,7 +20,7 @@ families.
 | Create role-based accounts to enable enterprise monitoring and visibility for cloud environments that are procured via the GC Cloud Broker or are included in the scope of centralized guardrails validation. | <ul><li>Verify that roles required to enable visibility in the GC have been provisioned or assigned.</li></ul> |
 | Review access privileges periodically and remove access when it is no longer required. | <ul><li>Confirm that alerts to authorized personnel have been implemented to flag misuse, suspicious sign-in attempts, or when changes are made to privileged and non-privileged accounts.</li></ul> |
 
-## Additional Considerations
+## Conditional Requirements
 
 | Activity  | Validation |
 | --- | --- |
