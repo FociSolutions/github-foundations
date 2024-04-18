@@ -26,11 +26,10 @@ This guardrail document relates to Software as a Service (SaaS), specifically De
 | 02  | [Manage Access](./guardrails/EN/02_Manage-Role-Access.md) |
 | 03  | [Secure Endpoints](./guardrails/EN/03_Secure-Endpoints.md) |
 | 04  | [Enterprise monitoring accounts](./guardrails/EN/04_Enterprise-Monitoring-Accounts.md) |
-| 05  | [Data location](./guardrails/EN/05_Data-Location.md) |
-| 06  | [Implement Data Protection](./guardrails/EN/06_Implement-Data-Protection.md) |
-| 07  | [Network security services](./guardrails/EN/07_Network-Security-Services.md) |
-| 08  | [Cyber defense services](./guardrails/EN/08_Cyber-Defense-Services.md) |
-| 09  | [Logging and monitoring](./guardrails/EN/09_Logging-and-Monitoring.md) |
+| 05  | [Data Protection](./guardrails/EN/05_Data-Protection.md) |
+| 06  | [Network security services](./guardrails/EN/06_Network-Security-Services.md) |
+| 07  | [Cyber defense services](./guardrails/EN/07_Cyber-Defense-Services.md) |
+| 08  | [Logging and monitoring](./guardrails/EN/08_Logging-and-Monitoring.md) |
 
 
 ## After the first 30 business days
