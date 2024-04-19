@@ -6,30 +6,24 @@
 
 Establish external and internal network perimeters and monitor network traffic.
 
-## Applicable Service Models
-
-- Software as a Service (SaaS)
-    - Specifically, DevOps and Source Code management tools
 
 ## Mandatory Requirements
 
 | Activity | Validation |
  --- | --- |
-| Enable Access Logging | <ul><li>Ensure that all access to the SCM is logged and monitored for suspicious activity.</li></ul> |
 | Use HTTPS for all network traffic | <ul><li>Ensure that all network traffic to and from the SCM is encrypted.</li></ul> |
 
-## Additional Considerations
+## Conditional Requirements
 
 | Activity |    Validation |
 | --- | --- |
-| Separate Public and Private Repositories | <ul><li>Publicly accessible repositories should be separated from private repositories used for internal development</li></ul> |
+| When using Public and Private Repositories, keep them separate | <ul><li>Publicly accessible repositories should be separated from private repositories used for internal development</li></ul> |
 
 ### Self-hosting considerations
 
 | Activity | Validation |
 | --- | --- |
 | Network Segmentation | <ul><li>Ensure that the SCM is hosted on a separate network segment from the internal organizational network.</li></ul> |
-| Using different accounts | <ul><li>Use different accounts for administrative and non-administrative tasks.</li></ul> |
 | Using Managed Interfaces | <ul><li>Connect to the SCM only through managed interfaces, such as a VPN or a secure API.</li></ul> |
 | Using Boundary Protection | <ul><li>Use firewalls and other boundary protection devices to control access to the SCM.</li></ul> |
 | Performing Regular Audits | <ul><li>Regularly audit the security configuration of the SCM and the boundary protection devices to ensure they are in accordance with the organizational security architecture.</li></ul> |

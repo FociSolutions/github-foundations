@@ -1,21 +1,15 @@
-# Manage Access
+# Manage Role Access
 
 ([Back](../../GUARDRAILS.md))
 
 ## Objective
 
-Establish access control policies and procedures for management of all accounts.
-This section contains the Guardrails that address controls in the:
+Establish access control policies and procedures for management of all accounts at group or role-based levels.
+This section contains the Guardrails that address controls in the following areas:
 
 - Access Control (AC)
 - Identification and Authentication (IA)
 
-family
-
-## Applicable Service Models
-
-- Software as a Service (SaaS)
-    - Specifically, DevOps and Source Code management tools
 
 ## Mandatory Requirements
 
@@ -23,17 +17,13 @@ family
 | --- | --- |
 | Implement a mechanism to enforce access authorizations for all user accounts, based on criteria in the Directive on Service and Digital, Appendix G: Standard on Enterprise Information Technology Service Common Configurations, and in [section 3 of the Account Management Configuration Requirements](https://www.canada.ca/en/government/system/digital-government/policies-standards/enterprise-it-service-common-configurations/account.html#cha3) |<ul><li>Demonstrate access configurations and policies are implemented for different classes of users (non-privileged, and privileged users).</li><li>Confirm that the access authorization mechanisms have been implemented to: <ul><li>Uniquely identify and authenticate users to the cloud service</li> <li>Validating that the least privilege role is assigned</li> <li>Validating that Role Based Access is implemented</li> <li>terminate role assignment upon job change or termination</li> <li>Perform periodic reviews of role assignment (minimum yearly)</li> <li>Disable default and dormant accounts</li> <li>Avoid using of user generic accounts.</li> </ul></li><li>Verify that a review of role assignment for root or global administrator accounts is performed at least every 12 months.</li></ul> |
 | Leverage role-based access and configure for least privilege doing so can include built-in roles or custom roles that have been established with only the minimum number of privileges required to perform the job function. | <ul><li>Demonstrate that built-in roles on the SCM platform are configured for least privilege. Custom roles can be used but a rationale should be documented and approved.</li></ul> |
-| Configure the default password policy in accordance with GC [Password Guidance](https://www.canada.ca/en/government/system/digital-government/online-security-privacy/password-guidance.html). | <ul><li>Demonstrate that password policy for the SCM platform has been configured according to the Password Guidance by:<ul><li>requiring passwords that are at least 12 characters long without a maximum length limit</li><li>countering online guessing or brute force of passwords using throttling, account lockout policies, monitoring and multi-factor authentication</li><li>protecting against offline attacks using effective hashing, salting and keyed hashing.</li></ul></li></ul> |
-| Implement password protection mechanisms to protect against password brute force attacks.| <ul><li>Confirm that mechanisms, such as throttling, account lock out policies, monitoring and risk-based authentication, to protect against password brute force attacks have been implemented.</li></ul> |
-| Implement secure session management, including automatic logouts after periods of inactivity and re-authentication for sensitive operations. | <ul><li>Provide evidence that secure session management is implemented, including automatic logouts after periods of inactivity and re-authentication for sensitive operations.</li></ul> |
-| If your SCM uses service accounts for automation, ensure they are securely managed and have the minimum necessary permissions. | <ul><li>Provide evidence that service accounts are securely managed and have the minimum necessary permissions.</li></ul> |
 | Establish a guest user access policy and procedures that minimize the number of guest users and that manage the life cycle of such accounts so that such accounts are terminated when they are no longer needed. <br><br><p>**Note:** a guest is someone who is not an employee, student or member of your organization (a guest does not have an existing account with the organization’s SCM platform).<p> | <ul><li>Confirm that only required guest user accounts are enabled (according to the business requirements of the service)</li><li>Provide a list of non-organizational users with elevated privileges.</li><li>Verify that reviews of guest access are performed periodically.</li></ul> |
-| Audit the use of privileged functions | <ul><li>Confirm that auditing of the use of privileged functions is enabled for all user accounts.</li></ul> |
 
-## Additional Considerations
+## Conditional Requirements
 
 | Activity | Validation |
 | --- | --- |
+| If your SCM uses service accounts for automation, ensure they are securely managed and have the minimum necessary permissions. | <ul><li>Provide evidence that service accounts are securely managed and have the minimum necessary permissions.</li></ul> |
 | Document a process for managing accounts, access privileges, and access credentials for organizational users and non-organizational users (if required), based on criteria listed in the Directive on Service and Digital, [Appendix G: Standard on Enterprise Information Technology Service Common Configurations](https://www.tbs-sct.canada.ca/pol/doc-eng.aspx?id=32713), and in [section 3 of the Account Management Configuration Requirements](https://www.canada.ca/en/government/system/digital-government/policies-standards/enterprise-it-service-common-configurations/account.html#cha3). This process should be approved by the chief security officer (or their delegate) and by the designated official for cyber security. | <ul><li>Confirm that the access control procedure for management of administrative accounts has been documented for the SCM platform. The access control procedure:<ul><li>should include provision for any guest accounts and custom accounts</li><li>must refer to the emergency break glass procedure</li></ul></li></ul> |
 | Enforce just-in-time access for privileged user accounts to provide time-based and approval-based role activation to mitigate the risks of excessive, unnecessary or misused access permissions. | <ul><li>Confirm just-in-time access for all privileged user accounts to provide time-based and approval-based role activation.</li></ul> |
 | Enforce attribute-based access control to restrict access based on a combination of authentication factors, such as devices issued and managed by the GC, device compliance, sign-in and user risks, and location | <ul><li>Provide evidence that attribute-based access control mechanisms are in place to restrict access based on attributes or signals, such as authentication factors, devices issued and managed by the GC, device compliance, sign-in and user risks, and location...</li></ul> |
