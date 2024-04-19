@@ -74,12 +74,17 @@ jobs:
           tg_dir: ${{ env.working_dir }}
           tg_command: 'run-all plan -out tfplan'
 
-      - name: Check if there are any changes
+
+      - name: Check whether there are any changes
         id: changes
         run: |
-          if [ -f tfplan ]; then
-            PLAN=$(cat tfplan)
-            echo "plan_size=$(echo "${PLAN}" | grep -c) " >> $GITHUB_OUTPUT
+          tfplan=$(cat<<EOF
+          ${{ steps.plan.outputs.tg_action_output }}
+          EOF
+          )
+          if [ -n "$tfplan" ]; then
+            echo "plan_size=$(echo "${tfplan}" | wc -l) "
+            echo "plan_size=$(echo "${tfplan}" | wc -l) " >> $GITHUB_OUTPUT
           fi
 
       - name: Terragrunt Plan Condensing
@@ -135,12 +140,21 @@ jobs:
         if: github.event_name == 'pull_request' && steps.changes.outputs.plan_size > 0
         continue-on-error: true
         run: |
-          DELETIONS="$(echo "${{ env.PLAN }}" | grep -c 'will be destroyed')"
-          echo "DELETIONS=${DELETIONS}" >> $GITHUB_ENV
+          tfplan=$(cat<<EOF
+          ${{ steps.clean.outputs.condensed_plan }}
+          EOF
+          )
+          DELETIONS=0
+          if [ -n "$tfplan" ]; then
+            DELETIONS=$(echo "${tfplan}" | grep -c "will be destroyed" || echo "")
+            echo "The plan is: $(echo "${tfplan}" | wc -l) lines long."
+          fi
+
+          echo "deletions=${DELETIONS}" >> $GITHUB_OUTPUT
           echo "${DELETIONS} Deletion(s) found in the plan."
 
       - name: Comment on PR if deletions
-        if: github.event_name == 'pull_request' && env.DELETIONS > 0
+        if: github.event_name == 'pull_request' && steps.deletions.outputs.deletions > 0
         uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
