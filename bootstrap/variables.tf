@@ -45,3 +45,15 @@ variable "github_enterprise_organizations" {
   description = "A map of organizations to create in the enterprise account."
   default     = {}
 }
+
+variable "github_account_type" {
+  type        = string
+  description = "The type of github account being used. Can be 'Personal', 'Organization', or 'Enterprise'."
+
+  validation {
+    condition     = var.github_account_type == "Personal" || var.github_account_type == "Organization" || var.github_account_type == "Enterprise"
+    error_message = "The github_account_type value must be 'Personal', 'Organization', or 'Enterprise'."
+  }
+
+
+}

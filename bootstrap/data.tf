@@ -4,5 +4,5 @@ locals {
 
 data "github_enterprise" "enterprise_account" {
   count = local.no_enterprise_account ? 0 : 1
-  slug = var.github_enterprise_slug
+  slug  = var.github_enterprise_slug
 }

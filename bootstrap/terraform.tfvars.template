@@ -2,6 +2,8 @@ org_id = "<REPLACE-ME>"
 
 billing_account = "<REPLACE-ME>"
 
+github_account_type = "Enterprise"      # "Personal", "Organization", "Enterprise"
+
 github_enterprise_slug = "<REPLACE-ME>"
 
 github_foundations_organization_name = "<REPLACE-ME>"
@@ -18,6 +20,6 @@ github_enterprise_organizations = {
     #   display_name  = "Uncaffeinated Solutions"
     #   description   = "Needs Caffeine
     #   billing_email = "billing@uncaffeinated.com
-    #   admin_logins  = ["fred@uncaffeinated.com" ]  
+    #   admin_logins  = ["fred@uncaffeinated.com" ]
     # }
 }
