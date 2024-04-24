@@ -13,13 +13,16 @@ This section contains the Guardrails that address controls in the following cont
 
 ## Conditional Requirements
 
+| Activity | Validation |
+| --- | --- |
+| Develop an SCM backup strategy that considers where GC data is stored, replicated, or backed up by the SCM service, and the IT continuity plan for the service or application. | <ul><li>Confirm through attestation that the SCM backup strategy is developed and approved by the business owner.</li><li>Verify if there are scripts that support the ability to restore from code (for example, infrastructure as code).</li></ul> |
+
 ### Self-hosting considerations
 
 | Activity | Validation |
 | --- | --- |
 | Document, implement, and test a break glass emergency account management process. | <ul> <li>Verify that an emergency account management procedure has been developed</li><li>Verify that alerts are in place to report any use of emergency accounts</li> <li>Verify that testing of emergency accounts took place, and that periodic testing is included in emergency account management procedures.</li> </ul> |
 | Obtain confirmation from the departmental chief information officer (CIO) in collaboration with the designated official for cyber security (DOCS) with signatures that acknowledge and approve the emergency account management procedures. | <ul><li>Confirm through attestation that the departmental CIO, in collaboration with the DOCS, has approved the emergency account management procedure for the SCM service.</li> </ul> |
-| Develop an SCM backup strategy that considers where GC data is stored, replicated, or backed up by the SCM service, and the IT continuity plan for the service or application. | <ul><li>Confirm through attestation that the SCM backup strategy is developed and approved by the business owner.</li><li>Verify if there are scripts that support the ability to restore from code (for example, infrastructure as code).</li></ul> |
 
 ## References
 
