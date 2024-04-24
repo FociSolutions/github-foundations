@@ -16,7 +16,7 @@ This section contains the Guardrails that address controls in the following cont
 | Activity | Validation |
 | --- | --- |
 | Use threat-detection services that monitor for and alert on suspicious activity, such as multiple failed login attempts, unusual data access patterns, or known malicious IP addresses. | <ul><li>Ensure, at a minimum, that the activity is logged and sent to a SIEM (Security Information and Event Management) tool for analysis.</li></ul> |
-| Ensure all changes to the SCM configuration are reviewed and approved by an authorized individual. | <ul><li>Use Pull Requests or Merge Requests to review and approve changes to the SCM configuration.</li></ul> |
+| Ensure all changes to the SCM configuration are reviewed and approved by an authorized individual. | <ul><li>Use documented processes to review and approve changes to the SCM configuration</li><li>When using configuration-as-code, Use Pull Requests or Merge Requests to review and approve changes to the SCM configuration.</li></ul> |
 
 
 ## Conditional Requirements
