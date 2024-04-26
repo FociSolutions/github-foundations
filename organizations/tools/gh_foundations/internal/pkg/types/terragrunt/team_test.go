@@ -33,7 +33,7 @@ func (s *TeamTestSuite) TestTeamImportIdResolverResolveImportId() {
 	expectedString := "import-id"
 	result := &gjson.Result{Type: gjson.String, Str: expectedString}
 
-	s.mockStateExplorer.On("GetResourceChangeAfterAttribute", resourceAddress, "name").Return(result, nil)
+	s.mockStateExplorer.EXPECT().GetResourceChangeAfterAttribute(resourceAddress, "name").Return(result, nil)
 
 	importID, err := s.resolver.ResolveImportId(resourceAddress)
 
@@ -47,7 +47,7 @@ func (s *TeamTestSuite) TestTeamImportIdResolverResolveImportIdGJsonErrorFailure
 	expectedString := ""
 	expectedErr := errors.New("gjson error")
 
-	s.mockStateExplorer.On("GetResourceChangeAfterAttribute", resourceAddress, "name").Return(nil, expectedErr)
+	s.mockStateExplorer.EXPECT().GetResourceChangeAfterAttribute(resourceAddress, "name").Return(nil, expectedErr)
 
 	importID, err := s.resolver.ResolveImportId(resourceAddress)
 
@@ -62,7 +62,7 @@ func (s *TeamTestSuite) TestTeamImportIdResolverResolveImportIdKeyDoesNotExistFa
 	expectedString := ""
 	result := &gjson.Result{Type: gjson.Null}
 
-	s.mockStateExplorer.On("GetResourceChangeAfterAttribute", resourceAddress, "name").Return(result, nil)
+	s.mockStateExplorer.EXPECT().GetResourceChangeAfterAttribute(resourceAddress, "name").Return(result, nil)
 
 	importID, err := s.resolver.ResolveImportId(resourceAddress)
 
@@ -95,8 +95,8 @@ func (s *TeamMemberTestSuite) TestTeamMemberImportIdResolverResolveImportId() {
 	usernameResult := &gjson.Result{Type: gjson.String, Str: "username"}
 	expectedImportID := "team:username"
 
-	s.mockStateExplorer.On("GetResourceChangeAfterAttribute", resourceAddress, "team_id").Return(teamIdResult, nil).Once()
-	s.mockStateExplorer.On("GetResourceChangeAfterAttribute", resourceAddress, "username").Return(usernameResult, nil).Once()
+	s.mockStateExplorer.EXPECT().GetResourceChangeAfterAttribute(resourceAddress, "team_id").Return(teamIdResult, nil).Once()
+	s.mockStateExplorer.EXPECT().GetResourceChangeAfterAttribute(resourceAddress, "username").Return(usernameResult, nil).Once()
 
 	importID, err := s.resolver.ResolveImportId(resourceAddress)
 
@@ -110,14 +110,14 @@ func (s *TeamMemberTestSuite) TestTeamMemberImportIdResolverResolveImportIdGjson
 	teamIdResult := &gjson.Result{Type: gjson.String, Str: "team"}
 	usernameResult := &gjson.Result{Type: gjson.String, Str: "username"}
 
-	s.mockStateExplorer.On("GetResourceChangeAfterAttribute", resourceAddress, "team_id").Return(nil, errors.New("gjson error")).Once()
-	s.mockStateExplorer.On("GetResourceChangeAfterAttribute", resourceAddress, "username").Return(usernameResult, nil).Once()
+	s.mockStateExplorer.EXPECT().GetResourceChangeAfterAttribute(resourceAddress, "team_id").Return(nil, errors.New("gjson error")).Once()
+	s.mockStateExplorer.EXPECT().GetResourceChangeAfterAttribute(resourceAddress, "username").Return(usernameResult, nil).Once()
 
-	s.mockStateExplorer.On("GetResourceChangeAfterAttribute", resourceAddress, "team_id").Return(teamIdResult, nil).Once()
-	s.mockStateExplorer.On("GetResourceChangeAfterAttribute", resourceAddress, "username").Return(nil, errors.New("gjson error")).Once()
+	s.mockStateExplorer.EXPECT().GetResourceChangeAfterAttribute(resourceAddress, "team_id").Return(teamIdResult, nil).Once()
+	s.mockStateExplorer.EXPECT().GetResourceChangeAfterAttribute(resourceAddress, "username").Return(nil, errors.New("gjson error")).Once()
 
-	s.mockStateExplorer.On("GetResourceChangeAfterAttribute", resourceAddress, "team_id").Return(nil, errors.New("gjson error")).Once()
-	s.mockStateExplorer.On("GetResourceChangeAfterAttribute", resourceAddress, "username").Return(nil, errors.New("gjson error")).Once()
+	s.mockStateExplorer.EXPECT().GetResourceChangeAfterAttribute(resourceAddress, "team_id").Return(nil, errors.New("gjson error")).Once()
+	s.mockStateExplorer.EXPECT().GetResourceChangeAfterAttribute(resourceAddress, "username").Return(nil, errors.New("gjson error")).Once()
 
 	expectedImportIDs := []string{":username", "team:", ":"}
 	for _, expectedImportID := range expectedImportIDs {

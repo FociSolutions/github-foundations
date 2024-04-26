@@ -1,11 +1,11 @@
 package terragrunt
 
 import (
-	"bytes"
 	"encoding/json"
 	"errors"
 	"gh_foundations/internal/pkg/types"
 	typeMocks "gh_foundations/internal/pkg/types/mocks"
+	"io"
 	"testing"
 
 	"github.com/spf13/afero"
@@ -83,11 +83,11 @@ func (suite *TerragruntArchiveTestSuite) TestPlanFileRunPlan() {
 		OutputFilePath: "path/to/output/file",
 	}
 
-	suite.mockCmdExecutor.On("Run").Return(nil)
-	suite.mockCmdExecutor.On("SetDir", "path/to/module/dir").Return()
-	suite.mockCmdExecutor.On("SetOutput", mock.Anything).Return()
-	suite.mockCmdExecutor.On("SetErrorOutput", mock.Anything).Return()
-	suite.mockCmdExecutor.On("String").Return("")
+	suite.mockCmdExecutor.EXPECT().Run().Return(nil)
+	suite.mockCmdExecutor.EXPECT().SetDir("path/to/module/dir").Return()
+	suite.mockCmdExecutor.EXPECT().SetOutput(mock.Anything).Return()
+	suite.mockCmdExecutor.EXPECT().SetErrorOutput(mock.Anything).Return()
+	suite.mockCmdExecutor.EXPECT().String().Return("")
 
 	targets := []string{"", "test-target"}
 	for _, target := range targets {
@@ -105,14 +105,15 @@ func (suite *TerragruntArchiveTestSuite) TestPlanFileRunPlan() {
 }
 
 func (suite *TerragruntArchiveTestSuite) TestPlanFileRunPlanCommandFailure() {
-	errorBytes := &bytes.Buffer{}
+	var errBufferWriterFunc func(errMessage string)
 	newCommandExecutor = func(_ string, args ...string) types.ICommandExecutor {
 		if args[0] == "plan" {
-			suite.mockCmdExecutor.On("Run").Run(func(args mock.Arguments) {
-				errorBytes.Write([]byte("error bad plan"))
-			}).Return(errors.New("")).Once()
+			suite.mockCmdExecutor.EXPECT().Run().RunAndReturn(func() error {
+				errBufferWriterFunc("error bad plan")
+				return errors.New("")
+			}).Once()
 		} else {
-			suite.mockCmdExecutor.On("Run").Return(nil).Once()
+			suite.mockCmdExecutor.EXPECT().Run().Return(nil).Once()
 		}
 		return suite.mockCmdExecutor
 	}
@@ -124,12 +125,14 @@ func (suite *TerragruntArchiveTestSuite) TestPlanFileRunPlanCommandFailure() {
 	}
 	expectedErrorMessage := "error running plan: error bad plan"
 
-	suite.mockCmdExecutor.On("SetDir", "path/to/module/dir").Return()
-	suite.mockCmdExecutor.On("SetOutput", mock.Anything).Return()
-	suite.mockCmdExecutor.On("SetErrorOutput", mock.Anything).Run(func(args mock.Arguments) {
-		errorBytes = args.Get(0).(*bytes.Buffer)
+	suite.mockCmdExecutor.EXPECT().SetDir("path/to/module/dir").Return()
+	suite.mockCmdExecutor.EXPECT().SetOutput(mock.Anything).Return()
+	suite.mockCmdExecutor.EXPECT().SetErrorOutput(mock.Anything).Run(func(writer io.Writer) {
+		errBufferWriterFunc = func(errMessage string) {
+			writer.Write([]byte(errMessage))
+		}
 	}).Return()
-	suite.mockCmdExecutor.On("String").Return("")
+	suite.mockCmdExecutor.EXPECT().String().Return("")
 
 	err := planFile.RunPlan(nil)
 
@@ -152,11 +155,11 @@ func (suite *TerragruntArchiveTestSuite) TestPlanFileRunPlanFileCreateFailure() 
 	// Expect to see error thrown by the afero read only file system
 	expectedErrorMessage := "operation not permitted"
 
-	suite.mockCmdExecutor.On("Run").Return(nil)
-	suite.mockCmdExecutor.On("SetDir", "path/to/module/dir").Return()
-	suite.mockCmdExecutor.On("SetOutput", mock.Anything).Return()
-	suite.mockCmdExecutor.On("SetErrorOutput", mock.Anything).Return()
-	suite.mockCmdExecutor.On("String").Return("")
+	suite.mockCmdExecutor.EXPECT().Run().Return(nil)
+	suite.mockCmdExecutor.EXPECT().SetDir("path/to/module/dir").Return()
+	suite.mockCmdExecutor.EXPECT().SetOutput(mock.Anything).Return()
+	suite.mockCmdExecutor.EXPECT().SetErrorOutput(mock.Anything).Return()
+	suite.mockCmdExecutor.EXPECT().String().Return("")
 
 	err := planFile.RunPlan(nil)
 
@@ -165,14 +168,15 @@ func (suite *TerragruntArchiveTestSuite) TestPlanFileRunPlanFileCreateFailure() 
 }
 
 func (suite *TerragruntArchiveTestSuite) TestPlanFileRunShowCommandFailure() {
-	errorBytes := &bytes.Buffer{}
+	var errBufferWriterFunc func(errMessage string)
 	newCommandExecutor = func(_ string, args ...string) types.ICommandExecutor {
 		if args[0] == "show" {
-			suite.mockCmdExecutor.On("Run").Run(func(args mock.Arguments) {
-				errorBytes.Write([]byte("error bad plan"))
-			}).Return(errors.New("")).Once()
+			suite.mockCmdExecutor.EXPECT().Run().RunAndReturn(func() error {
+				errBufferWriterFunc("error show failed")
+				return errors.New("")
+			}).Once()
 		} else {
-			suite.mockCmdExecutor.On("Run").Return(nil).Once()
+			suite.mockCmdExecutor.EXPECT().Run().Return(nil).Once()
 		}
 		return suite.mockCmdExecutor
 	}
@@ -182,14 +186,16 @@ func (suite *TerragruntArchiveTestSuite) TestPlanFileRunShowCommandFailure() {
 		ModuleDir:      "path/to/module/dir",
 		OutputFilePath: "path/to/output/file",
 	}
-	expectedErrorMessage := "error outputting plan: error bad plan"
+	expectedErrorMessage := "error outputting plan: error show failed"
 
-	suite.mockCmdExecutor.On("SetDir", "path/to/module/dir").Return()
-	suite.mockCmdExecutor.On("SetOutput", mock.Anything).Return()
-	suite.mockCmdExecutor.On("SetErrorOutput", mock.Anything).Run(func(args mock.Arguments) {
-		errorBytes = args.Get(0).(*bytes.Buffer)
+	suite.mockCmdExecutor.EXPECT().SetDir("path/to/module/dir").Return()
+	suite.mockCmdExecutor.EXPECT().SetOutput(mock.Anything).Return()
+	suite.mockCmdExecutor.EXPECT().SetErrorOutput(mock.AnythingOfType("*bytes.Buffer")).Run(func(writer io.Writer) {
+		errBufferWriterFunc = func(errMessage string) {
+			writer.Write([]byte(errMessage))
+		}
 	}).Return()
-	suite.mockCmdExecutor.On("String").Return("")
+	suite.mockCmdExecutor.EXPECT().String().Return("")
 
 	err := planFile.RunPlan(nil)
 
