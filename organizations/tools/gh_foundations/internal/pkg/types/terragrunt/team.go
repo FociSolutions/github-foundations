@@ -1,8 +1,11 @@
 package terragrunt
 
 import (
+	"errors"
 	"fmt"
 	"gh_foundations/internal/pkg/types/terraform_state"
+
+	"github.com/tidwall/gjson"
 )
 
 type TeamImportIdResolver struct {
@@ -14,7 +17,7 @@ func (t *TeamImportIdResolver) ResolveImportId(resourceAddress string) (string, 
 	if err != nil {
 		return "", err
 	} else if !name.Exists() {
-		return "", fmt.Errorf("unable to resolve import id: unexpected error occurred")
+		return "", fmt.Errorf("unable to resolve import id: missing %q attribute", "name")
 	}
 
 	return name.String(), nil
@@ -25,21 +28,28 @@ type TeamMemberImportIdResolver struct {
 }
 
 func (t *TeamMemberImportIdResolver) ResolveImportId(resourceAddress string) (string, error) {
-	// var teamId, username any
-	// var exists bool
+	var allErrors error
 	teamId, err := t.StateExplorer.GetResourceChangeAfterAttribute(resourceAddress, "team_id")
 	if err != nil {
-		return "", err
+		allErrors = errors.Join(allErrors, err)
 	} else if !teamId.Exists() {
-		return "", fmt.Errorf("unable to resolve import id: unexpected error occurred")
+		allErrors = errors.Join(allErrors, fmt.Errorf("unable to resolve import id: missing %q attribute", "team_id"))
 	}
 
 	username, err := t.StateExplorer.GetResourceChangeAfterAttribute(resourceAddress, "username")
 	if err != nil {
-		return "", err
+		allErrors = errors.Join(allErrors, err)
 	} else if !username.Exists() {
-		return "", fmt.Errorf("unable to resolve import id: unexpected error occurred")
+		allErrors = errors.Join(allErrors, fmt.Errorf("unable to resolve import id: missing %q attribute", "username"))
 	}
 
-	return fmt.Sprintf("%s:%s", teamId.String(), username.String()), nil
+	if teamId == nil {
+		teamId = &gjson.Result{Type: gjson.String, Str: ""}
+	}
+
+	if username == nil {
+		username = &gjson.Result{Type: gjson.String, Str: ""}
+	}
+
+	return fmt.Sprintf("%s:%s", teamId.String(), username.String()), allErrors
 }

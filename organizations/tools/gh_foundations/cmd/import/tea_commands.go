@@ -4,13 +4,14 @@ import (
 	"fmt"
 	"gh_foundations/internal/pkg/functions"
 	types "gh_foundations/internal/pkg/types/terragrunt"
+	"os"
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/tidwall/gjson"
 )
 
 type planAndArchiveMsg struct {
-	archive           types.TerragruntPlanArchive
+	archive           types.IPlanFile
 	resourceAddresses []string
 }
 
@@ -20,9 +21,17 @@ type resolveResourceIdMsg string
 
 type errMsg struct{ err error }
 
-func generatePlanArchive(modulePath string) tea.Cmd {
+func generatePlanFile(modulePath string) tea.Cmd {
 	return func() tea.Msg {
-		planArchive, err := functions.ArchivePlan(modulePath, "plan")
+		moduleDir := functions.GetTerragruntModuleDir(modulePath)
+		planName := "import_plan"
+		outputFilePath := moduleDir + string(os.PathSeparator) + planName + ".json"
+		planArchive, err := types.NewTerragruntPlanFile(planName, modulePath, moduleDir, outputFilePath)
+		if err != nil {
+			return errMsg{err}
+		}
+
+		err = planArchive.RunPlan(nil)
 		if err != nil {
 			return errMsg{err}
 		}
@@ -44,11 +53,11 @@ func generatePlanArchive(modulePath string) tea.Cmd {
 			return errMsg{err}
 		}
 
-		return planAndArchiveMsg{archive: *planArchive, resourceAddresses: addresses}
+		return planAndArchiveMsg{archive: planArchive, resourceAddresses: addresses}
 	}
 }
 
-func resolveResourceId(address string, archive types.TerragruntPlanArchive) tea.Cmd {
+func resolveResourceId(address string, archive types.IPlanFile) tea.Cmd {
 
 	return func() tea.Msg {
 		explorer, err := archive.GetStateExplorer()
@@ -59,12 +68,12 @@ func resolveResourceId(address string, archive types.TerragruntPlanArchive) tea.
 		if idResolver != nil {
 			id, err := idResolver.ResolveImportId(address)
 			if err != nil {
-				err = archive.RefreshPlan(&address)
+				err = archive.RunPlan(&address)
 				if err != nil {
 					return errMsg{err}
 				}
 
-				err = explorer.SetPlanFile(archive.OutputFilePath)
+				err = explorer.SetPlanFile(archive.GetPlanFilePath())
 				if err != nil {
 					return errMsg{err}
 				}
@@ -78,9 +87,9 @@ func resolveResourceId(address string, archive types.TerragruntPlanArchive) tea.
 	}
 }
 
-func runTerragruntImport(archive types.TerragruntPlanArchive, address string, id string) tea.Cmd {
+func runTerragruntImport(modulePath string, address string, id string) tea.Cmd {
 	return func() tea.Msg {
-		errBytes, err := functions.RunImportCommand(archive, address, id)
+		errBytes, err := functions.RunImportCommand(modulePath, address, id)
 		if err != nil {
 			return errMsg{fmt.Errorf("error running import command: %s", errBytes.String())}
 		}
