@@ -24,7 +24,7 @@ The following table maps the features of the GitHub Foundations Toolkit to the [
 <style>
     table:first-of-type {
 
-        tr:nth-child(6), tr:nth-child(7) {
+        tr:nth-child(6) {
             background-color: #8c471c;
             font-weight: bold;
         }
@@ -39,7 +39,7 @@ The following table maps the features of the GitHub Foundations Toolkit to the [
 | Advanced Security | <ul><li>Code scanning</li><li>Manual step. Instructions to be added to README</li></ul> | <ul><li>modules/private_repository</li><li>modules/public_repository</li><li>modules/repository_base</li><ul> | SI-4(5), SI-4(7), SI-10 | <ul><li>[semgrep](https://github.com/semgrep/semgrep)</li><li>[sonarqube](https://www.sonarqube.org/)</li> |
 | Protected Branches Ruleset - Pull Requests | <ul><li>Require pull requests</li><li>Require at least 1 reviewer</li><li>When new commits are pushed to an existing PR, any previous approvals are required again.</li></ul> | <ul><li>modules/private_repository</li><li>modules/public_repository</li><li>modules/repository_base</li><ul> | CM-3, CM-4, CM-5, SC-28, SI-10, SI-12 | <ul><li>[GitLab](https://about.gitlab.com/)</li> |
 | Protected Branches Ruleset - Signed Commits<br><br><br>**TODO - Not currently validated** | <ul><li>Require signed commits</li></ul> | <ul><li>modules/private_repository</li><li>modules/public_repository</li><li>modules/repository_base</li><ul> | IA-2, IA-2(11), IA-8, IA-8(100), SC-8, SC-8(1), SC-13, SC-28 | <ul><li>[GitLab](https://about.gitlab.com/)</li><li>[Git](https://git-scm.com/)</li><li>[Mercurial](https://www.mercurial-scm.org/)</li> |
-| Export Audit Material<br><br><br> **[TODO [#79]](https://github.com/FociSolutions/github-foundations/issues/79)** | We export audit material in either: <ul><li>CSV format</li><li>Azure Sentinel format</li></ul> | GH Action | AC-2(4), AC-6(9), AC-17(1), AU-2, AU-6, SI-4 | <ul><li>[GitLab](https://about.gitlab.com/)</li> |
+| Export Audit Material<br><br><br> | Audit material is exported in [JSON format](#daily-audit-log-export), or there are instructions on how to obtain logs by other means. [See here](#audit-logs). | GH Action | AC-2(4), AC-6(9), AC-17(1), AU-2, AU-6, SI-4 | <ul><li>[GitLab](https://about.gitlab.com/)</li> |
 | Delete branches on merge | Branches are configured to be deleted after a PR is merged | <ul><li>modules/private_repository</li><li>modules/public_repository</li><li>modules/repository_base | SI-12 | <ul><li>[GitLab](https://about.gitlab.com/)</li> |
 | Repository Creation Restrictions | Users can: <ul><li>Create private repos</li><li>Create internal repos</li></ul> User cannot: <ul><li>Create public repos</li><li>Fork Private repos</li></ul> | <ul><li>modules/organization</li> | AC-20(3), AC-22 | <ul><li>[GitLab](https://about.gitlab.com/)</li> |
 | Predefined Roles | Predefined roles include: <ul><li>Security Engineer</li><li>Contractor</li><li>Community Manager</li></ul> | <ul><li>modules/organization</li> | AC-2, AC-16(2) | <ul><li>[GitLab](https://about.gitlab.com/)</li><li>[Keycloak](https://www.keycloak.org/)</li> |
@@ -102,6 +102,9 @@ Learn how to enable audit logs for your GitHub Enterprise account to track user 
 2. To query the audit log API for your _GitHub Enterprise_, see [GitHub's documentation](https://docs.github.com/en/enterprise-cloud@latest/rest/enterprise-admin/audit-log?apiVersion=2022-11-28).
 3. For _Organization_ Audit logs, see [GitHub's documentation](https://docs.github.com/en/organizations/keeping-your-organization-secure/reviewing-the-audit-log-for-your-organization).
 
+### Daily Audit Log Export
+
+A GitHub Workflow is run daily to export the audit logs to a JSON file. The JSON file is then uploaded to the action's output artifacts. The JSON file can be downloaded from the artifacts tab in the GitHub Actions page.
 
 ### Exporting GitHub Enterprise Audit Logs to Azure Sentinel
 
