@@ -6,7 +6,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// genCmd represents the base command when called without any subcommands
 var GenCmd = &cobra.Command{
 	Use:   "gen",
 	Short: "Generate HCL input for GitHub Foundations.",

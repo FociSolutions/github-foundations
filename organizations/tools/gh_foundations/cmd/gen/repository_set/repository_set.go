@@ -12,7 +12,6 @@ import (
 	githubfoundations "gh_foundations/internal/pkg/types/github_foundations"
 )
 
-// GenRepositorySetCmd represents the gen repository set command.
 var GenRepositorySetCmd = &cobra.Command{
 	Use:   "repository_set",
 	Short: "Use the results from a terraformer run to generate an hcl file that contains a repository set input.",
