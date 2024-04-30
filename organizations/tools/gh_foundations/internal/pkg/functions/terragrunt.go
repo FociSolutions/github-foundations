@@ -2,36 +2,23 @@ package functions
 
 import (
 	"bytes"
-	"fmt"
 	"gh_foundations/internal/pkg/types/terraform_state"
 	types "gh_foundations/internal/pkg/types/terragrunt"
-	"os"
 	"os/exec"
 	"path/filepath"
 )
 
-func ArchivePlan(modulePath string, planName string) (*types.TerragruntPlanArchive, error) {
-	moduleDir := filepath.Dir(modulePath)
-	outputFilePath := moduleDir + string(os.PathSeparator) + planName + ".json"
-
-	if _, err := os.Stat(outputFilePath); err == nil {
-		return nil, fmt.Errorf("file %q already exists", outputFilePath)
-	}
-
-	planArchive, err := types.NewTerragruntPlanArchive(planName, modulePath, moduleDir, outputFilePath)
-	if err != nil {
-		return nil, err
-	}
-
-	return planArchive, nil
+func GetTerragruntModuleDir(modulePath string) string {
+	return filepath.Dir(modulePath)
 }
 
-func RunImportCommand(archive types.TerragruntPlanArchive, address string, id string) (bytes.Buffer, error) {
+func RunImportCommand(modulePath string, address string, id string) (bytes.Buffer, error) {
+	moduleDir := GetTerragruntModuleDir(modulePath)
 	errorBytes := bytes.Buffer{}
 	importCmd := exec.Command("terragrunt", "import", address, id)
 	importCmd.Stderr = &errorBytes
 	importCmd.Stdout = nil
-	importCmd.Dir = archive.ModuleDir
+	importCmd.Dir = moduleDir
 	return errorBytes, importCmd.Run()
 }
 

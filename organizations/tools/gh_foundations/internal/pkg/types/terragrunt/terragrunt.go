@@ -3,38 +3,49 @@ package terragrunt
 import (
 	"bytes"
 	"fmt"
+	"gh_foundations/internal/pkg/types"
 	"gh_foundations/internal/pkg/types/terraform_state"
 	v1_2 "gh_foundations/internal/pkg/types/terraform_state/v1.2"
 	"io"
-	"os"
 	"os/exec"
+	"path"
 
+	"github.com/spf13/afero"
 	"github.com/tidwall/gjson"
 )
 
-type TerragruntPlanArchive struct {
+var fs = afero.NewOsFs()
+
+// command creation function for mocking
+var newCommandExecutor = func(name string, args ...string) types.ICommandExecutor {
+	return &types.CommandExecutor{
+		Cmd: exec.Command(name, args...),
+	}
+}
+
+type IPlanFile interface {
+	Cleanup() error
+	RunPlan(target *string) error
+	GetStateExplorer() (terraform_state.IStateExplorer, error)
+	GetPlanFilePath() string
+}
+
+type PlanFile struct {
 	Name           string
 	ModulePath     string
 	ModuleDir      string
 	OutputFilePath string
 }
 
-func NewTerragruntPlanArchive(name string, modulePath string, moduleDir string, outputFilePath string) (*TerragruntPlanArchive, error) {
-	if err, errBytes := runPlan(moduleDir, &name, nil); err != nil {
-		return nil, fmt.Errorf("error running plan: %s", errBytes.String())
+func NewTerragruntPlanFile(name string, modulePath string, moduleDir string, outputFilePath string) (*PlanFile, error) {
+	// If there is a file conflict with the output file, create a new file with a "copy_" prefix
+	if _, err := fs.Stat(outputFilePath); err == nil {
+		dir := path.Dir(outputFilePath)
+		filename := path.Base(outputFilePath)
+		outputFilePath = path.Join(dir, "copy_"+filename)
 	}
 
-	planFile, err := os.Create(outputFilePath)
-	if err != nil {
-		return nil, err
-	}
-	defer planFile.Close()
-
-	if err, errBytes := outputPlan(name, planFile, moduleDir); err != nil {
-		return nil, fmt.Errorf("error outputing plan: %s", errBytes.String())
-	}
-
-	return &TerragruntPlanArchive{
+	return &PlanFile{
 		Name:           name,
 		ModuleDir:      moduleDir,
 		ModulePath:     modulePath,
@@ -42,31 +53,34 @@ func NewTerragruntPlanArchive(name string, modulePath string, moduleDir string, 
 	}, nil
 }
 
-func (t *TerragruntPlanArchive) Cleanup() error {
-	return os.Remove(t.OutputFilePath)
+func (t *PlanFile) Cleanup() error {
+	return fs.Remove(t.OutputFilePath)
 }
 
-func (t *TerragruntPlanArchive) RefreshPlan(target *string) error {
-	if err, errBytes := runPlan(t.ModuleDir, &t.Name, target); err != nil {
+func (t *PlanFile) GetPlanFilePath() string {
+	return t.OutputFilePath
+}
+
+func (t *PlanFile) RunPlan(target *string) error {
+	if _, errBytes, err := runPlan(t.ModuleDir, &t.Name, target); err != nil {
 		return fmt.Errorf("error running plan: %s", errBytes.String())
 	}
 
-	os.Remove(t.OutputFilePath)
-	planFile, err := os.Create(t.OutputFilePath)
+	planFile, err := fs.Create(t.OutputFilePath)
 	if err != nil {
 		return err
 	}
 	defer planFile.Close()
 
-	if err, errBytes := outputPlan(t.Name, planFile, t.ModuleDir); err != nil {
-		return fmt.Errorf("error outputing plan: %s", errBytes.String())
+	if errBytes, err := outputPlan(t.Name, planFile, t.ModuleDir); err != nil {
+		return fmt.Errorf("error outputting plan: %s", errBytes.String())
 	}
 
 	return nil
 }
 
-func (t *TerragruntPlanArchive) GetStateExplorer() (terraform_state.IStateExplorer, error) {
-	planBytes, err := os.ReadFile(t.OutputFilePath)
+func (t *PlanFile) GetStateExplorer() (terraform_state.IStateExplorer, error) {
+	planBytes, err := afero.ReadFile(fs, t.OutputFilePath)
 	if err != nil {
 		return nil, err
 	}
@@ -96,22 +110,21 @@ type ImportIdResolver interface {
 	ResolveImportId(resourceAddress string) (string, error)
 }
 
-func outputPlan(planName string, planFile io.Writer, moduleDir string) (error, bytes.Buffer) {
-	errBuffer := bytes.Buffer{}
-	showCmd := exec.Command("terragrunt", "show", "-json", planName)
-	showCmd.Stdout = planFile
-	showCmd.Stderr = os.Stderr
-	showCmd.Dir = moduleDir
-	if err := showCmd.Run(); err != nil {
-		debugBytes := bytes.Buffer{}
-		debugBytes.WriteString(fmt.Sprintf("Error running command %q: %s\nPlan file: %+v\n", showCmd.String(), errBuffer.String(), planFile))
-		return err, debugBytes
+func outputPlan(planName string, planFile io.Writer, dir string) (bytes.Buffer, error) {
+	errBuffer := &bytes.Buffer{}
+	cmdExecutor := newCommandExecutor("terragrunt", "show", "-json", planName)
+	cmdExecutor.SetOutput(planFile)
+	cmdExecutor.SetErrorOutput(errBuffer)
+	cmdExecutor.SetDir(dir)
+	if err := cmdExecutor.Run(); err != nil {
+		return *errBuffer, err
 	}
-	return nil, errBuffer
+	return *errBuffer, nil
 }
 
-func runPlan(dir string, output *string, target *string) (error, bytes.Buffer) {
-	logsBuffer := bytes.Buffer{}
+func runPlan(dir string, output *string, target *string) (bytes.Buffer, bytes.Buffer, error) {
+	errBuffer := &bytes.Buffer{}
+	logBuffer := &bytes.Buffer{}
 	args := []string{"plan", "-lock=false"}
 	if output != nil {
 		args = append(args, fmt.Sprintf("-out=%s", *output))
@@ -120,13 +133,13 @@ func runPlan(dir string, output *string, target *string) (error, bytes.Buffer) {
 		args = append(args, fmt.Sprintf("-target=%s", *target))
 	}
 
-	planCmd := exec.Command("terragrunt", args...)
-	planCmd.Stderr = &logsBuffer
-	planCmd.Dir = dir
-	if err := planCmd.Run(); err != nil {
-		return err, logsBuffer
+	cmdExecutor := newCommandExecutor("terragrunt", args...)
+	cmdExecutor.SetErrorOutput(errBuffer)
+	cmdExecutor.SetDir(dir)
+	if err := cmdExecutor.Run(); err != nil {
+		return *logBuffer, *errBuffer, err
 	} else {
-		logsBuffer.WriteString(fmt.Sprintf("Command %q complete", planCmd.String()))
+		logBuffer.WriteString(fmt.Sprintf("Command %q complete", cmdExecutor.String()))
 	}
-	return nil, logsBuffer
+	return *logBuffer, *errBuffer, nil
 }

@@ -49,7 +49,7 @@ func (d itemDelegate) Render(w io.Writer, m list.Model, index int, listItem list
 type model struct {
 	textInput  textinput.Model
 	ModulePath string
-	Archive    types.TerragruntPlanArchive
+	Archive    types.IPlanFile
 	spinner    spinner.Model
 	list       list.Model
 	importing  string
@@ -79,7 +79,7 @@ func (m *model) showLoadingSpinner() tea.Cmd {
 func (m model) Init() tea.Cmd {
 	return tea.Batch(
 		m.spinner.Tick,
-		generatePlanArchive(m.ModulePath),
+		generatePlanFile(m.ModulePath),
 	)
 }
 
@@ -130,7 +130,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 					return m, tea.Sequence(m.showLoadingSpinner(), resolveResourceId(string(i), m.Archive))
 				}
 			} else {
-				return m, tea.Sequence(m.showLoadingSpinner(), runTerragruntImport(m.Archive, m.importing, m.textInput.Value()))
+				return m, tea.Sequence(m.showLoadingSpinner(), runTerragruntImport(m.ModulePath, m.importing, m.textInput.Value()))
 			}
 		}
 	}
