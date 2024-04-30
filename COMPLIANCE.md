@@ -9,6 +9,7 @@
     * [GitHub Foundations Toolkit PBMM Compliance Features](#github-foundations-toolkit-pbmm-compliance-features)
     * [GitHub Security Features Status](#github-security-features-status)
     * [Audit Logs](#audit-logs)
+        * [Daily Audit Log Export](#daily-audit-log-export)
         * [Exporting GitHub Enterprise Audit Logs to Azure Sentinel](#exporting-github-enterprise-audit-logs-to-azure-sentinel)
         * [Streaming Audit Logs to Other Platforms](#streaming-audit-logs-to-other-platforms)
 
