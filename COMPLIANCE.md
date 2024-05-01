@@ -77,7 +77,7 @@ Inside the toolkit, we strive to provide the most up-to-date security features t
 | Secret scanning push protection | ✅ | ✅ | ✅ | |
 | CodeQL codescanning | ❌ | ❌ | ✅ | |
 |  |  |  |  |  |
-| Rulesets | ✅ | ✅ | ✅ | Because the provider hasn't caught up to the api there are some limitations. For example: Organization rulesets can define workflows that must complete for the ruleset to be considered passed but you can't do the same for repository rulesets. However the api should allow this on both. |
+| Rulesets | ✅ | ✅ | ✅ | Although the [GitHub Documentation](https://docs.github.com/en/rest/repos/rules?apiVersion=2022-11-28#create-a-repository-ruleset) lists it as a capability in the api there are some limitations. For example: Organization rulesets can define workflows that must be completed for the ruleset to be considered passed, but it is not possible for repository rulesets. |
 | Commit signing enforcement | ✅ | ✅ | ✅ | |
 | Delete branches on merge | ✅ | ✅ | ✅ | |
 | Repository creation restrictions | ✅ | ✅ | ✅ | |
