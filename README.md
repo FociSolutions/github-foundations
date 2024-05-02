@@ -8,20 +8,20 @@ Managing GitHub for large enterprises introduces complex security and consistenc
 
 ### Project Features:
 
-- **Automate Continuous Secure Infrastructure:** 
-  - Use Terraform to apply Infrastructure as Code (IaC) principles in managing multiple organizations under a single GitHub Enterprise account. 
+- **Automate Continuous Secure Infrastructure:**
+  - Use Terraform to apply Infrastructure as Code (IaC) principles in managing multiple organizations under a single GitHub Enterprise account.
   - Establish and enforce security best practices by default.
   - Use drift detection to promptly identify and rectify unauthorized changes, ensuring your configurations are always secure.
 
-- **Centralize Control:** 
+- **Centralize Control:**
   - Gain a comprehensive overview for managing organizations, repositories, and teams across your enterprise.
-  - Streamline updates and security policy enforcement across your entire enterprise, reducing the need for manual intervention. 
+  - Streamline updates and security policy enforcement across your entire enterprise, reducing the need for manual intervention.
 
-- **Rapid Rollouts:** 
+- **Rapid Rollouts:**
   - Push policy updates across the entire enterprise in moments rather than waiting days for each organization to schedule individual exercises.
   - Automate repetitive tasks, allowing teams to focus on innovation.
 
-- **Reduce Security Risks:** 
+- **Reduce Security Risks:**
   - Enforce consistent security policies across all organizations to minimize vulnerabilities and protect against attacks.
   - Have a unified view of potential vulnerabilities to prevent gaps opening in one organization or another.
 
@@ -51,6 +51,10 @@ Initial setup of your state file backend, and creation of all organizations unde
 ### [Organizations Layer](./organizations/README.md)
 
 Management of organizations, repositories, and teams, Review results of drift detection, and execution of pull request plans for your organizations.
+
+## [Compliance](./COMPLIANCE.md)
+
+Features of the toolkit that ensure compliance and security for your GitHub Enterprise or Organization account.
 
 ## Contributing to the toolkit
 

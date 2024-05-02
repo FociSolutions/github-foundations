@@ -21,80 +21,10 @@ jobs:
             - name: Checkout the GitHub Foundations repository
               uses: actions/checkout@v4
 
-            - name: Create a python script to parse terragrunt.hcl files
-              run: |
-                cat << 'EOF' > parse_terragrunt_hcl.py
-                import os
-                import hcl2
-
-                def parse_terragrunt_hcl_files(root_dir='./projects'):
-                    hcl_files = {}
-
-                    for root, _, files in os.walk(root_dir):
-                        for file in files:
-                            # ignore file in the .terragrunt-cache directory
-                            if '.terragrunt-cache' in root:
-                                continue
-
-                            dirs = root.split('/')
-                            if(len(dirs) < 2):
-                                continue
-                            if file.endswith('terragrunt.hcl'):
-                                # Add a key/value pair of org name / path to the hcl file
-                                # The key is the name of the 3rd dir from the root
-                                org_name = dirs[3]
-                                if org_name not in hcl_files:
-                                    hcl_files[org_name] = []
-                                hcl_files[org_name].append(os.path.join(root, file))
-                    return hcl_files
-
-                def find_repos_in_terragrunt_hcl_files():
-                    hcl_files = parse_terragrunt_hcl_files()
-                    repos = {}
-                    repos['public'] = []
-                    repos['private'] = []
-                    for org in hcl_files:
-                        for file in hcl_files[org]:
-                            with open(file, 'r') as f:
-                                data = hcl2.load(f)
-                                if 'inputs' in data:
-                                    if 'public_repositories' in data['inputs']:
-                                        for repo_name, repo_details in data['inputs']['public_repositories'].items():
-                                                repos['public'].append({
-                                                     'org': org,
-                                                     'name': repo_name,
-                                                    })
-                                    if 'private_repositories' in data['inputs']:
-                                        # iterate over private repos and add them to the list, along
-                                        # with the value of the `advance_security` key
-                                        for repo_name, repo_details in data['inputs']['private_repositories'].items():
-                                            advance_security = repo_details.get('advance_security', False)  # Handle missing key with default
-                                            repos['private'].append({
-                                                'org': org,
-                                                'name': repo_name,
-                                                'advance_security': advance_security
-                                            })
-                    return filter_repos_without_ghas_enabled(repos)
-
-                def filter_repos_without_ghas_enabled(repos):
-                    repos_with_ghas = []
-                    # append all public repos, since they are enabled by default
-                    for repo in repos['public']:
-                        repos_with_ghas.append(f"{repo['org']}/{repo['name']}")
-
-                    for repo in repos['private']:
-                        if repo['advance_security'] == True:
-                            repos_with_ghas.append(f"{repo['org']}/{repo['name']}")
-                    return repos_with_ghas
-
-                if __name__ == '__main__':
-                    print(find_repos_in_terragrunt_hcl_files())
-                EOF
-
             - name: Run the python script to parse terragrunt.hcl files
               id: repo_list
               run: |
-                repos=$(python parse_terragrunt_hcl.py)
+                repos=$(python ${{ github.workspace }}/.github/scripts/gh_foundations/gh_foundations.py --ghas)
                 echo -e "Found repos: $repos"
                 echo "repos=$(echo -e "${repos}" | sed s/\'/\"/g)" >> $GITHUB_OUTPUT
 
