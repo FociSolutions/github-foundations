@@ -5,6 +5,7 @@ go 1.21.0
 require (
 	github.com/charmbracelet/bubbletea v0.25.0
 	github.com/charmbracelet/lipgloss v0.10.0
+	github.com/jeremywohl/flatten v1.0.1
 	github.com/spf13/afero v1.11.0
 	github.com/spf13/cobra v1.8.0
 )
@@ -17,6 +18,7 @@ require (
 	github.com/containerd/console v1.0.4-0.20230313162750-1ae8d489ac81 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/google/go-cmp v0.6.0 // indirect
+	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
 	github.com/mattn/go-isatty v0.0.18 // indirect
 	github.com/mattn/go-localereader v0.0.1 // indirect
@@ -45,6 +47,7 @@ require (
 require (
 	github.com/charmbracelet/bubbles v0.18.0
 	github.com/gizak/termui/v3 v3.1.0
+	github.com/google/go-github/v61 v61.0.0
 	github.com/hashicorp/hcl/v2 v2.20.1
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
