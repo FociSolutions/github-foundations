@@ -58,7 +58,7 @@ def find_terragrunt_hcl_files(root_dir=projects_dir)->list:
     return hcl_files
 
 
-def find_orgs_from_filenames(hcl_files, index_of_key=5)->dict:
+def find_orgs_from_filenames(hcl_files, index_of_key=-3)->dict:
     """ Find all orgs given a set of terragrunt.hcl file paths
 
     Args:
