@@ -1,45 +1,42 @@
-# GitHub Foundations Toolkit
+# GitHub Foundations
 
-## Secure Your Enterprise's GitHub Environment at Scale
+## Securing Your GitHub Environment at Scale
 
 ### Quick Start: [Get Started Now!](./README.md#getting-started)
 
-Managing GitHub for large enterprises introduces complex security and consistency challenges. Misaligned permission levels, team structures, incomplete change rollouts across organizations, and status reporting are just a few of the obstacles that can manifest with manual processes.  The GitHub Foundations Toolkit offers a secure and efficient way to manage your enterprise's GitHub environment through automation and centralized control.
+Managing GitHub for multiple groups introduces complex security and consistency challenges. Misaligned permission levels, team structures, incomplete change rollouts across groups, and status reporting are just a few of the obstacles that can manifest with manual processes.  The GitHub Foundations Toolkit offers a secure and efficient way to manage your organization's GitHub environment through automation and centralized control.
 
-### Project Features:
+## Features:
 
-- **Automate Continuous Secure Infrastructure:**
-  - Use Terraform to apply Infrastructure as Code (IaC) principles in managing multiple organizations under a single GitHub Enterprise account.
-  - Establish and enforce security best practices by default.
-  - Use drift detection to promptly identify and rectify unauthorized changes, ensuring your configurations are always secure.
+### Automate Secure Infrastructure throughout your organization using CI/CD:
+- Implement DevSecOps using **Terraform and Terragrunt** to apply Infrastructure as Code (IaC) principles in managing multiple groups under a single GitHub Enterprise account.
+- Establish and enforce security best practices by default.
+- Employ drift detection to promptly identify and rectify unauthorized changes, guaranteeing continuous security in your configurations.
 
-- **Centralize Control:**
-  - Gain a comprehensive overview for managing organizations, repositories, and teams across your enterprise.
-  - Streamline updates and security policy enforcement across your entire enterprise, reducing the need for manual intervention.
+### Centralize Control:
+- Gain a comprehensive overview for managing groups, repositories, and teams across your organization.
+- Streamline updates and security policy enforcement across your entire organization, reducing the need for manual intervention.
+- Simplify administration by consistently and efficiently managing teams and their memberships across your organization.
+- Enhance your security with branch protection through customizable **[Rulesets](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets#about-rulesets)**.
 
-- **Rapid Rollouts:**
-  - Push policy updates across the entire enterprise in moments rather than waiting days for each organization to schedule individual exercises.
-  - Automate repetitive tasks, allowing teams to focus on innovation.
+### Rapid Rollouts:
+- Push policy updates across the entire organization in moments rather than waiting days for each group to schedule individual exercises.
+- Streamline your workflow by automating the creation, deletion, and configuration of both private and public repositories.
 
-- **Reduce Security Risks:**
-  - Enforce consistent security policies across all organizations to minimize vulnerabilities and protect against attacks.
-  - Have a unified view of potential vulnerabilities to prevent gaps opening in one organization or another.
+### Reduce Security Risks:
+- Employ GitHub Advanced Security (GHAS) for auto code and dependency scanning on public repositories or private repositories where GHAS has been purchased.
+- Enforce consistent security policies across all groups to minimize vulnerabilities and protect against attacks.
+- Protect your data by securely storing and managing sensitive secrets directly in your GitHub environment.
+- Have a unified view of potential vulnerabilities to prevent gaps opening in one group or another.
 
-This project is open-source and customizable, released under the [MIT license](./LICENSE.md). You're invited to adapt the toolkit to your specific needs and contribute to its development.
-
-## Detailed Features:
-
-### Current:
-- [x] **GCP Backend for Infrastructure Provisioning:** Current support for Google Cloud Platform.
-- [x] **Terraform and Terragrunt for Infrastructure Management:** Ensure your infrastructure remains secure and aligned with your policies by leveraging these tools for IaC.
-- [x] **Automated Repository Management:** Streamline your workflow by automating the creation, deletion, and configuration of both private and public repositories.
-- [x] **Team and Membership Management:** Simplify administration by consistently and efficiently managing teams and their memberships across your organization.
-- [x] **Secure Secrets Management:** Protect your data by securely storing and managing sensitive secrets directly in your GitHub environment.
-- [x] **Granular Access Control with Rulesets:** Enhance your security with branch protection through customizable [Rulesets](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/about-rulesets#about-rulesets).
-
-### Upcoming:
-- [ ] **Multi-Cloud Support:** Future integration with Azure and AWS for seamless multi-cloud operations.
-- [ ] **Enhanced Security Features:** Development of advanced security features based on the evolving needs of the community.
+### Accelerate your ITSG-33 Controls
+- Out of the box, GitHub Foundations has a scaffolding to assist with meeting controls in the following areas:
+  - Authentication
+  - Cryptographic Protection
+  - Information Monitoring and Protection
+  - Incident Monitoring and Response
+  - Configuration Change Control
+  - Security Attributes
 
 ## Getting Started:
 The repository is organized into two layers for ease of setup and management:
@@ -52,12 +49,20 @@ Initial setup of your state file backend, and creation of all organizations unde
 
 Management of organizations, repositories, and teams, Review results of drift detection, and execution of pull request plans for your organizations.
 
-## [Compliance](./COMPLIANCE.md)
+#### Included Tools:
+- **Drift Detection:** Detects when someone makes a change to configuration, outside of the source-controlled configuration. Gives the ability to reapply the correct state.
+- **Deletion Protection:** When a PR change requests resources be deleted, this tool forces the user to confirm the action
+- **GitHub Advanced Security (GHAS) checks:** Checks the state of GHAS for the repos that have it enabled. Reports all of the GHAS scans in one report.
+- **Assessment tool:** Used to assess the readiness of your repo, before importing it with the toolkit. Can be used to check whether toolkit guardrails are already in place in the repo.
+- **Import tool:** Import repos not currently managed by the toolkit.
 
-Features of the toolkit that ensure compliance and security for your GitHub Enterprise or Organization account.
 
-## Contributing to the toolkit
+## How to Contribute
 
-We welcome contributions to the GitHub Foundations Toolkit. Please read these [Contributing Guidelines](./CONTRIBUTING.md) for more information on how to get started.
+See [CONTRIBUTING.md](./CONTRIBUTING.md)
 
-**_Embrace a Secure and Efficient Future with the GitHub Foundations Toolkit!_**
+## License
+
+Unless otherwise noted, the source code of this project is distributed under the [MIT License](./LICENSE.md).
+
+The Canada wordmark and related graphics associated with this distribution are protected under trademark law and copyright law. No permission is granted to use them outside the parameters of the Government of Canada's corporate identity program. For more information, see [Federal identity requirements](https://www.canada.ca/en/treasury-board-secretariat/topics/government-communications/federal-identity-requirements.html).

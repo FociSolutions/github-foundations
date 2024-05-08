@@ -22,16 +22,6 @@ This document outlines the compliance and security features of the platform.
 The following table maps the features of the GitHub Foundations Toolkit to the [PBMM Controls]()
 
 
-<style>
-    table:first-of-type {
-
-        tr:nth-child(6) {
-            background-color: #8c471c;
-            font-weight: bold;
-        }
-    }
-</style>
-
 | Item | What | Where | Controls | Open-Source Alternative |
 | --- | --- | --- | --- | --- |
 | Encrypted Secrets | Uses GitHub public key to encrypt secrets. Secrets must be encrypted to be used. | <ul><li>modules/organization</li><li>modules/private_repository</li><li>modules/public_repository</li><ul> | IA-5(c)(e)(h)(i), IA-5(1)(c),IA-5(6), IA-5(7), SC-8(1), SC-12, SC-13, SC-17 | <ul><li>[vault](https://www.hashicorp.com/products/vault)</li><li>[confidant](https://lyft.github.io/confidant/)</li> |
@@ -65,7 +55,7 @@ The following controls are met by GitHub by default and are not explicitly imple
 
 Inside the toolkit, we strive to provide the most up-to-date security features that GitHub has to offer. Below is a table that shows the status of the features that we support in the toolkit.
 1. The _**Status**_ column is the status of implementing the GitHub feature in the toolkit.
-2. The _Provider Status**_ column is the status of the feature in [Terraform GitHub Provider](https://registry.terraform.io/providers/integrations/github/latest/docs), and
+2. The **_Provider Status**_ column is the status of the feature in [Terraform GitHub Provider](https://registry.terraform.io/providers/integrations/github/latest/docs), and
 3. the _**GH API Status**_ column is the status of the feature in the [GitHub API](https://docs.github.com/en/rest/reference).
 
 | Feature | Status | Provider Status | GH API Status | Side Notes |
