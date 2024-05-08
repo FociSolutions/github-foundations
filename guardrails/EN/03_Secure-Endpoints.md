@@ -41,9 +41,9 @@ This section contains the Guardrails that address controls in the following area
 - [Directive on Service and Digital, Appendix G: Standard on Enterprise Information Technology Service Common Configurations](https://www.tbs-sct.canada.ca/pol/doc-eng.aspx?id=32713)
 - [Endpoint Management Configuration Requirements](https://www.canada.ca/en/government/system/digital-government/policies-standards/enterprise-it-service-common-configurations/endpoint.html)
 - [Guidance on Defence in Depth for Cloud-Based Services (ITSP.50.104)](https://cyber.gc.ca/en/guidance/itsp50104-guidance-defence-depth-cloud-based-services), subsection 4.9
-- [User Authenticaion Guidance for Information Technology Systems (ITSP.30.031 v3)](https://cyber.gc.ca/en/guidance/user-authentication-guidance-information-technology-systems-itsp30031-v3)
+- [User Authentication Guidance for Information Technology Systems (ITSP.30.031 v3)](https://cyber.gc.ca/en/guidance/user-authentication-guidance-information-technology-systems-itsp30031-v3)
 - [Cryptographic algorithms for UNCLASSIFIED, PROTECTED A, and PROTECTED B information (ITSP.40.111)](https://www.cyber.gc.ca/en/guidance/cryptographic-algorithms-unclassified-protected-protected-b-information-itsp40111)
 
 ## Related security controls from ITSG-33
 
-AC3, AC-3(7), AC-4, AC-5, AC-6, AC6(5), AC-6(10), AC-19, AC-20(3), IA-2, IA-2(1), IA-2(11), IA-4, IA-5, IA-5(1), SI-4, AU-6, AU-12
+AC3, AC-3(7), AC-4, AC-5, AC-6, AC6(5), AC-6(10), AC-17(1), AC-17(2), AC-19, AC-20(3), AU-6, AU-12, IA-2, IA-2(1), IA-2(11), IA-4, IA-5, IA-5(1), SC-8, SC-8(1), SI-4

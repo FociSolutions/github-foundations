@@ -20,7 +20,8 @@ This section contains the Guardrails that address controls in the following cont
 | Activity | Validation |
 | --- | --- |
 | Implement an encryption mechanism to protect the confidentiality and integrity of data when data is at rest in storage.| <ul><li>For SaaS, confirm that the SCM platform has implemented encryption to protect customer data.</li></ul> |
-| Use cryptographic algorithms and protocols approved by Communications Security Establishment Canada (CSE) in accordance with ITSP.40.111 and ITSP.40.062.| <ul><li>Cryptographic algorithms and protocols configurable by the consumer are in accordance with ITSP.40.111 and ITSP.40.062.</li><li>For SaaS, confirm that the CSP has implemented algorithms that align with ITSP.40.111 and ITSP.40.062.</li></ul>  |
+| Use cryptographic algorithms and protocols approved by Communications Security Establishment Canada (CSE) in accordance with ITSP.40.111 and ITSP.40.062.| <ul><li>Cryptographic algorithms and protocols configurable by the consumer are in accordance with ITSP.40.111 and ITSP.40.062.</li><li>For SaaS, confirm that the CSP has implemented algorithms that align with ITSP.40.111 and ITSP.40.062.</li></ul>|
+| Enforce the use of _Pull Request_ (PR) reviews, and _Protected Branches_ to ensure that code changes are reviewed and approved by at least one other developer before being merged into the main branch.| <ul><li>Confirm that PR reviews are enforced for all code changes being merged into the default branch of the repository (often called _main_, or _develop_).</li></ul> |
 
 ## Conditional Requirements
 
@@ -50,4 +51,4 @@ This section contains the Guardrails that address controls in the following cont
 
 ## Related security controls from ITSG-33
 
-SC12, SC13, SC-17, SC28, SC28(1)
+SC-12, SC-13, SC-17, SC-28, SC-28(1)
