@@ -26,27 +26,13 @@ func NewGithubService() IGithubService {
 func (g *GithubService) GetOrganization(slug string) (Organization, error) {
 	ctx, cancelFn := context.WithTimeout(context.Background(), 5*time.Minute)
 	defer cancelFn()
-
-	_, resp, err := g.client.Organizations.Get(ctx, slug)
-	if err != nil {
-		return Organization{}, err
-	}
-
-	var bodyBytes []byte
-	_, err = resp.Body.Read(bodyBytes)
-	if err != nil {
-		return Organization{}, err
-	}
-
-	settings := make(map[string]interface{})
-	err = json.Unmarshal(bodyBytes, &settings)
+	o, _, err := g.client.Organizations.Get(ctx, slug)
 	if err != nil {
 		return Organization{}, err
 	}
 
 	return Organization{
-		slug:     slug,
-		settings: settings,
+		Organization: o,
 	}, nil
 }
 
@@ -54,40 +40,27 @@ func (g *GithubService) GetRepositories(owner string, filterFn func(r Repository
 	ctx, cancelFn := context.WithTimeout(context.Background(), 5*time.Minute)
 	defer cancelFn()
 
-	_, resp, err := g.client.Repositories.ListByUser(ctx, owner, nil)
+	repos, _, err := g.client.Repositories.ListByUser(ctx, owner, nil)
 	if err != nil {
 		return []Repository{}, err
 	}
 
-	var bodyBytes []byte
-	_, err = resp.Body.Read(bodyBytes)
-	if err != nil {
-		return []Repository{}, err
-	}
+	var repositories []Repository
 
-	var repositories = make([]Repository, 0)
-	var settings []map[string]interface{}
-
-	err = json.Unmarshal(bodyBytes, &settings)
-	if err != nil {
-		return []Repository{}, err
-	}
-
-	for _, s := range settings {
-		_, rulesetResponse, err := g.client.Repositories.GetRulesForBranch(ctx, owner, s["name"].(string), s["default_branch"].(string))
+	for _, r := range repos {
+		rules, _, err := g.client.Repositories.GetRulesForBranch(ctx, owner, r.GetName(), r.GetDefaultBranch())
 		var rulesets []map[string]interface{}
 		if err == nil {
-			var rulesetBytes []byte
-			_, err = rulesetResponse.Body.Read(rulesetBytes)
+			rulesetBytes, err := json.Marshal(rules)
 			if err == nil {
 				json.Unmarshal(rulesetBytes, &rulesets)
 			}
 		}
 
 		repositories = append(repositories, Repository{
-			slug:     s["name"].(string),
-			settings: s,
-			rulesets: rulesets,
+			slug:       r.GetName(),
+			rulesets:   rulesets,
+			Repository: r,
 		})
 	}
 

@@ -10,7 +10,7 @@ import (
 )
 
 var Itsg33Cmd = &cobra.Command{
-	Use:   "gen",
+	Use:   "itsg33",
 	Short: "Run the ITSG33 checks against a GitHub configuration.",
 	Long:  `Run the ITSG33 checks against a GitHub configuration and generate reports.`,
 	Args: func(cmd *cobra.Command, args []string) error {
@@ -23,16 +23,20 @@ var Itsg33Cmd = &cobra.Command{
 		slug := args[0]
 		gs := github.NewGithubService()
 		org, err := gs.GetOrganization(slug)
-		if err != nil {
+		if err == nil {
 			report := org.Check([]types.CheckType{types.ITSG33})
-			fmt.Printf("%+v\n", report)
+			fmt.Printf("org report: %+v\n\n", report)
+		} else {
+			fmt.Printf("error: %v\n", err)
 		}
 		repos, err := gs.GetRepositories(slug, nil)
-		if err != nil {
+		if err == nil {
 			for _, r := range repos {
 				report := r.Check([]types.CheckType{types.ITSG33})
-				fmt.Printf("%+v\n", report)
+				fmt.Printf("repos report: %+v\n\n", report)
 			}
+		} else {
+			fmt.Printf("error: %v\n", err)
 		}
 	},
 }

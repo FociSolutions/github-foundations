@@ -6,12 +6,12 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var checkCmd = &cobra.Command{
-	Use:   "gen",
+var CheckCmd = &cobra.Command{
+	Use:   "check",
 	Short: "Perform checks against a Github configuration.",
 	Long:  `Perform checks against a Github configuration and generate reports.`,
 }
 
 func init() {
-	checkCmd.AddCommand(itsg33.Itsg33Cmd)
+	CheckCmd.AddCommand(itsg33.Itsg33Cmd)
 }
