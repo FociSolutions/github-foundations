@@ -36,7 +36,6 @@ func (o *Organization) Check(checkTypes []types.CheckType) types.CheckReport {
 }
 
 // Custom repository roles for an organization need to be accessed separately from settings
-
 func (o *Organization) GoCGaurdrailsCompliant() (types.CheckResult, *types.CheckError) {
 	var allErrors error
 	violations := make(map[string]string)
