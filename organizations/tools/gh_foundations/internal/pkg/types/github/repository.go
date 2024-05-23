@@ -17,13 +17,15 @@ type Repository struct {
 
 func (r *Repository) Check(checkTypes []types.CheckType) types.CheckReport {
 	report := types.CheckReport{
-		Results: make(map[types.CheckType]types.CheckResult),
-		Errors:  []types.CheckError{},
+		EntityType: "github_repository",
+		EntityId:   r.slug,
+		Results:    make(map[types.CheckType]types.CheckResult),
+		Errors:     []types.CheckError{},
 	}
 	for _, t := range checkTypes {
 		switch t {
-		case types.ITSG33:
-			r, err := r.ITSG33Compliant()
+		case types.GoCGaurdrails:
+			r, err := r.GoCGaurdrailsCompliant()
 			if err != nil {
 				report.Errors = append(report.Errors, *err)
 			}
@@ -35,7 +37,7 @@ func (r *Repository) Check(checkTypes []types.CheckType) types.CheckReport {
 	return report
 }
 
-func (r *Repository) ITSG33Compliant() (types.CheckResult, *types.CheckError) {
+func (r *Repository) GoCGaurdrailsCompliant() (types.CheckResult, *types.CheckError) {
 	var allErrors error
 	violations := make(map[string]string)
 	checks := []func(repo *Repository) (string, error){
@@ -107,8 +109,7 @@ func (r *Repository) ITSG33Compliant() (types.CheckResult, *types.CheckError) {
 	if allErrors != nil {
 		return types.Failed, &types.CheckError{
 			Err:        allErrors,
-			EntityId:   r.slug,
-			Check:      types.ITSG33,
+			Check:      types.GoCGaurdrails,
 			Violations: violations,
 		}
 	}

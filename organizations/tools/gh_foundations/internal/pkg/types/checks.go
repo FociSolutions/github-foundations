@@ -1,5 +1,7 @@
 package types
 
+import "encoding/json"
+
 type CheckResult uint16
 
 const (
@@ -9,9 +11,27 @@ const (
 	NotApplicable             = iota
 )
 
+func (c CheckResult) String() string {
+	switch c {
+	case Failed:
+		return "Failed"
+	case Passed:
+		return "Passed"
+	case Errored:
+		return "Errored"
+	case NotApplicable:
+		return "Not Applicable"
+	default:
+		return "Unknown"
+	}
+}
+
+func (c CheckResult) MarshalJSON() ([]byte, error) {
+	return json.Marshal(c.String())
+}
+
 type CheckError struct {
 	Err        error             `json:"-"`
-	EntityId   string            `json:"entity_id"`
 	Check      CheckType         `json:"check"`
 	Violations map[string]string `json:"violations"`
 }
@@ -19,12 +39,14 @@ type CheckError struct {
 type CheckType string
 
 const (
-	ITSG33 = "ITSG33"
+	GoCGaurdrails = "GoCGaurdrails"
 )
 
 type CheckReport struct {
-	Results map[CheckType]CheckResult `json:"results"`
-	Errors  []CheckError              `json:"errors"`
+	EntityType string                    `json:"entity_type"`
+	EntityId   string                    `json:"entity_id"`
+	Results    map[CheckType]CheckResult `json:"results"`
+	Errors     []CheckError              `json:"errors"`
 }
 
 type ICheckable interface {

@@ -17,9 +17,9 @@ type GithubService struct {
 	client *github.Client
 }
 
-func NewGithubService() IGithubService {
+func NewGithubService(authToken string) IGithubService {
 	return &GithubService{
-		client: github.NewClient(nil),
+		client: github.NewClient(nil).WithAuthToken(authToken),
 	}
 }
 
