@@ -70,7 +70,10 @@ var CheckCmd = &cobra.Command{
 }
 
 func getTokenFromGhCli() (string, error) {
-	cmd := "gh"
+	cmd, set := os.LookupEnv("GH_PATH")
+	if !set {
+		cmd = "gh"
+	}
 	out, err := exec.Command(cmd, "auth", "token").Output()
 	if err != nil {
 		return "", errors.New("unable to authenticate with gh cli")
