@@ -25,9 +25,9 @@ var CheckCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		reports := make([]types.CheckReport, 0)
 		slug := args[0]
-		authToken, set := os.LookupEnv("GITHUB_AUTH_TOKEN")
+		authToken, set := os.LookupEnv("GITHUB_TOKEN")
 		if !set {
-			cmd.PrintErr("GITHUB_AUTH_TOKEN environment variable not set")
+			cmd.PrintErr("GITHUB_TOKEN environment variable not set")
 			return
 		}
 		gs := github.NewGithubService(authToken)
