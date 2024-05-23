@@ -8,7 +8,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// ImportCmd represents the import command
 var ImportCmd = &cobra.Command{
 	Use:   "import",
 	Short: "Starts an interactive import process for resources in a Terraform plan.",

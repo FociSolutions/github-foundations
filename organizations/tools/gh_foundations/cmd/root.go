@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"gh_foundations/cmd/check"
 	"gh_foundations/cmd/gen"
 	import_cmd "gh_foundations/cmd/import"
 	"os"
@@ -45,4 +46,5 @@ func init() {
 
 	rootCmd.AddCommand(import_cmd.ImportCmd)
 	rootCmd.AddCommand(gen.GenCmd)
+	rootCmd.AddCommand(check.CheckCmd)
 }
