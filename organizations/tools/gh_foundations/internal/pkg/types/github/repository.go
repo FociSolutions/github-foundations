@@ -40,7 +40,7 @@ func (r *Repository) Check(checkTypes []types.CheckType) types.CheckReport {
 func (r *Repository) GoCGaurdrailsCompliant() (types.CheckResult, *types.CheckError) {
 	var allErrors error
 	violations := make(map[string]string)
-	checks := []func(repo *Repository) (string, error){
+	checks := []func(repo *Repository) (string, error) {
 		func(repo *Repository) (string, error) {
 			key := "dependabot_security_updates"
 			if repo.GetSecurityAndAnalysis().GetDependabotSecurityUpdates().GetStatus() != "enabled" {
