@@ -6,6 +6,8 @@ import (
 	"gh_foundations/internal/pkg/types"
 	"gh_foundations/internal/pkg/types/github"
 	"os"
+	"os/exec"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -23,13 +25,18 @@ var CheckCmd = &cobra.Command{
 		return nil
 	},
 	Run: func(cmd *cobra.Command, args []string) {
+		var err error
 		reports := make([]types.CheckReport, 0)
 		slug := args[0]
 		authToken, set := os.LookupEnv("GITHUB_TOKEN")
 		if !set {
-			cmd.PrintErr("GITHUB_TOKEN environment variable not set")
-			return
+			authToken, err = getTokenFromGhCli()
+			if err != nil {
+				cmd.PrintErr("GITHUB_TOKEN environment variable not set and unable to authenticate with gh cli")
+				return
+			}
 		}
+
 		gs := github.NewGithubService(authToken)
 		org, err := gs.GetOrganization(slug)
 		if err == nil {
@@ -60,4 +67,14 @@ var CheckCmd = &cobra.Command{
 		file.Seek(0, 0)
 		file.Write(bytes)
 	},
+}
+
+func getTokenFromGhCli() (string, error) {
+	cmd := "gh"
+	out, err := exec.Command(cmd, "auth", "token").Output()
+	if err != nil {
+		return "", errors.New("unable to authenticate with gh cli")
+	}
+
+	return strings.TrimSpace(string(out)), nil
 }
