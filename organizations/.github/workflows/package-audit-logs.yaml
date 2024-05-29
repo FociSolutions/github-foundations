@@ -17,13 +17,15 @@ jobs:
             - name: Checkout the GitHub Foundations repository
               uses: actions/checkout@v4
 
-            - name: Install HCL python library
-              run: pip install python-hcl2
+            - name: Get the Go CLI
+              run: |
+                curl -OL https://github.com/FociSolutions/github-foundations-cli/releases/latest/download/github-foundations-cli_Linux_x86_64.tar.gz
+                tar -xzf github-foundations-cli_Linux_x86_64.tar.gz
 
             - name: Find Orgs
               id: find-orgs-step
               run: |
-                orgs=$(python ${{ github.workspace }}/.github/scripts/gh_foundations/gh_foundations.py --orgs)
+                orgs=$(./github-foundations-cli list orgs ${{ github.workspace }}/organizations/)
                 echo -e "Found orgs: $orgs"
                 echo "orgs=$(echo -e "${orgs}" | sed s/\'/\"/g)" >> $GITHUB_OUTPUT
 
