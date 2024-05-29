@@ -15,16 +15,19 @@ jobs:
           repos: ${{ steps.repo_list.outputs.repos }}
 
         steps:
-            - name: Install HCL python library
-              run: pip install python-hcl2
-
             - name: Checkout the GitHub Foundations repository
               uses: actions/checkout@v4
 
-            - name: Run the python script to parse terragrunt.hcl files
+            - name: Get the Go CLI
+              run: |
+                curl -OL https://github.com/FociSolutions/github-foundations-cli/releases/latest/download/github-foundations-cli_Linux_x86_64.tar.gz
+                tar -xzf github-foundations-cli_Linux_x86_64.tar.gz
+
+            - name: Get the list of repos with GHAS enabled
               id: repo_list
               run: |
-                repos=$(python ${{ github.workspace }}/.github/scripts/gh_foundations/gh_foundations.py --ghas)
+                echo "Finding applicable repos in \"${{ github.workspace }}/projects/\""
+                repos=$(./github-foundations-cli list repos --ghas ${{ github.workspace }}/projects/)
                 echo -e "Found repos: $repos"
                 echo "repos=$(echo -e "${repos}" | sed s/\'/\"/g)" >> $GITHUB_OUTPUT
 
