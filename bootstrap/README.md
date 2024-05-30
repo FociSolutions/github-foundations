@@ -24,29 +24,16 @@ Before running the bootstrap layer, please ensure you have the following prerequ
   * Choose your preferred protocol for Git operations.
   * Choose a method to authenticate with GitHub, when prompted.
 
-**2. Google Cloud Platform (GCP) CLI:**
+**2. Prepare your cloud environment:**
 
-* Install the GCP CLI according to your operating system's instructions ([https://cloud.google.com/sdk/docs/install](https://cloud.google.com/sdk/docs/install)).
-* Authenticate to your GCP instance with the following command `gcloud auth application-default login`.
-
-**3. GCP Service Account and Permissions:**
-
-* Login to the GCP CLI with the command `gcloud auth application-default login` under a service account with the following roles for your organization:
-    * `roles/iam.workloadIdentityPoolAdmin`
-    * `roles/iam.serviceAccountAdmin`
-    * `roles/resourcemanager.projectMover`
-    * `roles/resourcemanager.projectDeleter`
-    * `roles/resourcemanager.folderEditor`
-    * `roles/storage.admin`
-    * `roles/storage.objectAdmin`
-
-**Note:** These prerequisites grant extensive permissions within your GCP project and organization. Please ensure you understand the implications of assigning these roles and permissions before proceeding.
+* Github Foundations currently provides modules to setup OIDC for the following cloud providers:
+    * [Azure](./AZURE_SETUP.md)
+    * [Google Cloud Platform](./GCP_SETUP.md)
+* If you want to use Github Foundations with a different cloud provider refer to the section [below](Running the Bootstrap Layer With An Unsupported Cloud Provider).
 
 **Resources:**
 
 * GitHub CLI: [https://cli.github.com/](https://cli.github.com/)
-* GCP CLI: [https://cloud.google.com/sdk/docs/install](https://cloud.google.com/sdk/docs/install)
-* GCP IAM Roles: [https://cloud.google.com/iam/docs/understanding-roles](https://cloud.google.com/iam/docs/understanding-roles)
 
 ## Single Organization Setup Vs Multi-Organization Setup
 
