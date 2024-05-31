@@ -2,6 +2,7 @@
 
 Currently Github Foundations supports using the following cloud providers:
 - Google Cloud Platform (GCP)
+- Microsoft Azure (Az)
 
 However it is possible to use other cloud providers to store Terraform state files remotely, the setup process is just a little different and requires some file modifications.
 
