@@ -110,11 +110,12 @@ runs:
       shell: bash
       run: |
         # Parse the metadata to extract the annotations
-        if [ ${{ inputs.secret_store }} == "azure}} ]
+        if [ ${{ inputs.secret_store }} == "azure"}} ]
         then
             app_id=$(echo "$PEM_METADATA" | grep "appId" | cut -d':' -f2 | cut -d' ' -f2 | tr -d ',' | tr -d '"')
             installation_id=$(echo "$PEM_METADATA" | grep "installationId" | cut -d':' -f2 | cut -d' ' -f2 | tr -d ',' | tr -d '"')
-        else
+        elif [ ${{ inputs.secret_store }} == "gcp"}} ]
+        then
             app_id=$(echo "$PEM_METADATA" | grep "appId" | cut -d':' -f2 | tr -d '[:space:]' | tr -d "'")
             installation_id=$(echo "$PEM_METADATA" | grep "installationId" | cut -d':' -f2 | tr -d '[:space:]' | tr -d "'")
         fi
