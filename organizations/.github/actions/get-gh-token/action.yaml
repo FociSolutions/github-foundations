@@ -99,7 +99,7 @@ runs:
       shell: bash
       run: |
         metadata=$(gcloud secrets describe "${{ env.ORG_NAME }}Pem")
-        echo "PEM_METADATA=$metadata" >> $GITHUB_ENVV
+        echo "PEM_METADATA=$metadata" >> $GITHUB_ENV
       
     - name: Get the application and installations IDs
       id: get_app_ids
