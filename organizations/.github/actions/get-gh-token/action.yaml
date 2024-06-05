@@ -107,9 +107,6 @@ runs:
             echo "app_id=$app_id" >> $GITHUB_OUTPUT
             echo "installation_id=$installation_id" >> $GITHUB_OUTPUT
         fi
-        echo "app Id is: $app_id"
-        echo "installation Id is: $installation_id"
-
 
     - name: Generate a Github token
       uses: actions/create-github-app-token@v1
