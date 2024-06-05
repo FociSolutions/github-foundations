@@ -92,21 +92,19 @@ runs:
         azurecliversion: latest
         inlineScript: |
           metadata=$(az keyvault secret show --vault-name "${{inputs.azure_key_vault_name}}" --name "${{ env.ORG_NAME }}Pem")
-          echo "PEM_METADATA=$metadata >> $GITHUB_ENV"
+          echo "PEM_METADATA=$metadata" >> $GITHUB_ENV
 
     - name: Get Metadata From Secret Manager
       if: inputs.secret_store == 'gcp'
       shell: bash
       run: |
         metadata=$(gcloud secrets describe "${{ env.ORG_NAME }}Pem")
-        echo "PEM_METADATA=$metadata >> $GITHUB_ENV"
+        echo "PEM_METADATA=$metadata" >> $GITHUB_ENVV
       
     - name: Get the application and installations IDs
       id: get_app_ids
       shell: bash
       run: |
-        printenv
-        echo "metadata is: ${{ env.PEM_METADATA }}"
         # Parse the metadata to extract the annotations
         if [ ${{ inputs.secret_store }} == "azure" ]
         then
