@@ -77,7 +77,8 @@ runs:
       run: |
         gcloud secrets versions access latest --secret="${{ env.ORG_NAME }}Pem" > pem_file.pem
         
-    - name: Set PRIVATE_KEY environment variable
+    - name: Output PRIVATE_KEY
+      id: output_private_key
       shell: bash
       run: |
         PRIVATE_KEY=$(sed -z 's/\n/\\n/g' pem_file.pem)
@@ -114,7 +115,7 @@ runs:
       uses: actions/create-github-app-token@v1
       id: generate_token
       with:
-        private-key: ${{ steps.download_pem.outputs.PRIVATE_KEY }}
+        private-key: ${{ steps.output_private_key.outputs.PRIVATE_KEY }}
         app-id: ${{ steps.get_app_ids.outputs.app_id }}
         owner: ${{ env.ORG_NAME }}
         repositories: ${{ env.REPO_NAME }}
