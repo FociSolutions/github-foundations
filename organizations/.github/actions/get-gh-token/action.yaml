@@ -109,6 +109,7 @@ runs:
       id: get_app_ids
       shell: bash
       run: |
+        printenv
         # Parse the metadata to extract the annotations
         if [ ${{ inputs.secret_store }} == "azure"}} ]
         then
