@@ -17,14 +17,14 @@
 # After the first successful "terraform apply":
 #
 # - uncomment this block
-# - replace the bucket name with the one you set, or the default: github-foundations-tf-state-{{ you_org_id }}
+# - replace the bucket name with the one you set, or the default: github-tf-state-bucket-{{ you_org_id }}
 # - (Optional) If using Azure: Replace the Storage Account name
 # - run "terraform init"
 
 ### GCP ###
 # terraform {
 #   backend "gcs" {
-#     bucket = "github-foundations-tf-state-1234567890"
+#     bucket = "github-tf-state-bucket-1234567890"
 #     prefix = "terraform/github-foundations/bootstrap"
 #   }
 # }
@@ -34,7 +34,7 @@
 #  backend "azurerm" {
 #    resource_group_name  = "StorageAccount-ResourceGroup"
 #    storage_account_name = "replace-me-with-your-storage-account-name"
-#    container_name       = "github-foundations-tf-state-1234567890"
+#    container_name       = "github-tf-state-bucket-1234567890"
 #    key                  = "prod.terraform.tfstate"
 #  }
 # }
