@@ -84,22 +84,6 @@ runs:
         echo -n "PRIVATE_KEY<<EOF" >> $GITHUB_OUTPUT
         echo -en "\n$PRIVATE_KEY\n" >> $GITHUB_OUTPUT
         echo -n "EOF" >> $GITHUB_OUTPUT
-
-    - name: Get Metadata From Key Vault
-      if: inputs.secret_store == 'azure'
-      uses: azure/cli@v2
-      with:
-        azurecliversion: latest
-        inlineScript: |
-          metadata=$(az keyvault secret show --vault-name "${{inputs.azure_key_vault_name}}" --name "${{ env.ORG_NAME }}Pem")
-          echo "PEM_METADATA='$metadata'" >> $GITHUB_ENV
-
-    - name: Get Metadata From Secret Manager
-      if: inputs.secret_store == 'gcp'
-      shell: bash
-      run: |
-        metadata=$(gcloud secrets describe "${{ env.ORG_NAME }}Pem")
-        echo "PEM_METADATA=$metadata" >> $GITHUB_ENV
       
     - name: Get the application and installations IDs
       id: get_app_ids
@@ -108,15 +92,17 @@ runs:
         # Parse the metadata to extract the annotations
         if [ ${{ inputs.secret_store }} == "azure" ]
         then
-            app_id=$(echo "$PEM_METADATA" | grep "appId" | cut -d':' -f2 | cut -d' ' -f2 | tr -d ',' | tr -d '"')
-            installation_id=$(echo "$PEM_METADATA" | grep "installationId" | cut -d':' -f2 | cut -d' ' -f2 | tr -d ',' | tr -d '"')
+            metadata=$(az keyvault secret show --vault-name "${{inputs.azure_key_vault_name}}" --name "${{ env.ORG_NAME }}Pem")
+            app_id=$(echo "$metadata" | grep "appId" | cut -d':' -f2 | cut -d' ' -f2 | tr -d ',' | tr -d '"')
+            installation_id=$(echo "$metadata" | grep "installationId" | cut -d':' -f2 | cut -d' ' -f2 | tr -d ',' | tr -d '"')
             echo "app_id=$app_id" >> $GITHUB_OUTPUT
             echo "installation_id=$installation_id" >> $GITHUB_OUTPUT
             echo $app_id
         elif [ ${{ inputs.secret_store }} == "gcp" ]
         then
-            app_id=$(echo "$PEM_METADATA" | grep "appId" | cut -d':' -f2 | tr -d '[:space:]' | tr -d "'")
-            installation_id=$(echo "$PEM_METADATA" | grep "installationId" | cut -d':' -f2 | tr -d '[:space:]' | tr -d "'")
+            metadata=$(gcloud secrets describe "${{ env.ORG_NAME }}Pem")
+            app_id=$(echo "$metadata" | grep "appId" | cut -d':' -f2 | tr -d '[:space:]' | tr -d "'")
+            installation_id=$(echo "$metadata" | grep "installationId" | cut -d':' -f2 | tr -d '[:space:]' | tr -d "'")
             echo "app_id=$app_id" >> $GITHUB_OUTPUT
             echo "installation_id=$installation_id" >> $GITHUB_OUTPUT
         fi
