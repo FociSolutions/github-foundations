@@ -92,7 +92,7 @@ runs:
         azurecliversion: latest
         inlineScript: |
           metadata=$(az keyvault secret show --vault-name "${{inputs.azure_key_vault_name}}" --name "${{ env.ORG_NAME }}Pem")
-          echo "PEM_METADATA=$metadata" >> $GITHUB_ENV
+          echo "PEM_METADATA='$metadata'" >> $GITHUB_ENV
 
     - name: Get Metadata From Secret Manager
       if: inputs.secret_store == 'gcp'
