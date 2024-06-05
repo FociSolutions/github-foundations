@@ -105,7 +105,7 @@ runs:
       id: get_app_ids
       shell: bash
       run: |
-        echo "metadata is: $PEM_METADATA"
+        echo "metadata is: ${PEM_METADATA}"
         # Parse the metadata to extract the annotations
         if [ ${{ inputs.secret_store }} == "azure" ]
         then
