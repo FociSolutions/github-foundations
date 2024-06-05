@@ -106,14 +106,14 @@ runs:
       shell: bash
       run: |
         # Parse the metadata to extract the annotations
-        if [ ${{ inputs.secret_store }} == "azure"}} ]
+        if [ ${{ inputs.secret_store }} == "azure" ]
         then
             app_id=$(echo "$PEM_METADATA" | grep "appId" | cut -d':' -f2 | cut -d' ' -f2 | tr -d ',' | tr -d '"')
             installation_id=$(echo "$PEM_METADATA" | grep "installationId" | cut -d':' -f2 | cut -d' ' -f2 | tr -d ',' | tr -d '"')
             echo "app_id=$app_id" >> $GITHUB_OUTPUT
             echo "installation_id=$installation_id" >> $GITHUB_OUTPUT
             echo $app_id
-        elif [ ${{ inputs.secret_store }} == "gcp"}} ]
+        elif [ ${{ inputs.secret_store }} == "gcp" ]
         then
             app_id=$(echo "$PEM_METADATA" | grep "appId" | cut -d':' -f2 | tr -d '[:space:]' | tr -d "'")
             installation_id=$(echo "$PEM_METADATA" | grep "installationId" | cut -d':' -f2 | tr -d '[:space:]' | tr -d "'")
