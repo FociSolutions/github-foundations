@@ -59,7 +59,7 @@ jobs:
 
       - name: GCP Auth
         id: auth
-        if: ${{ env.cloud_provider  }} == 'gcp'
+        if: ${{ env.cloud_provider == 'gcp' }}
         uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: "${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}"
@@ -177,7 +177,7 @@ jobs:
 
       - name: GCP Auth
         id: auth
-        if: ${{ env.cloud_provider  }} == 'gcp'
+        if: ${{ env.cloud_provider == 'gcp' }}
         uses: google-github-actions/auth@v2
         with:
           workload_identity_provider: "${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}"
