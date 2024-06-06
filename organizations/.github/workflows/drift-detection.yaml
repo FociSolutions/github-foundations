@@ -14,7 +14,15 @@ env:
   drift_label: Drift
   action_required_label: Action Required
   working_dir: .
-  AZURE_KEY_VAULT_ID: "/subscriptions/1e28ef70-66a2-4b3e-b8ce-0272d3f0fa11/resourceGroups/devops/providers/Microsoft.KeyVault/vaults/focikeyvault"
+  # Select your cloud provider
+  cloud_provider: gcp
+  # Required Variables For GCP
+  GCP_SECRET_MANAGER_PROJECT: "${{ vars.GCP_SECRET_MANAGER_PROJECT }}"
+  GCP_TF_STATE_BUCKET_PROJECT: "${{ vars.TF_STATE_BUCKET_PROJECT_ID}}"
+  GCP_TF_STATE_BUCKET_NAME: "${{vars.TF_STATE_BUCKET_NAME}}"
+  GCP_TF_STATE_BUCKET_LOCATION: "${{vars.TF_STATE_BUCKET_LOCATION}}"
+  # Required Variables For Azure
+  AZURE_KEY_VAULT_ID: "${{ vars.AZURE_KEY_VAULT_ID }}"
   ARM_CLIENT_ID: "${{ secrets.AZURE_CLIENT_ID }}"
   ARM_SUBSCRIPTION_ID: "${{ vars.AZURE_SUBSCRIPTION_ID }}"
   ARM_TENANT_ID: "${{ secrets.AZURE_TENANT_ID }}"
@@ -48,6 +56,14 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: ${{ env.tf_version }}
+
+      - name: GCP Auth
+        id: auth
+        if: ${{ env.cloud_provider  }} == 'gcp'
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: "${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}"
+          service_account: "${{ secrets.GCP_SERVICE_ACCOUNT }}"
 
       - name: Check Terraform Format
         id: fmt
@@ -158,6 +174,14 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: ${{ env.tf_version }}
+
+      - name: GCP Auth
+        id: auth
+        if: ${{ env.cloud_provider  }} == 'gcp'
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: "${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}"
+          service_account: "${{ secrets.GCP_SERVICE_ACCOUNT }}"
 
       - name: Check Terraform Format
         id: fmt
