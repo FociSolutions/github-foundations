@@ -208,7 +208,7 @@ jobs:
       - name: Find stale Terraform lock files
         id: find-stale-lock-files
         uses: FociSolutions/github-foundations/organizations/.github/actions/find-tf-lockfiles@main
-        if: failure() && ${{ env.cloud_provider!= 'azure' }}
+        if: ${{ failure() &&  env.cloud_provider != 'azure' }}
         with:
           terragrunt_output: ${{ steps.plan.outputs.tg_action_output }}
           tf_state_path: "gs://${{ vars.TF_STATE_BUCKET_NAME }}/terraform/github-foundations/organizations/"
