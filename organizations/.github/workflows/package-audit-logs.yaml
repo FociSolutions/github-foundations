@@ -25,7 +25,7 @@ jobs:
             - name: Find Orgs
               id: find-orgs-step
               run: |
-                orgs=$(./github-foundations-cli list orgs ${{ github.workspace }}/organizations/)
+                orgs=$(echo $(./github-foundations-cli list orgs ${{ github.workspace }}/providers))
                 echo -e "Found orgs: $orgs"
                 echo "orgs=$(echo -e "${orgs}" | sed s/\'/\"/g)" >> $GITHUB_OUTPUT
 
@@ -48,7 +48,7 @@ jobs:
               uses: FociSolutions/github-foundations/organizations/.github/actions/get-gh-token@main
               with:
                   secret_store: 'gcp'
-                  repo_name: ${{ matrix.repo }}
+                  repo_name: "${{ matrix.org }}/"
                   gcp_service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
                   workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
 
