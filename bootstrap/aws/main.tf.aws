@@ -1,0 +1,71 @@
+locals {
+  oidc_configuration = {
+    aws = {
+      s3_bucket                   = module.github_oidc.s3_bucket_name
+      region                      = module.github_oidc.s3_bucket_region
+      dynamodb_table              = module.github_oidc.dynamodb_table_name
+      organizations_role          = module.github_oidc.organizations_runner_role
+    }
+  }
+
+  # Set a default state container name if one is not provided
+  bucket_name = var.tf_state_bucket_name == "" ? "ghf-state" : var.tf_state_bucket_name
+}
+
+module "github_oidc" {
+  source = "github.com/FociSolutions/github-foundations-modules//modules/github-aws-oidc?ref=v0.0.5"
+
+  rg_name     = var.tf_state_project
+  
+  bucket_name = local.bucket_name
+  
+  github_thumbprints = var.github_thumbprints
+
+  github_foundations_organization_name = var.github_foundations_organization_name
+}
+
+# Github foundations setup
+module "github_foundations_organization" {
+  source = "github.com/FociSolutions/github-foundations-modules//modules/enterprise-organization?ref=v0.0.5"
+  providers = {
+    github = github.enterprise_scoped
+  }
+
+  count = local.no_enterprise_account ? 0 : 1
+
+  enterprise_id = local.no_enterprise_account ? "" : data.github_enterprise.enterprise_account[0].id
+  name          = var.github_foundations_organization_name
+  display_name  = "Github Foundations"
+  description   = "Organization created to host github foundation toolkit repositories"
+  admin_logins  = var.github_organization_admin_logins
+  billing_email = var.github_organization_billing_email
+}
+
+module "github_foundations" {
+  source = "github.com/FociSolutions/github-foundations-modules//modules/github-foundations?ref=v0.0.5"
+  providers = {
+    github = github.foundation_org_scoped
+  }
+
+  oidc_configuration = local.oidc_configuration
+
+  account_type = var.github_account_type
+}
+
+# Other organizations that should exist under your github enterprise account
+module "organizations" {
+  source = "github.com/FociSolutions/github-foundations-modules//modules/enterprise-organization?ref=v0.0.5"
+  providers = {
+    github = github.enterprise_scoped
+  }
+
+  for_each = local.no_enterprise_account ? {} : var.github_enterprise_organizations
+
+  enterprise_id = local.no_enterprise_account ? "" : data.github_enterprise.enterprise_account[0].id
+
+  name          = each.key
+  display_name  = each.value.display_name
+  description   = each.value.description
+  billing_email = each.value.billing_email
+  admin_logins  = each.value.admin_logins
+}
