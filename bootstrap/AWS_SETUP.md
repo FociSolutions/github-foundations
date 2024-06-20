@@ -147,7 +147,7 @@ This document will walk you through what is required of your Amazon Web Services
 
 **3. Assume Role and Set Environment Variables**
 * Set the environment variable `AWS_REGION` with the region you want to use for the bootstrap resources.
-* Asuume the role created to run the bootstrap layer and fetch credentials and output them into a `creds.json` file with the command: `aws sts assume-role --role-arn "<ROLE-ARN>" --role-session-name <SESSION-NAME> > creds.json`.
+* Assume the role created to run the bootstrap layer and fetch credentials and output them into a `creds.json` file with the command: `aws sts assume-role --role-arn "<ROLE-ARN>" --role-session-name <SESSION-NAME> > creds.json`.
 * Set the environment variables `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` to the fetched values in `creds.json`. 
 
 **Resources:**
