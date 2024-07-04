@@ -31,3 +31,7 @@ repos:
     -   id: terraform_trivy # static analysis of security settings in your Terraform code
         args:
             - --args=--skip-dirs="**/.terraform"
+-   repo: https://github.com/gitleaks/gitleaks
+    rev: v8.16.3
+    hooks:
+    -   id: gitleaks
