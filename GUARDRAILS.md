@@ -18,6 +18,16 @@ For this document the following definitions will be used:
 ## Applicable Service Models
 This guardrail document relates to Software as a Service (SaaS), specifically DevOps and Source Code management tools.
 
+## Guardrail Activities
+
+The `Activities` listed under each guardrail are intended to provide a high-level overview of the actions organizations should consider to achieve the desired outcome. They are not prescriptive instructions but rather guidelines that can be adapted to fit the specific needs and circumstances of each organization.
+
+While the activities offer general recommendations, the implementation details, such as the choice of specific tools or services, configuration settings, and thresholds for suspicious activity, will vary depending on factors like the organization's size, risk tolerance, and existing security infrastructure.
+
+```
+For more in-depth guidance and technical references, organizations are encouraged to consult your organization's best practices, standards, and specialized resources.
+```
+
 ## SCM Guardrails
 
 | ID. | SCM Guardrails |

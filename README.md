@@ -2,7 +2,7 @@
 
 ## Securing Your GitHub Environment at Scale
 
-### Quick Start: [Get Started Now!](./README.md#getting-started)
+### [Get Started Now!](./README.md#getting-started)
 
 Managing GitHub for multiple groups introduces complex security and consistency challenges. Misaligned permission levels, team structures, incomplete change rollouts across groups, and status reporting are just a few of the obstacles that can manifest with manual processes.  The GitHub Foundations Toolkit offers a secure and efficient way to manage your organization's GitHub environment through automation and centralized control.
 
@@ -50,11 +50,12 @@ Initial setup of your state file backend, and creation of all organizations unde
 Management of organizations, repositories, and teams, Review results of drift detection, and execution of pull request plans for your organizations.
 
 #### Included Tools:
-- **Drift Detection:** Detects when someone makes a change to configuration, outside of the source-controlled configuration. Gives the ability to reapply the correct state.
-- **Deletion Protection:** When a PR change requests resources be deleted, this tool forces the user to confirm the action
-- **GitHub Advanced Security (GHAS) checks:** Checks the state of GHAS for the repos that have it enabled. Reports all of the GHAS scans in one report.
-- **Assessment tool:** Used to assess the readiness of your repo, before importing it with the toolkit. Can be used to check whether toolkit guardrails are already in place in the repo.
-- **Import tool:** Import repos not currently managed by the toolkit.
+- [**Interactive HCL tool:**](./organizations/GEN_INTERACTIVE.md) A CLI tool to help you write HCL interactively for `repositories` and `teams`.
+- [**Drift Detection:**](./organizations/DRIFT_DETECTION.md) Detects when someone makes a change to configuration, outside of the source-controlled configuration. Gives the ability to reapply the correct state.
+- [**Deletion Protection:**](./organizations/DELETION_PROTECTION.md) When a PR change requests resources be deleted, this tool forces the user to confirm the action
+- [**GitHub Advanced Security (GHAS) checks:**](./organizations/GH_ADVANCED_SECURITY.md) Runs GHAS scans for the eligible repos that have it enabled. Reports all of the GHAS scans in one report.
+- [**Assessment tool:**](./organizations/ASSESSMENT_TOOL.md) Used to assess the readiness of your repo, before importing it with the toolkit. Can be used to check whether toolkit guardrails are already in place in the repo.
+- [**Import tool:**](./organizations/IMPORT_TOOL.md) Import repos not currently managed by the toolkit.
 
 
 ## How to Contribute
