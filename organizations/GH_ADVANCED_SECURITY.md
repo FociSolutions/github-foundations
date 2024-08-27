@@ -1,3 +1,5 @@
+([Back](../README.md#included-tools))
+
 # GitHub Advanced Security (GHAS) checks
 
 The `GHAS Checks` tool is automatically installed on all GitHub Foundations organizations.

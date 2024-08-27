@@ -1,3 +1,5 @@
+([Back](../README.md#included-tools))
+
 # Interactive `Generate` Tool
 
 The `Generate` tool is a CLI tool to help you write HCL interactively for `repositories` and `teams`.

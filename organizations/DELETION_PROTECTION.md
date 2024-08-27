@@ -1,3 +1,5 @@
+([Back](../README.md#included-tools))
+
 # Deletion Protection
 
 The `Deletion Protection` tool is automatically installed on all GitHub Foundations organizations.
