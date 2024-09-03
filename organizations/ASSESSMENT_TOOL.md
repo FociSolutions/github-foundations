@@ -2,12 +2,12 @@
 
 # Assessment Tool
 
-The Assessment Tool allows you to assess the readiness of your pre-existing GitHub `repository`, before importing it with the toolkit.
+The `Assessment Tool` allows you to assess the readiness of your pre-existing GitHub `repository`, before importing it with the toolkit.
 It is used to check whether toolkit guardrails are already in place in the `repository`, as well as any settings required at the `organization` level.
 
 ## Running the Assessment Tool
 
-The Assessment Tool is available as part of the `GitHub Foundations CLI` tool, found [here](https://github.com/FociSolutions/github-foundations-cli/releases)
+The `Assessment Tool` is available as part of the `GitHub Foundations CLI` tool, found [here](https://github.com/FociSolutions/github-foundations-cli/releases)
 
 To run an assessment check on a repository, run the following command:
 
