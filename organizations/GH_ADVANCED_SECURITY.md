@@ -4,13 +4,9 @@
 
 The `GHAS Checks` tool is automatically installed on all GitHub Foundations organizations.
 
-It runs [GitHub Advanced Security (GHAS)](https://docs.github.com/en/get-started/learning-about-github/about-github-advanced-security) scans for eligible repositories that have it enabled and reports all of the GHAS scans in one report.
+It runs [GitHub Advanced Security (GHAS)](https://docs.github.com/en/get-started/learning-about-github/about-github-advanced-security) scans for eligible repositories that have it enabled and reports all of the GHAS scans in one report. It is implemented as a GitHub Action that runs on a cron schedule (02:00 daily), and works by checking for any repositories that have GHAS enabled and running a scan on them.
 
-## GHAS Checks GitHub Action
-
-The `GHAS Checks` tool is a GitHub Action that runs on a cron schedule (02:00 daily), and works by checking for any repositories that have GHAS enabled and running a scan on them.
-
-### Changing the Schedule
+## Changing the Schedule
 
 The schedule for the `GHAS Checks` tool can be changed by modifying the `schedule` field in the `.github/workflows/ghas-policy-check.yml` file.
 
@@ -23,7 +19,7 @@ on:
 The schedule is set to run at 02:00 daily by default.
 To learn how cron schedules work, see the [GitHub Actions documentation](https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows#schedule).
 
-### Repository Eligibility
+## Repository Eligibility
 
 To be eligible for a GHAS scan, the repository must have GHAS enabled. A repository can have GHAS enabled if:
 
