@@ -4,13 +4,9 @@
 
 The `Deletion Protection` tool is automatically installed on all GitHub Foundations organizations.
 
-`Deletion Protection` is a feature that helps to prevent accidental deletion of resources. When a resource is removed from the Terraform configuration, a mechanism kicks-in to ask for confirmation before the resource is deleted.
+`Deletion Protection` is a feature that helps to prevent accidental deletion of resources. When a resource is removed from the Terraform configuration, a mechanism kicks-in to ask for confirmation before the resource is deleted. It is implemented as a GitHub Action that is invoked when a Pull Request (PR) into the default branch is opened, and works by checking for any resources that are about to be deleted and asking for confirmation before proceeding with the deletion.
 
-## Deletion Protection GitHub Action
-
-The `Deletion Protection` tool is a GitHub Action that helps prevent accidental deletion of resources in your GitHub organization. It is invoked when a Pull Request (PR) into the default branch is opened, and works by checking for any resources that are about to be deleted and asking for confirmation before proceeding with the deletion.
-
-### Confirmation
+## Confirmation
 
 When a PR is opened that deletes resources, the `Deletion Protection` tool will comment on the PR with a message telling the user:
 
