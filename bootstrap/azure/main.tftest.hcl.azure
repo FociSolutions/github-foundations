@@ -1,0 +1,151 @@
+mock_provider "github" {}
+mock_provider "azurerm" {}
+
+
+override_module {
+  target = module.github_foundations
+  outputs = {
+    organization_id = "123"
+  }
+}
+override_module {
+  target = module.github_foundations_organization[0]
+  outputs = {
+    id   = "123"
+    name = "github-foundations-organization"
+  }
+}
+override_data {
+  target = module.github_oidc.data.azurerm_key_vault.key_vault[0]
+  values = {
+    id = "/subscriptions/0b1f6471-1bf0-4dda-aec3-111122223333/resourceGroups/ghf-secrets-rg/providers/Microsoft.KeyVault/vaults/ghf-secrets"
+  }
+}
+override_data {
+  target = module.github_oidc.data.azurerm_client_config.current
+  values = {
+    tenant_id       = "tenant123"
+    subscription_id = "subscription123"
+  }
+}
+override_resource {
+  target = module.github_oidc.azurerm_user_assigned_identity.bootstrap_identity
+  values = {
+    id        = "/subscriptions/0b1f6471-1bf0-4dda-aec3-111122223333/resourceGroups/github-foundations/providers/Microsoft.ManagedIdentity/userAssignedIdentities/ghf-oidc-bootstrap"
+    client_id = "client123"
+  }
+}
+override_resource {
+  target = module.github_oidc.azurerm_user_assigned_identity.organization_identity
+  values = {
+    id        = "/subscriptions/0b1f6471-1bf0-4dda-aec3-111122223333/resourceGroups/github-foundations/providers/Microsoft.ManagedIdentity/userAssignedIdentities/ghf-oidc-organization"
+    client_id = "client456"
+  }
+}
+override_resource {
+  target = module.github_oidc.azurerm_storage_account.github_foundations_sa
+  values = {
+    id = "/subscriptions/0b1f6471-1bf0-4dda-aec3-111122223333/resourceGroups/github-foundations/providers/Microsoft.Storage/storageAccounts/ghfoundations"
+  }
+}
+override_resource {
+  target = module.github_oidc.azurerm_storage_container.github_foundations_tf_state_container[0]
+  values = {
+    resource_manager_id = "/subscriptions/0b1f6471-1bf0-4dda-aec3-111122223333/resourceGroups/github-foundations/providers/Microsoft.Storage/storageAccounts/ghfoundations/blobServices/default/containers/ghf-state"
+  }
+}
+override_resource {
+  target = module.organizations["github-foundations"].github_enterprise_organization.organization
+  values = {
+    id = "123"
+  }
+}
+
+variables {
+  org_id                               = 12345678
+  billing_account                      = "billingAccounts/123456-123456-123456"
+  github_enterprise_slug               = "github-enterprise-slug"
+  github_foundations_organization_name = "github-foundations"
+  github_organization_admin_logins     = ["admin"]
+  github_organization_billing_email    = "billingemail@focisolutions.com"
+  github_account_type                  = "Enterprise"
+  tf_state_bucket_name                 = "tf-state-bucket"
+
+  # variables for this test
+  secret_store_name = "ghf-secrets"
+  github_enterprise_organizations = {
+    github-foundations = {
+      display_name  = "github-foundations"
+      description   = "The organization for the github foundations."
+      billing_email = "billingaccount2@focisoulutions.com"
+      admin_logins  = ["admin1", "admin2"]
+    }
+  }
+}
+
+run "oidc_module_test" {
+  command = apply
+
+  assert {
+    condition     = module.github_oidc.resource_group == var.tf_state_project
+    error_message = "The resource group name is incorrect. Expected: ${var.tf_state_project}, got: ${module.github_oidc.resource_group}"
+  }
+  assert {
+    condition     = module.github_oidc.bootstrap_client_id == "client123"
+    error_message = "The bootstrap client id is incorrect. Expected: client123, got: ${module.github_oidc.bootstrap_client_id}"
+  }
+  assert {
+    condition     = module.github_oidc.organization_client_id == "client456"
+    error_message = "The organization client id is incorrect. Expected: client456, got: ${module.github_oidc.organization_client_id}"
+  }
+  assert {
+    condition     = module.github_oidc.tenant_id == "tenant123"
+    error_message = "The tenant id is incorrect. Expected: tenant123, got: ${module.github_oidc.tenant_id}"
+  }
+  assert {
+    condition     = module.github_oidc.subscription_id == "subscription123"
+    error_message = "The subscription id is incorrect. Expected: subscription123, got: ${module.github_oidc.subscription_id}"
+  }
+  assert {
+    condition     = module.github_oidc.sa_name == "ghfoundations"
+    error_message = "The storage account name is incorrect. Expected: ghfoundations, got: ${module.github_oidc.sa_name}"
+  }
+  assert {
+    condition     = module.github_oidc.container_name == var.tf_state_bucket_name
+    error_message = "The terraform state container is incorrect. Expected: '${var.tf_state_bucket_name}', got: ${module.github_oidc.container_name}"
+  }
+  assert {
+    condition     = module.github_oidc.key_vault_id == "/subscriptions/0b1f6471-1bf0-4dda-aec3-111122223333/resourceGroups/ghf-secrets-rg/providers/Microsoft.KeyVault/vaults/ghf-secrets"
+    error_message = "The key vault id is incorrect. Expected: '/subscriptions/0b1f6471-1bf0-4dda-aec3-111122223333/resourceGroups/ghf-secrets-rg/providers/Microsoft.KeyVault/vaults/ghf-secrets', got: ${module.github_oidc.key_vault_id}"
+  }
+}
+
+run "github_foundations_organization_module_test" {
+
+  assert {
+    condition     = module.github_foundations_organization[0].id == "123"
+    error_message = "The organization id is incorrect. Expected: 123, got: ${module.github_foundations_organization[0].id}"
+    }
+  assert {
+    condition     = module.github_foundations_organization[0].name == "github-foundations-organization"
+    error_message = "The organization name is incorrect. Expected 'github-foundations-organization' but got '${module.github_foundations_organization[0].name}'"
+  }
+}
+
+run "github_foundations_module_test" {
+  assert {
+    condition     = module.github_foundations != null
+    error_message = "The github foundations module is null."
+  }
+}
+
+run "organizations_module_test" {
+  assert {
+    condition     = module.organizations.github-foundations.id == "123"
+    error_message = "The organization ID is incorrect. Expected '123' but got '${module.organizations.github-foundations.id}'"
+  }
+  assert {
+    condition     = module.organizations.github-foundations.name == var.github_enterprise_organizations.github-foundations.display_name
+    error_message = "The organization name is incorrect. Expected '${var.github_enterprise_organizations.github-foundations.display_name}' but got '${module.organizations.github-foundations.name}'"
+  }
+}

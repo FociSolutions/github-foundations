@@ -1,6 +1,7 @@
 # Setting Up the Toolkit for Different Cloud Providers
 
 Currently Github Foundations supports using the following cloud providers:
+
 - Google Cloud Platform (GCP)
 - Microsoft Azure (Az)
 
@@ -10,20 +11,20 @@ This document outlines the steps for configuring our toolkit to work with cloud 
 
 **Prerequisites:**
 
-* Familiarity with Github Workflows, Terraform and Terragrunt
-* Access to your chosen cloud provider with appropriate permissions
+- Familiarity with Github Workflows, Terraform and Terragrunt
+- Access to your chosen cloud provider with appropriate permissions
 
 **Steps:**
 
 1. **Setup Method of Authentication:**
 
-   * Establish an authentication method for your cloud provider. This can be OIDC, a key file, a token, or any method supported by your platform.
+   - Establish an authentication method for your cloud provider. This can be OIDC, a key file, a token, or any method supported by your platform.
 
 2. **Bootstrap Layer Configuration:**
 
-   * Update the bootstrap layer with the necessary secrets and action variables for GitHub Actions runners to authenticate with your cloud environment. Utilize the `custom` input variable with the following schema:
+   - Update the bootstrap layer with the necessary secrets and action variables for GitHub Actions runners to authenticate with your cloud environment. Utilize the `custom` input variable with the following schema:
 
-   ```
+   ```hcl
    object({
        organization_secrets = map(string)
        organization_variables = map(string)
@@ -31,8 +32,9 @@ This document outlines the steps for configuring our toolkit to work with cloud 
        repository_variables = map(map(string))
    })
    ```
-   * In the `main.tf` file in the bootstrap layer remove the `github_gcloud_oidc` module. Your method of authentication for your cloud environment setup should have been done in the previous step.
-   * Store the required secrets and variables required for Github Workflow runners to authenticate with your cloud provider within the appropriate sections (`organization_secrets` for secrets that runners in all Github Foundation repositories will need, `repository_secrets` for secrets that runners in only a select amount of repositories need, etc.).
+
+   - In the `main.tf` file in the bootstrap layer remove the `github_gcloud_oidc` module. Your method of authentication for your cloud environment setup should have been done in the previous step.
+   - Store the required secrets and variables required for Github Workflow runners to authenticate with your cloud provider within the appropriate sections (`organization_secrets` for secrets that runners in all Github Foundation repositories will need, `repository_secrets` for secrets that runners in only a select amount of repositories need, etc.).
 
 3. **Terraform Backend Setup:**
 
@@ -42,12 +44,12 @@ This document outlines the steps for configuring our toolkit to work with cloud 
 
 4. **Workflow Authentication Update:**
 
-   * In the organization layer, modify all Github Workflow files to switch authentication away from GCP and towards your chosen cloud provider.
-   * To do this replace all instances of the `GCP Auth` step with one that authenticates against your specific platform.
+   - In the organization layer, modify all Github Workflow files to switch authentication away from GCP and towards your chosen cloud provider.
+   - To do this replace all instances of the `GCP Auth` step with one that authenticates against your specific platform.
 
 5. **Terragrunt Configuration:**
 
-   * Update the root `terragrunt.hcl` file within the organization layer to define the appropriate backend configuration for your chosen cloud provider.
+   - Update the root `terragrunt.hcl` file within the organization layer to define the appropriate backend configuration for your chosen cloud provider.
 
    **Example Configuration (AWS S3 Backend):**
 

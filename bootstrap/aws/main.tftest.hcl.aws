@@ -1,0 +1,92 @@
+mock_provider "github" {}
+mock_provider "aws" {}
+
+override_module {
+  target = module.github_foundations
+  outputs = {
+    organization_id = "123"
+  }
+}
+override_module {
+  target = module.github_foundations_organization[0]
+  outputs = {
+    id   = "123"
+    name = "github-foundations-organization"
+  }
+}
+override_resource {
+  target = module.organizations["github-foundations"].github_enterprise_organization.organization
+  values = {
+    id = "123"
+  }
+}
+override_resource {
+  target = module.github_oidc.aws_s3_bucket.state_bucket
+  values = {
+    region = "northamerica-northeast2"
+  }
+}
+
+variables {
+    org_id                               = 12345678
+  billing_account                      = "billingAccounts/123456-123456-123456"
+  github_enterprise_slug               = "github-enterprise-slug"
+  github_foundations_organization_name = "github-foundations"
+  github_organization_admin_logins     = ["admin"]
+  github_organization_billing_email    = "billingemail@focisolutions.com"
+  github_account_type                  = "Enterprise"
+  tf_state_bucket_name                 = "tf-state-bucket"
+
+  # variables for this test
+  github_thumbprints = ["990F4193972F2BECF12DDEDA5237F9C952F20D9E", "990F4193972F2BECF12DDEDA5237F9C952F20D9F"]
+  github_enterprise_organizations = {
+    github-foundations = {
+      display_name  = "github-foundations"
+      description   = "The organization for the github foundations."
+      billing_email = "billingaccount2@focisoulutions.com"
+      admin_logins  = ["admin1", "admin2"]
+    }
+  }
+}
+
+run "oidc_module_test" {
+  command = apply
+
+  assert {
+    condition     = module.github_oidc.s3_bucket_name == var.tf_state_bucket_name
+    error_message = "The s3_bucket_name is incorrect. Expected '${var.tf_state_bucket_name}', got '${module.github_oidc.s3_bucket_name}'"
+  }
+  assert {
+    condition     = module.github_oidc.s3_bucket_region == "northamerica-northeast2"
+    error_message = "The s3_bucket_region is incorrect. Expected 'northamerica-northeast2', got '${module.github_oidc.s3_bucket_region}'"
+  }
+}
+
+run "github_foundations_organization_module_test" {
+  assert {
+    condition     = module.github_foundations_organization[0].id == "123"
+    error_message = "The github_foundations_organization id is incorrect. Expected '123', got '${module.github_foundations_organization[0].id}'"
+  }
+  assert {
+    condition     = module.github_foundations_organization[0].name == "github-foundations-organization"
+    error_message = "The github_foundations_organization name is incorrect. Expected 'github-foundations-organization', got '${module.github_foundations_organization[0].name}'"
+  }
+}
+
+run "github_foundations_module_test" {
+  assert {
+    condition     = module.github_foundations != null
+    error_message = "The github_foundations module is null."
+  }
+}
+
+run "organizations_module_test" {
+  assert {
+    condition     = module.organizations.github-foundations.id == "123"
+    error_message = "The organizations id is incorrect. Expected '123', got '${module.organizations.github-foundations.id}'"
+  }
+  assert {
+    condition     = module.organizations.github-foundations.name == var.github_enterprise_organizations.github-foundations.display_name
+    error_message = "The organization name is incorrect. Expected '${var.github_enterprise_organizations.github-foundations.display_name}' but got '${module.organizations.github-foundations.name}'"
+  }
+}

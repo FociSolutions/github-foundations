@@ -15,7 +15,7 @@ locals {
 }
 
 module "github_oidc" {
-  source = "github.com/FociSolutions/github-foundations-modules//modules/github-gcloud-oidc?ref=v0.0.3"
+  source = "github.com/FociSolutions/github-foundations-modules//modules/github-gcloud-oidc?ref=v0.0.7"
 
   #Folder
   parent      = "organizations/${var.org_id}"
@@ -56,7 +56,7 @@ module "github_oidc" {
 
 # Github foundations setup
 module "github_foundations_organization" {
-  source = "github.com/FociSolutions/github-foundations-modules//modules/enterprise-organization?ref=v0.0.3"
+  source = "github.com/FociSolutions/github-foundations-modules//modules/enterprise-organization?ref=v0.0.7"
   providers = {
     github = github.enterprise_scoped
   }
@@ -72,7 +72,7 @@ module "github_foundations_organization" {
 }
 
 module "github_foundations" {
-  source = "github.com/FociSolutions/github-foundations-modules//modules/github-foundations?ref=v0.0.3"
+  source = "github.com/FociSolutions/github-foundations-modules//modules/github-foundations?ref=v0.0.7"
   providers = {
     github = github.foundation_org_scoped
   }
@@ -84,7 +84,7 @@ module "github_foundations" {
 
 # Other organizations that should exist under your github enterprise account
 module "organizations" {
-  source = "github.com/FociSolutions/github-foundations-modules//modules/enterprise-organization?ref=v0.0.3"
+  source = "github.com/FociSolutions/github-foundations-modules//modules/enterprise-organization?ref=v0.0.7"
   providers = {
     github = github.enterprise_scoped
   }

@@ -2,18 +2,18 @@
 # See https://pre-commit.com/hooks.html for more hooks
 repos:
 -   repo: https://github.com/commitizen-tools/commitizen
-    rev: v3.18.3
+    rev: v4.0.0
     hooks:
     -   id: commitizen
 -   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v5.0.0
     hooks:
     -   id: trailing-whitespace
     -   id: end-of-file-fixer
     -   id: check-added-large-files
     -   id: detect-private-key
 -   repo: https://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.88.1
+    rev: v1.96.2
     hooks:
     -   id: terraform_fmt
         args:
@@ -32,6 +32,6 @@ repos:
         args:
             - --args=--skip-dirs="**/.terraform"
 -   repo: https://github.com/gitleaks/gitleaks
-    rev: v8.16.3
+    rev: v8.21.2
     hooks:
     -   id: gitleaks
