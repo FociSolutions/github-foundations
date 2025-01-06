@@ -59,7 +59,7 @@ jobs:
                   workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
 
             - name: For each repo, run the policy checks
-              uses: advanced-security/policy-as-code@v2.7.2
+              uses: advanced-security/policy-as-code@v2.9.0
               #   env:
               #     DEBUG: true
               with:

@@ -8,21 +8,20 @@ This layer of the toolkit contains all the terraform needed to:
 
  This layer is meant to be run locally by a user that can authenticate with the `admin:enterprise, admin:org, repo, workflow` scopes.
 
- # Table of Contents
+## Table of Contents
 
-  - [System Diagram](#system-diagram)
-  - [Prerequisites for Running the Bootstrap Layer](#prerequisites-for-running-the-bootstrap-layer)
-  - [Single Organization Setup Vs Multi-Organization Setup](#single-organization-setup-vs-multi-organization-setup)
-      - [Azure Setup (Optional)](#azure-setup-optional)
-      - [AWS Setup (Optional)](#aws-setup-optional)
-      - [Configuring Variables](#configuring-variables)
-          - [Variables For Both Multi and Single Organization Approach](#variables-for-both-multi-and-single-organization-approach)
-          - [Variables For Multi Organization Approach](#variables-for-multi-organization-approach)
-  - [Running the Bootstrap Layer](#running-the-bootstrap-layer)
-      - [Running the Bootstrap Layer With An Unsupported Cloud Provider](#running-the-bootstrap-layer-with-an-unsupported-cloud-provider)
-      - [Generating a Plan (Without Execution)](#generating-a-plan-without-execution)
-      - [Generating and Executing a Plan](#generating-and-executing-a-plan)
-
+- [System Diagram](#system-diagram)
+- [Prerequisites for Running the Bootstrap Layer](#prerequisites-for-running-the-bootstrap-layer)
+- [Single Organization Setup Vs Multi-Organization Setup](#single-organization-setup-vs-multi-organization-setup)
+  - [Azure Setup (Optional)](#azure-setup-optional)
+  - [AWS Setup (Optional)](#aws-setup-optional)
+  - [Configuring Variables](#configuring-variables)
+    - [Variables For Both Multi and Single Organization Approach](#variables-for-both-multi-and-single-organization-approach)
+    - [Variables For Multi Organization Approach](#variables-for-multi-organization-approach)
+- [Running the Bootstrap Layer](#running-the-bootstrap-layer)
+  - [Running the Bootstrap Layer With An Unsupported Cloud Provider](#running-the-bootstrap-layer-with-an-unsupported-cloud-provider)
+  - [Generating a Plan (Without Execution)](#generating-a-plan-without-execution)
+  - [Generating and Executing a Plan](#generating-and-executing-a-plan)
 
 ## System Diagram
 
@@ -34,23 +33,23 @@ Before running the bootstrap layer, please ensure you have the following prerequ
 
 **1. GitHub CLI:**
 
-* Install the GitHub CLI according to your operating system's instructions ([https://cli.github.com/](https://cli.github.com/)).
-* Authenticate to GitHub by running the following command: `gh auth login --scopes 'admin:enterprise','admin:org','repo','workflow'`.
-  * Choose "GitHub.com" when prompted.
-  * Choose your preferred protocol for Git operations.
-  * Choose a method to authenticate with GitHub, when prompted.
+- Install the GitHub CLI according to your operating system's instructions ([https://cli.github.com/](https://cli.github.com/)).
+- Authenticate to GitHub by running the following command: `gh auth login --scopes 'admin:enterprise','admin:org','repo','workflow'`.
+  - Choose "GitHub.com" when prompted.
+  - Choose your preferred protocol for Git operations.
+  - Choose a method to authenticate with GitHub, when prompted.
 
 **2. Prepare your cloud environment:**
 
-* Github Foundations currently provides modules to setup OIDC for the following cloud providers:
-    * [Azure](./AZURE_SETUP.md)
-    * [Google Cloud Platform](./GCP_SETUP.md)
-    * [Amazon Web Services](./AWS_SETUP.md)
-* If you want to use Github Foundations with a different cloud provider refer to the section [below](Running the Bootstrap Layer With An Unsupported Cloud Provider).
+- Github Foundations currently provides modules to setup OIDC for the following cloud providers:
+  - [Azure](./AZURE_SETUP.md)
+  - [Google Cloud Platform](./GCP_SETUP.md)
+  - [Amazon Web Services](./AWS_SETUP.md)
+- If you want to use Github Foundations with a different cloud provider refer to the section [below](Running the Bootstrap Layer With An Unsupported Cloud Provider).
 
 **Resources:**
 
-* GitHub CLI: [https://cli.github.com/](https://cli.github.com/)
+- GitHub CLI: [https://cli.github.com/](https://cli.github.com/)
 
 ## Single Organization Setup Vs Multi-Organization Setup
 
@@ -67,34 +66,46 @@ The following section will describe how to setup variables to run the bootstrap 
 If you are using Azure as your cloud provider, you will need to setup the Azure terraform files.
 
 1. Delete each of the following files:
-    * `main.tf`
-    * `providers.tf`
-    * `versions.tf`
+
+    - `main.tf`
+    - `providers.tf`
+    - `versions.tf`
+    - `main.tftest.hcl`
+
     They are GCP configuration, and not needed for Azure.
+
 2. Copy the `azure/main.tf.azure` file into the root of the repository and rename it to `main.tf`.
 3. Copy the `azure/providers.tf.azure` file into the root of the repository and rename it to `providers.tf`.
 4. Copy the `azure/versions.tf.azure` file into the root of the repository and rename it to `versions.tf`.
 5. Copy the `azure/variables-override.tf.azure` file into the root of the repository and rename it to `variables-override.tf`.
+6. (Optional) Copy the `azure/main.tftest.hcl.azure` file into the root of the repository and rename it to `main.tftest.hcl`.
 
 ### AWS Setup (Optional)
 
 If you are using AWS as your cloud provider, you will need to setup the AWS terraform files.
+
 1. Delete each of the following files:
-    * `main.tf`
-    * `providers.tf`
-    * `versions.tf`
+
+    - `main.tf`
+    - `providers.tf`
+    - `versions.tf`
+    - `main.tftest.hcl`
+
+    They are GCP configuration, and not needed for AWS.
+
 2. Copy the `aws/main.tf.aws` file into the root of the repository and rename it to `main.tf`.
 3. Copy the `aws/providers.tf.aws` file into the root of the repository and rename it to `providers.tf`.
 4. Copy the `aws/versions.tf.aws` file into the root of the repository and rename it to `versions.tf`.
 5. Copy the `aws/variables-override.tf.aws` file into the root of the repository and rename it to `variables-override.tf`.
+6. (Optional) Copy the `aws/main.tftest.hcl.aws` file into the root of the repository and rename it to `main.tftest.hcl`.
 
 ### Configuring Variables
 
 Before running the bootstrap layer, you need to configure input variables for it to run. You can do this by copying the `terraform.tfvars.example` file to `terraform.tfvars` and filling in the values.
 
 ```bash
-$ cp terraform.tfvars.example terraform.tfvars
-$ nano terraform.tfvars
+cp terraform.tfvars.example terraform.tfvars
+nano terraform.tfvars
 ```
 
 #### Variables For Both Multi and Single Organization Approach
@@ -128,65 +139,70 @@ To run the bootstrap layer perform the following steps:
 1. Clone this repository locally and copy the bootstrap folder into a separate folder on your local machine.
 2. Navigate to the folder that you copied the bootstrap layer to and configure the variables required to run it. For more info on how to do this refer to the [configuring variables section](#configuring-variables).
 3. Run `terraform init` then generate and execute a plan with `terraform apply`. If you run into any authentication issues make sure all [prerequisites are met](#prerequisites-for-running-the-bootstrap-layer).
-      * If using `Azure` for your backend, make a note of the `sa_name` output as you will need it for the next step.
+      - If using `Azure` for your backend, make a note of the `sa_name` output as you will need it for the next step.
 
 4. After a successful application of the terraform code navigate to the `backend.tf` file and uncomment the backend configuration for your cloud.
 
----
+    ---
 
-**GCP**
+    **GCP**
 
-It should be the block that looks like this:
-```hcl
-terraform {
-  backend "gcs" {
-    bucket = "ghf-state-1234567890"
-    prefix = "terraform/github-foundations/bootstrap"
-  }
-}
-```
-* replace the bucket name with the one you set in the `terraform.tfvars` file, or the default one (`ghf-state-<your-org-id>`) if you didn't set it.
+    It should be the block that looks like this:
 
----
+    ```hcl
+    terraform {
+      backend "gcs" {
+        bucket = "ghf-state-1234567890"
+        prefix = "terraform/github-foundations/bootstrap"
+      }
+    }
+    ```
 
-**Azure**
+    - replace the bucket name with the one you set in the `terraform.tfvars` file, or the default one (`ghf-state-<your-org-id>`) if you didn't set it.
 
-It should be the block that looks like this:
-```hcl
-terraform {
- backend "azurerm" {
-   resource_group_name  = "github-foundations"
-   storage_account_name = "ghfoundations"
-   container_name       = "ghf-state"
-   key                  = "prod.terraform.tfstate"
- }
-}
-```
-  * replace the `container_name` with the one you set in the `terraform.tfvars` file, or the default one (`ghf-state-`) if you didn't set it.
-  * replace the `storage_account_name` with the name of the `sa_name` output from the previous step.
+    ---
 
----
+    **Azure**
 
-**AWS**
+    It should be the block that looks like this:
 
-It should be the block that looks likethis:
-```hcl
-terraform {
-  backend "s3" {
-    bucket         = "ghf-state"
-    region         = "<AWS-REGION>"
-    encrypt        = true
-    key            = "bootstrap.terraform.tfstate"
-    dynamodb_table = "TFLockIds"
-  }
- }
-```
+    ```hcl
+    terraform {
+      backend "azurerm" {
+        resource_group_name  = "github-foundations"
+        storage_account_name = "ghfoundations"
+        container_name       = "ghf-state"
+        key                  = "prod.terraform.tfstate"
+      }
+    }
+    ```
 
-  * replace the `<AWS-REGION>` with the region the s3 bucket is in. This line can also be removed if the environment variable `AWS_DEFAULT_REGION` or `AWS_REGION` has already been set.
-  * replace `bucket` with the name of the s3 bucket you set in the `terraform.tfvars` file.
-  * if you set the `tflock_db_name` variable for the aws oidc module, replace `dynamodb_table` with the value used.
+    - replace the `container_name` with the one you set in the `terraform.tfvars` file, or the default one (`ghf-state-`) if you didn't set it.
+    - replace the `storage_account_name` with the name of the `sa_name` output from the previous step.
 
----
+    ---
+
+    **AWS**
+
+    It should be the block that looks like this:
+
+    ```hcl
+    terraform {
+      backend "s3" {
+        bucket         = "ghf-state"
+        region         = "<AWS-REGION>"
+        encrypt        = true
+        key            = "bootstrap.terraform.tfstate"
+        dynamodb_table = "TFLockIds"
+      }
+    }
+    ```
+
+    - replace the `<AWS-REGION>` with the region the s3 bucket is in. This line can also be removed if the environment variable `AWS_DEFAULT_REGION` or `AWS_REGION` has already been set.
+    - replace `bucket` with the name of the s3 bucket you set in the `terraform.tfvars` file.
+    - if you set the `tflock_db_name` variable for the aws oidc module, replace `dynamodb_table` with the value used.
+
+    ---
 
 5. Run `terraform init -migrate-state` again, it should ask you if you want to migrate your backend. If you want to suppress the prompt and answer "yes" then add the `-force-copy` option.
 6. Create a pull request and store all the bootstrap layer terraform in to the bootstrap repository that should have been created for you by terraform when you ran `terraform apply`.
@@ -201,15 +217,15 @@ Currently the only cloud provider Github Foundations has out of the box support 
 
 To generate a plan that outlines the changes the bootstrap layer will make to your infrastructure, without actually executing them, run the following command:
 
-```
+```hcl
 terraform plan
 ```
 
 This command will analyze your Terraform configuration and display a detailed plan summarizing the planned changes:
 
-* Resources to be created, updated, or destroyed.
-* Any potential costs associated with the changes.
-* Any potential warnings or errors.
+- Resources to be created, updated, or destroyed.
+- Any potential costs associated with the changes.
+- Any potential warnings or errors.
 
 Carefully review the plan to ensure it aligns with your expectations before proceeding to the next step.
 
@@ -217,7 +233,7 @@ Carefully review the plan to ensure it aligns with your expectations before proc
 
 To generate a plan and immediately execute the changes in your infrastructure, run the following command:
 
-```
+```hcl
 terraform apply
 ```
 
@@ -227,6 +243,6 @@ By default, `terraform apply` will prompt you for confirmation before executing 
 
 **Additional Options:**
 
-* For more granular control over the plan generation and execution process, you can explore additional options supported by the `terraform plan` and `terraform apply` commands. Refer to the official Terraform documentation for a comprehensive list of options: [https://developer.hashicorp.com/terraform](https://developer.hashicorp.com/terraform)
+- For more granular control over the plan generation and execution process, you can explore additional options supported by the `terraform plan` and `terraform apply` commands. Refer to the official Terraform documentation for a comprehensive list of options: [https://developer.hashicorp.com/terraform](https://developer.hashicorp.com/terraform)
 
 **Important Note:** Remember to exercise caution when working with tools that modify your infrastructure. Always have a backup plan and a clear understanding of the potential consequences before executing any changes.
