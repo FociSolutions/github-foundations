@@ -29,11 +29,18 @@ jobs:
             - name: Get the list of repos with GHAS enabled
               id: repo_list
               run: |
-                repos=$(echo $(./github-foundations-cli list repos --ghas ${{ github.workspace }}/projects))
-                echo -e "Found repos: $repos"
-                echo "repos=$(echo -e "${repos}" | sed s/\'/\"/g)" >> $GITHUB_OUTPUT
+                    repos=$(echo $(./github-foundations-cli list repos --ghas ${{ github.workspace }}/projects))
+                    echo -e "Found repos: $repos"
+                    # Default to [] if repos is empty
+                    if [ -z "$repos" ]; then
+                      repos="[]"
+                    else
+                      repos=$(echo -e "${repos}" | sed s/\'/\"/g)
+                    fi
+                    echo "repos=${repos}" >> $GITHUB_OUTPUT
 
     check_ghas_policies:
+        if: needs.find-applicable-repos.outputs.repos != '[]'
         runs-on: ubuntu-latest
         needs: find-applicable-repos
         permissions:
