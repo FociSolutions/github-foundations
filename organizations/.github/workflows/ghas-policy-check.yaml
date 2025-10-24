@@ -29,10 +29,10 @@ jobs:
             - name: Get the list of repos with GHAS enabled
               id: repo_list
               run: |
-                    repos=$(echo $(./github-foundations-cli list repos --ghas ${{ github.workspace }}/projects))
+                    repos=$(echo $(./github-foundations-cli list repos --ghas ${{ github.workspace }}/projects 2>&1))
                     echo -e "Found repos: $repos"
-                    # Default to [] if repos is empty
-                    if [ -z "$repos" ]; then
+                    # Default to [] if repos is empty or contains error text
+                    if [ -z "$repos" ] || echo "$repos" | grep -qiE "(not found|panic|error|exception|fatal|fail)"; then
                       repos="[]"
                     else
                       repos=$(echo -e "${repos}" | sed s/\'/\"/g)
@@ -66,7 +66,7 @@ jobs:
                   workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
 
             - name: For each repo, run the policy checks
-              uses: advanced-security/policy-as-code@v2.9.0
+              uses: advanced-security/policy-as-code@v2.7.2
               #   env:
               #     DEBUG: true
               with:
