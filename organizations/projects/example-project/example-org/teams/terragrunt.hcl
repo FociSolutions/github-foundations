@@ -22,7 +22,7 @@ inputs = {
       name        = "Example Admins"
       description = "Administrative team for the example project"
       privacy     = "closed" # Options: closed, secret
-      members     = [
+      members = [
         "admin1",
         "admin2"
       ]
@@ -30,13 +30,13 @@ inputs = {
         "admin1"
       ]
     }
-    
+
     # Developer team
     "example-developers" = {
       name        = "Example Developers"
       description = "Developer team for the example project"
       privacy     = "closed"
-      members     = [
+      members = [
         "developer1",
         "developer2",
         "developer3",
@@ -47,13 +47,13 @@ inputs = {
         "developer2"
       ]
     }
-    
+
     # Read-only team
     "example-viewers" = {
       name        = "Example Viewers"
       description = "Read-only access team for the example project"
       privacy     = "closed"
-      members     = [
+      members = [
         "viewer1",
         "viewer2"
       ]
@@ -61,13 +61,13 @@ inputs = {
         "viewer1"
       ]
     }
-    
+
     # Security team
     "example-security" = {
       name        = "Example Security"
       description = "Security team responsible for code reviews and security updates"
       privacy     = "secret" # Secret teams are only visible to organization owners and team members
-      members     = [
+      members = [
         "security1",
         "security2"
       ]

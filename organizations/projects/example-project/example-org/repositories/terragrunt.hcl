@@ -23,20 +23,20 @@ inputs = {
   # Public repositories configuration
   public_repositories = {
     "example-public-repo" = {
-      description                          = "Example public repository"
-      default_branch                       = "main"
+      description    = "Example public repository"
+      default_branch = "main"
       repository_team_permissions_override = {
         # Reference teams from dependency
         # "team-slug" = "permission-level" (pull, push, admin, maintain, triage)
       }
-      advance_security                     = false
-      has_vulnerability_alerts             = true
-      topics                               = ["example", "public", "opensource"]
-      homepage                             = "https://example.com"
-      delete_head_on_merge                 = true
-      allow_auto_merge                     = true
-      dependabot_security_updates          = true
-      
+      advance_security            = false
+      has_vulnerability_alerts    = true
+      topics                      = ["example", "public", "opensource"]
+      homepage                    = "https://example.com"
+      delete_head_on_merge        = true
+      allow_auto_merge            = true
+      dependabot_security_updates = true
+
       # Template for new repository (optional)
       # template = {
       #   owner      = "template-owner"
@@ -48,26 +48,26 @@ inputs = {
   # Private repositories configuration
   private_repositories = {
     "example-private-repo" = {
-      description                          = "Example private repository"
-      default_branch                       = "main"
+      description    = "Example private repository"
+      default_branch = "main"
       repository_team_permissions_override = {
         # Example: Give specific teams custom permissions
         # "developers" = "push"
         # "maintainers" = "admin"
       }
-      protected_branches                   = [] # Explicitly disable branch protection or configure as needed
-      advance_security                     = false
-      has_vulnerability_alerts             = true
-      topics                               = ["example", "private", "internal"]
-      homepage                             = ""
-      delete_head_on_merge                 = true
-      allow_auto_merge                     = true
-      dependabot_security_updates          = true
-      
+      protected_branches          = [] # Explicitly disable branch protection or configure as needed
+      advance_security            = false
+      has_vulnerability_alerts    = true
+      topics                      = ["example", "private", "internal"]
+      homepage                    = ""
+      delete_head_on_merge        = true
+      allow_auto_merge            = true
+      dependabot_security_updates = true
+
       # Archive settings (optional)
       # archived = false
     }
-    
+
     "example-app-repo" = {
       description                          = "Example application repository with advanced features"
       default_branch                       = "main"
@@ -81,7 +81,7 @@ inputs = {
           allow_force_pushes              = false
           allow_deletions                 = false
           require_conversation_resolution = true
-          
+
           required_pull_request_reviews = {
             dismiss_stale_reviews           = true
             restrict_dismissals             = false
@@ -90,20 +90,20 @@ inputs = {
             required_approving_review_count = 2
             require_last_push_approval      = true
           }
-          
+
           required_status_checks = {
             strict   = true
             contexts = ["ci/test", "ci/build"]
           }
         }
       ]
-      advance_security                     = true
-      has_vulnerability_alerts             = true
-      topics                               = ["example", "application", "production"]
-      homepage                             = "https://app.example.com"
-      delete_head_on_merge                 = true
-      allow_auto_merge                     = false # Disabled for production repos
-      dependabot_security_updates          = true
+      advance_security            = true
+      has_vulnerability_alerts    = true
+      topics                      = ["example", "application", "production"]
+      homepage                    = "https://app.example.com"
+      delete_head_on_merge        = true
+      allow_auto_merge            = false # Disabled for production repos
+      dependabot_security_updates = true
     }
   }
 }

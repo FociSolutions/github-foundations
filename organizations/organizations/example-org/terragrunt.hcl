@@ -30,21 +30,21 @@ inputs = {
   has_repository_projects   = true
 
   # Repository creation permissions
-  default_repository_permission              = "read"
-  members_can_create_repositories            = false
-  members_can_create_public_repositories     = false
-  members_can_create_private_repositories    = false
-  members_can_create_pages                   = false
-  members_can_fork_private_repositories      = false
-  
+  default_repository_permission           = "read"
+  members_can_create_repositories         = false
+  members_can_create_public_repositories  = false
+  members_can_create_private_repositories = false
+  members_can_create_pages                = false
+  members_can_fork_private_repositories   = false
+
   # Commit signoff requirement
   web_commit_signoff_required = true
 
   # Security settings for new repositories
-  advanced_security_enabled_for_new_repositories                      = true
-  dependabot_alerts_enabled_for_new_repositories                      = true
-  dependabot_security_updates_enabled_for_new_repositories            = true
-  dependency_graph_enabled_for_new_repositories                       = true
-  secret_scanning_enabled_for_new_repositories                        = true
-  secret_scanning_push_protection_enabled_for_new_repositories        = true
+  advanced_security_enabled_for_new_repositories               = true
+  dependabot_alerts_enabled_for_new_repositories               = true
+  dependabot_security_updates_enabled_for_new_repositories     = true
+  dependency_graph_enabled_for_new_repositories                = true
+  secret_scanning_enabled_for_new_repositories                 = true
+  secret_scanning_push_protection_enabled_for_new_repositories = true
 }
