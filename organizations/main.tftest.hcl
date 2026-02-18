@@ -48,7 +48,7 @@ variables {
       description                          = "Test public repository"
       default_branch                       = "main"
       repository_team_permissions_override = {}
-      advance_security                     = false
+      advanced_security                     = false
       has_vulnerability_alerts             = true
       topics                               = ["test", "public"]
       homepage                             = "https://example.com"
@@ -65,7 +65,7 @@ variables {
       default_branch                       = "main"
       repository_team_permissions_override = {}
       protected_branches                   = []
-      advance_security                     = false
+      advanced_security                     = false
       has_vulnerability_alerts             = true
       topics                               = ["test", "private"]
       homepage                             = ""

@@ -50,7 +50,7 @@ variable "public_repositories" {
     description                          = string
     default_branch                       = optional(string, "main")
     repository_team_permissions_override = optional(map(string), {})
-    advance_security                     = optional(bool, false)
+    advanced_security                     = optional(bool, false)
     has_vulnerability_alerts             = optional(bool, true)
     topics                               = optional(list(string), [])
     homepage                             = optional(string, "")
@@ -76,7 +76,7 @@ variable "private_repositories" {
     default_branch                       = optional(string, "main")
     repository_team_permissions_override = optional(map(string), {})
     protected_branches                   = optional(list(any), [])
-    advance_security                     = optional(bool, false)
+    advanced_security                     = optional(bool, false)
     has_vulnerability_alerts             = optional(bool, true)
     topics                               = optional(list(string), [])
     homepage                             = optional(string, "")
