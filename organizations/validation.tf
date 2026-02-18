@@ -67,14 +67,6 @@ variable "public_repositories" {
     ])
     error_message = "Repository names must contain only lowercase letters, numbers, dots, underscores, and hyphens."
   }
-
-  validation {
-    condition = alltrue([
-      for name, repo in var.public_repositories :
-      contains(["main", "master", "develop"], repo.default_branch)
-    ])
-    error_message = "Default branch should be main, master, or develop."
-  }
 }
 
 variable "private_repositories" {
