@@ -10,6 +10,7 @@
       * [Configuring Repositories](#configuring-repositories)
       * [Configuring Teams](#configuring-teams)
       * [Secret Management](#secret-management)
+      * [Testing](#testing)
    * [Running the Organizations Layer locally](#running-the-organizations-layer-locally)
       * [Prerequisites](#prerequisites)
    * [Pre-installed tools](#pre-installed-tools)
@@ -136,6 +137,56 @@ See the documentation [here](./TEAMS_REPOS.md#configuring-teams)
 ### Secret Management
 
 See the documentation [here](./SECRETS.md)
+
+## Testing
+
+The organizations layer includes comprehensive testing capabilities to validate your Terraform and Terragrunt configurations before committing changes.
+
+### Quick Start
+
+Run tests with:
+```bash
+cd organizations/
+terraform init
+terraform test -verbose
+```
+
+Check formatting:
+```bash
+terraform fmt -check -recursive
+terragrunt hclfmt --terragrunt-check --terragrunt-diff
+```
+
+### Pre-commit Hooks
+
+Install pre-commit hooks to automatically validate changes:
+```bash
+pip install pre-commit
+pre-commit install
+```
+
+The hooks will automatically run format checks, validation, linting, and security scans before each commit.
+
+### Documentation
+
+For detailed testing instructions, see the [Testing Guide](./TESTING.md).
+
+The testing guide covers:
+- Running Terraform native tests
+- Format checking for Terraform and Terragrunt
+- Pre-commit hook setup and usage
+- Validation and security scanning
+- Example configurations
+- Troubleshooting common issues
+
+### Example Configurations
+
+The organizations layer includes example configurations to help you get started:
+- **Organization settings**: `organizations/example-org/terragrunt.hcl`
+- **Project structure**: `projects/example-project/example-org/`
+- **Provider configuration**: `providers/example-org/providers.hcl`
+
+These examples demonstrate best practices and can be used as templates for your own configurations.
 
 ## Running the Organizations Layer locally
 
