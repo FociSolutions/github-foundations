@@ -34,7 +34,7 @@ variables {
     members_can_create_pages                                     = false
     members_can_fork_private_repositories                        = false
     web_commit_signoff_required                                  = true
-    advanced_security_enabled_for_new_repositories               = true
+    advance_security_enabled_for_new_repositories               = true
     dependabot_alerts_enabled_for_new_repositories               = true
     dependabot_security_updates_enabled_for_new_repositories     = true
     dependency_graph_enabled_for_new_repositories                = true
@@ -48,7 +48,7 @@ variables {
       description                          = "Test public repository"
       default_branch                       = "main"
       repository_team_permissions_override = {}
-      advanced_security                     = false
+      advance_security                     = false
       has_vulnerability_alerts             = true
       topics                               = ["test", "public"]
       homepage                             = "https://example.com"
@@ -65,7 +65,7 @@ variables {
       default_branch                       = "main"
       repository_team_permissions_override = {}
       protected_branches                   = []
-      advanced_security                     = false
+      advance_security                     = false
       has_vulnerability_alerts             = true
       topics                               = ["test", "private"]
       homepage                             = ""
@@ -104,7 +104,7 @@ run "organization_settings_validation" {
   }
 
   assert {
-    condition     = output.security_settings.advanced_security_enabled == true
+    condition     = output.security_settings.advance_security_enabled == true
     error_message = "Advanced security should be enabled"
   }
 
@@ -164,7 +164,7 @@ run "invalid_organization_name" {
       billing_email                                                = "billing@example.com"
       default_repository_permission                                = "read"
       web_commit_signoff_required                                  = true
-      advanced_security_enabled_for_new_repositories               = true
+      advance_security_enabled_for_new_repositories               = true
       dependabot_alerts_enabled_for_new_repositories               = true
       dependabot_security_updates_enabled_for_new_repositories     = true
       dependency_graph_enabled_for_new_repositories                = true
@@ -191,7 +191,7 @@ run "invalid_email_format" {
       billing_email                                                = "invalid-email" # Invalid: not a valid email
       default_repository_permission                                = "read"
       web_commit_signoff_required                                  = true
-      advanced_security_enabled_for_new_repositories               = true
+      advance_security_enabled_for_new_repositories               = true
       dependabot_alerts_enabled_for_new_repositories               = true
       dependabot_security_updates_enabled_for_new_repositories     = true
       dependency_graph_enabled_for_new_repositories                = true
@@ -218,7 +218,7 @@ run "invalid_repository_permission" {
       billing_email                                                = "billing@example.com"
       default_repository_permission                                = "super-admin" # Invalid: not a valid permission
       web_commit_signoff_required                                  = true
-      advanced_security_enabled_for_new_repositories               = true
+      advance_security_enabled_for_new_repositories               = true
       dependabot_alerts_enabled_for_new_repositories               = true
       dependabot_security_updates_enabled_for_new_repositories     = true
       dependency_graph_enabled_for_new_repositories                = true
@@ -245,7 +245,7 @@ run "invalid_team_privacy" {
       billing_email                                                = "billing@example.com"
       default_repository_permission                                = "read"
       web_commit_signoff_required                                  = true
-      advanced_security_enabled_for_new_repositories               = true
+      advance_security_enabled_for_new_repositories               = true
       dependabot_alerts_enabled_for_new_repositories               = true
       dependabot_security_updates_enabled_for_new_repositories     = true
       dependency_graph_enabled_for_new_repositories                = true
@@ -280,7 +280,7 @@ run "team_without_maintainers" {
       billing_email                                                = "billing@example.com"
       default_repository_permission                                = "read"
       web_commit_signoff_required                                  = true
-      advanced_security_enabled_for_new_repositories               = true
+      advance_security_enabled_for_new_repositories               = true
       dependabot_alerts_enabled_for_new_repositories               = true
       dependabot_security_updates_enabled_for_new_repositories     = true
       dependency_graph_enabled_for_new_repositories                = true

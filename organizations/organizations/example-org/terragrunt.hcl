@@ -41,7 +41,7 @@ inputs = {
   web_commit_signoff_required = true
 
   # Security settings for new repositories
-  advanced_security_enabled_for_new_repositories               = true
+  advance_security_enabled_for_new_repositories               = true
   dependabot_alerts_enabled_for_new_repositories               = true
   dependabot_security_updates_enabled_for_new_repositories     = true
   dependency_graph_enabled_for_new_repositories                = true

@@ -29,7 +29,7 @@ inputs = {
         # Reference teams from dependency
         # "team-slug" = "permission-level" (pull, push, admin, maintain, triage)
       }
-      advanced_security            = false
+      advance_security            = false
       has_vulnerability_alerts    = true
       topics                      = ["example", "public", "opensource"]
       homepage                    = "https://example.com"
@@ -56,7 +56,7 @@ inputs = {
         # "maintainers" = "admin"
       }
       protected_branches          = [] # Explicitly disable branch protection or configure as needed
-      advanced_security            = false
+      advance_security            = false
       has_vulnerability_alerts    = true
       topics                      = ["example", "private", "internal"]
       homepage                    = ""
@@ -97,7 +97,7 @@ inputs = {
           }
         }
       ]
-      advanced_security            = true
+      advance_security            = true
       has_vulnerability_alerts    = true
       topics                      = ["example", "application", "production"]
       homepage                    = "https://app.example.com"

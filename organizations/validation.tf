@@ -20,7 +20,7 @@ variable "organization_settings" {
     members_can_create_pages                                     = optional(bool, false)
     members_can_fork_private_repositories                        = optional(bool, false)
     web_commit_signoff_required                                  = optional(bool, true)
-    advanced_security_enabled_for_new_repositories               = optional(bool, true)
+    advance_security_enabled_for_new_repositories               = optional(bool, true)
     dependabot_alerts_enabled_for_new_repositories               = optional(bool, true)
     dependabot_security_updates_enabled_for_new_repositories     = optional(bool, true)
     dependency_graph_enabled_for_new_repositories                = optional(bool, true)
@@ -50,7 +50,7 @@ variable "public_repositories" {
     description                          = string
     default_branch                       = optional(string, "main")
     repository_team_permissions_override = optional(map(string), {})
-    advanced_security                     = optional(bool, false)
+    advance_security                     = optional(bool, false)
     has_vulnerability_alerts             = optional(bool, true)
     topics                               = optional(list(string), [])
     homepage                             = optional(string, "")
@@ -76,7 +76,7 @@ variable "private_repositories" {
     default_branch                       = optional(string, "main")
     repository_team_permissions_override = optional(map(string), {})
     protected_branches                   = optional(list(any), [])
-    advanced_security                     = optional(bool, false)
+    advance_security                     = optional(bool, false)
     has_vulnerability_alerts             = optional(bool, true)
     topics                               = optional(list(string), [])
     homepage                             = optional(string, "")
@@ -163,7 +163,7 @@ output "team_count" {
 output "security_settings" {
   description = "Organization security settings summary"
   value = {
-    advanced_security_enabled      = var.organization_settings.advanced_security_enabled_for_new_repositories
+    advance_security_enabled      = var.organization_settings.advance_security_enabled_for_new_repositories
     secret_scanning_enabled        = var.organization_settings.secret_scanning_enabled_for_new_repositories
     secret_push_protection_enabled = var.organization_settings.secret_scanning_push_protection_enabled_for_new_repositories
     dependabot_alerts_enabled      = var.organization_settings.dependabot_alerts_enabled_for_new_repositories
