@@ -146,6 +146,10 @@ The organizations layer includes comprehensive testing capabilities to validate 
 
 Run tests with:
 ```bash
+# Using Make (recommended)
+make test
+
+# Or using Terraform directly
 cd organizations/
 terraform init
 terraform test -verbose
@@ -153,8 +157,17 @@ terraform test -verbose
 
 Check formatting:
 ```bash
+# Using Make (recommended)
+make format-check
+
+# Or manually
 terraform fmt -check -recursive
 terragrunt hclfmt --terragrunt-check --terragrunt-diff
+```
+
+Run all checks:
+```bash
+make check  # Runs format-check, validate, and test
 ```
 
 ### Pre-commit Hooks

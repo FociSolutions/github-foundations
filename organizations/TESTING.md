@@ -33,7 +33,33 @@ The organizations layer includes a comprehensive test file (`main.tftest.hcl`) t
 - Naming conventions
 - Email format validation
 
-To run the tests:
+#### Using Make (Recommended)
+
+The easiest way to run tests is using the provided Makefile:
+
+```bash
+# Show all available commands
+make help
+
+# Run all checks (format, validate, test)
+make check
+
+# Run tests only
+make test
+
+# Format code
+make format
+
+# Check formatting without modifying files
+make format-check
+
+# Validate configuration
+make validate
+```
+
+#### Using Terraform Directly
+
+To run the tests directly with Terraform:
 
 ```bash
 cd organizations/
@@ -61,7 +87,17 @@ main.tftest.hcl... pass
 
 ## Format Checking
 
-### Check Terraform Formatting
+### Using Make (Recommended)
+
+```bash
+# Check formatting without modifying files
+make format-check
+
+# Automatically format all files
+make format
+```
+
+### Check Terraform Formatting Manually
 
 Check if your Terraform files are properly formatted:
 
@@ -208,29 +244,31 @@ Follow this workflow before committing changes:
 
 1. **Make your changes** to Terraform/Terragrunt files
 
-2. **Format your code**:
+2. **Run all checks** using Make:
    ```bash
-   terraform fmt -recursive
-   terragrunt hclfmt
+   make check
+   ```
+   
+   Or run steps individually:
+   
+   ```bash
+   # Format your code
+   make format
+   
+   # Validate syntax
+   make validate
+   
+   # Run tests
+   make test
    ```
 
-3. **Validate syntax**:
+3. **Optional: Run security scans**:
    ```bash
-   terraform validate
+   make lint      # Requires tflint
+   make security  # Requires trivy
    ```
 
-4. **Run tests**:
-   ```bash
-   terraform test -verbose
-   ```
-
-5. **Run security scans**:
-   ```bash
-   tflint --recursive
-   trivy config .
-   ```
-
-6. **Commit your changes**:
+4. **Commit your changes**:
    ```bash
    git add .
    git commit -m "feat: your commit message"
